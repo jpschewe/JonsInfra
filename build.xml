@@ -34,7 +34,6 @@
   <!-- used for building releases -->
   <property name="app.name"   value="JonsInfra" />
   <property name="app.version" value="0.4" />
-  <property name="release.cvs.tag" value="JonsInfra_0_3" />
   <property name="release.html.dir" value="/home/jpschewe/public_html/mtu.net/public_html" />
             
   <!-- used for *.javadoc -->
@@ -211,87 +210,4 @@
     <delete dir="${temp.dir}" />
   </target>
 
-  <!-- do a release, the tag is created manually -->
-  <target name="release">
-    <mkdir dir="${release.html.dir}/${app.name}/${app.version}" />
-           
-    <!-- checkout to a temp directory -->
-    <cvs cvsRoot="${cvs.root}"
-         package="${cvs.module}"
-         dest="${temp.dir}"
-         tag="${release.cvs.tag}" />
-
-    <!-- copy index.html, ChangeLog to web directory -->
-    <copy todir="${release.html.dir}/${app.name}/${app.version}"
-          flatten="true">
-      <fileset dir="${temp.dir}/infra">
-        <include name="ChangeLog" />
-        <include name="doc/index.html" />
-      </fileset>
-    </copy>
-
-    <!-- zip source to web directory -->
-    <zip basedir="${temp.dir}"
-         destfile="${release.html.dir}/${app.name}/${app.version}/${app.name}-${app.version}-src.zip"
-         />
-
-    <!-- compile -->
-    <javac srcdir="${temp.dir}/infra/src" destdir="${temp.dir}/infra/src">
-      <classpath>
-        <pathelement location="${temp.dir}/infra/src/" />
-        <pathelement location="${temp.dir}/infra/lib/junit-3.8.jar" />
-      </classpath>
-      <include name="net/**/*.java"/>
-    </javac>
-    
-    <!-- build the jar -->
-    <jar jarfile="${release.html.dir}/${app.name}/${app.version}/${app.name}-${app.version}.jar"
-         basedir="${temp.dir}/infra/src"
-         excludes="**/*.java"
-          />
-
-    
-    <!-- generate javadoc -->
-    <antcall target="release.javadoc" />
-
-    <!-- delete the temp files -->
-    <delete dir="${temp.dir}" />
-    
-    <echo message="Remember to sync out to mtu.net" />
-  </target>
-  
-  <target name="release.javadoc">
-    <mkdir dir="${temp.dir}" />
-    <!-- get the source out of cvs -->
-    <cvs cvsRoot="${cvs.root}"
-         package="${cvs.module}"
-         dest="${temp.dir}"
-         tag="${release.cvs.tag}" />
-    <!-- run javadoc on the source -->
-    <mkdir dir="${release.html.dir}/${app.name}/${app.version}/api" />
-    <javadoc packagenames="net.mtu.eggplant.*"
-             sourcepath="${temp.dir}/infra/src"
-             use="true"
-             splitindex="true"
-             version="true"
-             windowtitle="${app.name}-${app.version}"
-             destdir="${release.html.dir}/${app.name}/${app.version}/api"
-             additionalparam="-tag beaninfo:a:BeanInfo -tag test:a:Tests -tag pre:cm:PreConditions -tag post:cm:PostConditions -tag invariant:tc:Invariants -breakiterator"
-             >
-        <classpath>
-          <pathelement location="${temp.dir}/infra/src/" />
-          <pathelement location="${temp.dir}/infra/lib/junit-3.8.jar" />
-        </classpath>
-        <!-- core java -->
-        <link href="http://java.sun.com/j2se/1.4/docs/api/" />
-        <!-- junit -->
-        <link href="http://www.junit.org/junit/javadoc/3.8/" />
-        <!-- log4j -->
-        <link href="http://logging.apache.org/log4j/docs/api" />
-      </javadoc>
-    
-    <!-- delete the temp files -->
-    <delete dir="${temp.dir}" />
-  </target>
-  
 </project>
