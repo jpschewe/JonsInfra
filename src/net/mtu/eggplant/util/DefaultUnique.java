@@ -5,7 +5,7 @@
 
   I'd appreciate comments/suggestions on the code schewe@tcfreenet.org
 */
-package org.tcfreenet.schewe.utils;
+package net.mtu.eggplant.util;
 
 /**
    Default implementation of the {@link Unique} interface.  Can be used as a

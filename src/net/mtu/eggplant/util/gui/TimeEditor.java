@@ -5,7 +5,7 @@
 
   I'd appreciate comments/suggestions on the code schewe@tcfreenet.org
 */
-package org.tcfreenet.schewe.utils.gui;
+package net.mtu.eggplant.util.gui;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;

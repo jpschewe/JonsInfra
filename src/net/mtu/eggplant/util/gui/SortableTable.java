@@ -5,7 +5,7 @@
 
   I'd appreciate comments/suggestions on the code jpschewe@eggplant.mtu.net
 */
-package org.tcfreenet.schewe.utils.gui;
+package net.mtu.eggplant.util.gui;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

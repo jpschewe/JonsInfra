@@ -5,7 +5,7 @@
 
   I'd appreciate comments/suggestions on the code schewe@tcfreenet.org
 */
-package org.tcfreenet.schewe.utils.sql;
+package net.mtu.eggplant.util.sql;
 
 import java.sql.Types;
 

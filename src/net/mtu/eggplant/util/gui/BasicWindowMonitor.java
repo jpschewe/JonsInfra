@@ -1,4 +1,4 @@
-package org.tcfreenet.schewe.utils.gui;
+package net.mtu.eggplant.util.gui;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;

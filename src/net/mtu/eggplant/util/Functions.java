@@ -5,7 +5,7 @@
 
   I'd appreciate comments/suggestions on the code schewe@tcfreenet.org
 */
-package org.tcfreenet.schewe.utils;
+package net.mtu.eggplant.util;
 
 /**
    general functions that can be used in most any class

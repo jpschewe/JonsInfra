@@ -1,4 +1,4 @@
-package org.tcfreenet.schewe;
+package net.mtu.eggplant;
 
 import javax.swing.*;
 import javax.swing.event.*;

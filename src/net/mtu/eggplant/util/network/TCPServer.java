@@ -6,9 +6,9 @@
   I'd appreciate comments/suggestions on the code schewe@tcfreenet.org
 */
   
-package org.tcfreenet.schewe.utils.network;
+package net.mtu.eggplant.util.network;
 
-import org.tcfreenet.schewe.utils.Functions;
+import net.mtu.eggplant.util.Functions;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;

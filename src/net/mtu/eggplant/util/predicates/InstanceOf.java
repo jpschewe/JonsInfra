@@ -5,9 +5,9 @@
 
   I'd appreciate comments/suggestions on the code jpschewe@eggplant.mtu.net
 */
-package org.tcfreenet.schewe.utils.predicates;
+package net.mtu.eggplant.util.predicates;
 
-import org.tcfreenet.schewe.utils.UnaryPredicate;
+import net.mtu.eggplant.util.UnaryPredicate;
 
 /**
    return true if object is an instanceof type.

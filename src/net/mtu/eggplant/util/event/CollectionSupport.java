@@ -5,7 +5,7 @@
 
   I'd appreciate comments/suggestions on the code jpschewe@eggplant.mtu.net
 */
-package org.tcfreenet.schewe.utils.event;
+package net.mtu.eggplant.util.event;
 
 import java.util.Collection;
 

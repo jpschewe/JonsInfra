@@ -5,10 +5,10 @@
 
   I'd appreciate comments/suggestions on the code jpschewe@eggplant.mtu.net
 */
-package org.tcfreenet.schewe.utils.gui;
+package net.mtu.eggplant.util.gui;
 
-import org.tcfreenet.schewe.utils.Named;
-import org.tcfreenet.schewe.utils.Unique;
+import net.mtu.eggplant.util.Named;
+import net.mtu.eggplant.util.Unique;
 
 import java.awt.Component;
 

@@ -5,7 +5,7 @@
 
   I'd appreciate comments/suggestions on the code schewe@tcfreenet.org
 */
-package org.tcfreenet.schewe.utils.gui.dnd;
+package net.mtu.eggplant.util.gui.dnd;
 
 import java.awt.dnd.DragSourceListener;
 import java.awt.dnd.DragSourceDropEvent;

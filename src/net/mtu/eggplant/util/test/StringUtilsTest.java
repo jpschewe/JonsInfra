@@ -5,9 +5,9 @@
 
   I'd appreciate comments/suggestions on the code jpschewe@eggplant.mtu.net
 */
-package org.tcfreenet.schewe.utils.test;
+package net.mtu.eggplant.util.test;
 
-import org.tcfreenet.schewe.utils.StringUtils;
+import net.mtu.eggplant.util.StringUtils;
 
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

@@ -5,10 +5,10 @@
 
   I'd appreciate comments/suggestions on the code jpschewe@eggplant.mtu.net
 */
-package org.tcfreenet.schewe.utils.algorithms;
+package net.mtu.eggplant.util.algorithms;
 
-import org.tcfreenet.schewe.utils.Function;
-import org.tcfreenet.schewe.utils.UnaryPredicate;
+import net.mtu.eggplant.util.Function;
+import net.mtu.eggplant.util.UnaryPredicate;
 
 import java.util.Collection;
 

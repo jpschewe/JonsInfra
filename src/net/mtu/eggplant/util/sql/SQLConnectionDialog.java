@@ -5,11 +5,11 @@
 
   I'd appreciate comments/suggestions on the code schewe@tcfreenet.org
 */
-package org.tcfreenet.schewe.utils.sql;
+package net.mtu.eggplant.util.sql;
 
 
-import org.tcfreenet.schewe.utils.StringPair;
-import org.tcfreenet.schewe.utils.Debug;
+import net.mtu.eggplant.util.StringPair;
+import net.mtu.eggplant.util.Debug;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;

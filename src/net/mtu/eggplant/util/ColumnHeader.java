@@ -5,7 +5,7 @@
 
   I'd appreciate comments/suggestions on the code schewe@tcfreenet.org
 */
-package org.tcfreenet.schewe.utils;
+package net.mtu.eggplant.util;
 
 /**
    This class represents a column for a table.  It is assumed that all data in 

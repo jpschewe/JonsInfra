@@ -1,4 +1,4 @@
-package org.tcfreenet.schewe.utils;
+package net.mtu.eggplant.util;
 
 /**
    This example is from the book _Java in a Nutshell_ by David Flanagan.

@@ -12,7 +12,7 @@
   modify check method to check for what fields are visible
   test removing odd fields
 */
-package org.tcfreenet.schewe.utils.gui;
+package net.mtu.eggplant.util.gui;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
