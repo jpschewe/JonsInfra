@@ -1,3 +1,7 @@
+2002-05-27  Jon Schewe  <jpschewe@mtu.net>
+
+	* build.xml: Upgraded to junit-3.7
+
 2001-01-07  Jon Schewe  <jpschewe@mtu.net>
 
 	* prj.el: Upgraded to junit-3.4

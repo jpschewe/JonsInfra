@@ -31,6 +31,7 @@ import net.mtu.eggplant.util.predicates.InstanceOf;
 import net.mtu.eggplant.util.algorithms.Finding;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 /**
    Handy utilities for working with Collections that Sun didn't provide.
@@ -46,6 +47,28 @@ final public class CollectionUtils {
   **/
   static public boolean checkInstanceOf(final Collection collection, final Class type) {
     return Finding.every(collection, new InstanceOf(type));
+  }
+
+  /**
+   * Create a HashMap of expected size using loadRatio.
+   * 
+   * @pre (expectedSize >= 0)
+   * @pre (loadRatio > 0)
+   */
+  static public HashMap createHashMap(final int expectedSize,
+                                      final float loadRatio) {
+    return new HashMap(Math.max(1, (int)Math.ceil((float)expectedSize/loadRatio)), loadRatio);
+  }
+
+  /**
+   * Defaults loadRatio to 0.75.
+   *
+   * @see #createHashMap(int, float)
+   * 
+   * @pre (expectedSize >= 0)
+   */
+  static public HashMap createHashMap(final int expectedSize) {
+    return createHashMap(expectedSize, 0.75F);
   }
   
 }

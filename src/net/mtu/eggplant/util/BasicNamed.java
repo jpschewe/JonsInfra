@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000
+ * Copyright (c) 2000-2002
  *      Jon Schewe.  All rights reserved
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,32 +27,34 @@
  */
 package net.mtu.eggplant.util;
 
-import java.util.Collection;
-import java.util.Iterator;
+import java.beans.PropertyChangeListener;
 
 /**
-   some handy methods for working with collections of objects
-**/
-final public class JPSCollections {
+ * generic class that allows objects to have names
+ */
+public class BasicNamed extends DefaultBean implements Named {
 
   /**
-     @param list the list to check
-     @param theClass the class to check for
-     @return true if all of the elements of list are instances of theClass
-
-     @pre (list != null)
-     @pre (theClass != null)
+     standard constructor
   **/
-  static public boolean elementsInstanceOf(final Collection list, final Class theClass) {
-    final Iterator iter = list.iterator();    
-    while(iter.hasNext()) {
-      final Object o = iter.next();
-      if(!theClass.isInstance(o)) {
-        return false;
-      }
-    }
+  public BasicNamed(final String name) {
+    super();
+    _name = name;
+  }
+  
+  /** the name of the object **/
+  private String _name = null;
 
-    return true;
+  /**
+     get the name of the object.
+     @return the name
+  **/
+  final public String getName() {
+    return _name;
   }
 
+  public String toString() {
+    return "Named: " + getName();
+  }
+  
 }

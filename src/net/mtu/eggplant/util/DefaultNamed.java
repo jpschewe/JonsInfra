@@ -30,8 +30,8 @@ package net.mtu.eggplant.util;
 import java.beans.PropertyChangeListener;
 
 /**
-   generic class that allows objects to have names
-**/
+ * generic class that allows objects to have names and listeners
+ */
 public class DefaultNamed extends DefaultBean implements Named {
 
   /**

@@ -1,19 +1,19 @@
 ;;This file assumes that the following variables and methods exist:
 ;;infra-root - root of project
-;;java-vm - jvm to use
 ;;java-home - root of java install directory
-(jde-set-project-name "basic-java-project")
-(jde-set-variables
- '(jde-run-working-directory (expand-file-name "src/" infra-root))
- '(jde-run-read-app-args t)
- '(jde-global-classpath (list
-			 (expand-file-name "src/" infra-root)
-			 (expand-file-name "lib/junit-3.6.jar" infra-root)
-			 (expand-file-name "jre/lib/rt.jar" java-home)
-			 (expand-file-name "lib/tools.jar" java-home)
-			 ))
+(jde-set-project-name "infra-project")
+(let ((project-root (file-name-directory load-file-name)))
+  (jde-set-variables
+   '(jde-run-working-directory (expand-file-name "src/" project-root))
+   '(jde-run-read-app-args t)
+   '(jde-global-classpath (list
+			   (expand-file-name "src/" project-root)
+			   (expand-file-name "lib/junit-3.6.jar" project-root)
+			   (expand-file-name "jre/lib/rt.jar" java-home)
+			   (expand-file-name "lib/tools.jar" java-home)
+			   ))
 
- '(jde-compile-option-deprecation t)
- '(jde-run-java-vm java-vm)
- '(jde-run-option-vm-args '("-DASSERT_BEHAVIOR=CONTINUE "))
- )
+   '(jde-compile-option-deprecation t)
+   '(jde-run-option-vm-args '("-DASSERT_BEHAVIOR=CONTINUE "))
+   )
+  )

@@ -27,22 +27,21 @@
  */
 package net.mtu.eggplant.util.gui;
 
-import java.awt.Window;
-import java.awt.Graphics;
-import java.awt.Polygon;
-import java.awt.Point;
-import java.awt.FontMetrics;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
-
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Polygon;
+import java.awt.Window;
 import java.util.Collection;
 import java.util.Iterator;
-
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JDialog;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -75,11 +74,24 @@ public class GraphicsUtils {
     window.addWindowListener(new BasicWindowMonitor());
     container.setLayout(new BorderLayout());
     container.add(c, BorderLayout.CENTER);
+    centerWindow(window);
     window.pack();    
     window.show();
 
     return window;
   }
+
+  /**
+   * Centers the window on the screen.
+   */
+  public static void centerWindow(final Window window) {
+    final Dimension screenSize = window.getToolkit().getScreenSize();
+    final Point screenCenter = new Point(screenSize.width/2, screenSize.height/2);
+    final Dimension windowSize = window.getSize();
+    window.setLocation(new Point(screenCenter.x - windowSize.width/2,
+                                 screenCenter.y - windowSize.width/2));
+  }
+
   
   /**
      draw the points on the Graphics Context.  Uses Graphics.drawPolyLine.
