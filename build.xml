@@ -4,7 +4,6 @@
 <project name="infra" default="compile" basedir=".">
 
   <!-- properties -->
-  <property file="${user.home}/.ant.properties" />
   <property name="temp.dir"  value="${basedir}/tmp" />
   
   <property name="instrument.dir"  value="instrumented" />
