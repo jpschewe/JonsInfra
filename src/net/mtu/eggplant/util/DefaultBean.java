@@ -35,7 +35,7 @@ import java.io.Serializable;
 /**
  * Basic class to add property change support.
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class DefaultBean implements Bean, Serializable {
   public DefaultBean() {
@@ -49,18 +49,32 @@ public class DefaultBean implements Bean, Serializable {
     _propertyListener = new PropertyChangeSupport(source);
   }
   
-  public void addPropertyListener(final PropertyChangeListener listener) {
+  public void addPropertyChangeListener(final PropertyChangeListener listener) {
     _propertyListener.addPropertyChangeListener(listener);
   }
 
+  /**
+   * @deprecated Use addPropertyChangeListener
+   */
+  public void addPropertyListener(final PropertyChangeListener listener) {
+    addPropertyChangeListener(listener);
+  }
+  
   public void addPropertyChangeListener(final String propertyName, final PropertyChangeListener listener) {
     _propertyListener.addPropertyChangeListener(propertyName, listener);
   }
   
-  public void removePropertyListener(final PropertyChangeListener listener) {
+  public void removePropertyChangeListener(final PropertyChangeListener listener) {
     _propertyListener.removePropertyChangeListener(listener);
   }
 
+  /**
+   * @deprecated Use removePropertyChangeListener
+   */
+  public void removePropertyListener(final PropertyChangeListener listener) {
+    removePropertyChangeListener(listener);
+  }
+  
   public void removePropertyChangeListener(final String propertyName, final PropertyChangeListener listener) {
     _propertyListener.removePropertyChangeListener(propertyName, listener);
   }

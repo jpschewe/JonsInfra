@@ -32,14 +32,24 @@ import java.beans.PropertyChangeListener;
 /**
  * Basic interface to add property change support.
  * 
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public interface Bean {
+  /**
+   * @deprecated Use addPropertyChangeListener instead
+   */
   public void addPropertyListener(final PropertyChangeListener listener);
 
-  public void addPropertyChangeListener(final String propertyName, final PropertyChangeListener listener);
+  public void addPropertyChangeListener(final PropertyChangeListener listener);
   
+  public void addPropertyChangeListener(final String propertyName, final PropertyChangeListener listener);
+
+  /**
+   * @deprecated Use removePropertyChangeListener instead
+   */
   public void removePropertyListener(final PropertyChangeListener listener);
 
+  public void removePropertyChangeListener(final PropertyChangeListener listener);
+  
   public void removePropertyChangeListener(final String propertyName, final PropertyChangeListener listener);
 }
