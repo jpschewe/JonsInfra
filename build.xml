@@ -33,7 +33,7 @@
 
   <!-- used for building releases -->
   <property name="app.name"   value="JonsInfra" />
-  <property name="app.version" value="0.3" />
+  <property name="app.version" value="0.4" />
   <property name="release.cvs.tag" value="JonsInfra_0_3" />
   <property name="release.html.dir" value="/home/jpschewe/public_html/mtu.net/public_html" />
             
