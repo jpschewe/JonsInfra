@@ -37,6 +37,7 @@ import java.awt.Polygon;
 import java.awt.Window;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -52,7 +53,7 @@ import javax.swing.JOptionPane;
  *
  * @author Jon Schewe
  * 
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public final class GraphicsUtils {
 
@@ -93,7 +94,7 @@ public final class GraphicsUtils {
    * Centers the window on the screen.
    */
   public static void centerWindow(final Window window) {
-    final Dimension2D screenSize = window.getToolkit().getScreenSize();
+    final Rectangle2D screenSize = window.getGraphicsConfiguration().getBounds();
     final Point2D screenCenter = new Point2D.Double(screenSize.getWidth()/2,
                                                     screenSize.getHeight()/2);
     final Dimension2D windowSize = window.getSize();

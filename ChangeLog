@@ -1,3 +1,10 @@
+2004-11-23  Jon Schewe  <jpschewe@mtu.net>
+
+	* src/net/mtu/eggplant/util/gui/GraphicsUtils.java
+	(GraphicsUtils): Added support for dual head systems by using
+	window.getGraphicsConfiguration().getBounds() instead of
+	window.getToolkit().getScreenSize().
+
 2004-11-12  Jon Schewe  <jpschewe@mtu.net>
 
 	* build.xml: Fixed build of api documentation for Releases.
