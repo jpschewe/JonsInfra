@@ -37,16 +37,17 @@ import java.net.Socket;
 
 import net.mtu.eggplant.util.Functions;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Simple TCP server class
  * 
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class TCPServer extends Object implements Runnable, Cloneable {
 
-  private static final Logger LOG = Logger.getLogger(TCPServer.class);
+  private static final Log LOG = LogFactory.getLog(TCPServer.class);
   
   public static final int DEFAULT_PORT = 6789;
   

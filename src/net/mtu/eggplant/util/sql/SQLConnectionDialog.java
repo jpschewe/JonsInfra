@@ -42,18 +42,19 @@ import javax.swing.JTextField;
 
 import net.mtu.eggplant.util.StringPair;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * This dialog allows the user to fill in the parameters needed for a
  * connection.  It is hardcoded to use either the standard jdbc to odbc driver
  * or to use the rmi driver.
  * 
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class SQLConnectionDialog extends JDialog {
 
-  private static final Logger LOG = Logger.getLogger(SQLConnectionDialog.class);
+  private static final Log LOG = LogFactory.getLog(SQLConnectionDialog.class);
   
   public SQLConnectionDialog(final java.awt.Frame parent,
                              final StringPair[] drivers) {
