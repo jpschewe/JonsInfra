@@ -30,11 +30,13 @@ package net.mtu.eggplant.util;
 import java.io.PrintStream;
 
 /**
-   This example is from the book _Java in a Nutshell_ by David Flanagan.
-   Written by David Flanagan.  Copyright (c) 1996 O'Reilly & Associates.
-   You may study, use, modify, and distribute this example for any purpose.
-   This example is provided WITHOUT WARRANTY either expressed or implied.
-**/
+ * This example is from the book _Java in a Nutshell_ by David Flanagan.
+ * Written by David Flanagan.  Copyright (c) 1996 O'Reilly & Associates.  You
+ * may study, use, modify, and distribute this example for any purpose.  This
+ * example is provided WITHOUT WARRANTY either expressed or implied.
+ * 
+ * @version $Revision: 1.4 $
+ */
 public class ThreadLister {
   
   /**

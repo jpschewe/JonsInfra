@@ -31,8 +31,10 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
-   some handy methods for working with collections of objects
-**/
+ * some handy methods for working with collections of objects
+ * 
+ * @version $Revision: 1.5 $
+ */
 final public class JPSCollections {
 
   /**

@@ -29,6 +29,9 @@ package net.mtu.eggplant;
 
 import java.sql.*;
 
+/**
+ * @version $Revision: 1.4 $
+ */
 public class Testsql {
   public static void main(String[] args) {
     Connection connection = null;

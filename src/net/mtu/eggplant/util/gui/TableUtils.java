@@ -33,8 +33,10 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 /**
-   utilities for working with tables
-**/
+ * utilities for working with tables
+ * 
+ * @version $Revision: 1.4 $
+ */
 final public class TableUtils {
 
   private TableUtils() {

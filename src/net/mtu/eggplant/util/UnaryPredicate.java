@@ -28,8 +28,10 @@
 package net.mtu.eggplant.util;
 
 /**
-   Basic unary predicate.
-**/
+ * Basic unary predicate.
+ * 
+ * @version $Revision: 1.4 $
+ */
 public interface UnaryPredicate {
   
   public boolean execute(final Object o);

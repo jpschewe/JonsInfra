@@ -36,6 +36,9 @@ import java.io.*;
 import java.util.*;
 import java.net.*;
 
+/**
+ * @version $Revision: 1.4 $
+ */
 public class Test {
   public static void main(String[] args) {
     try {

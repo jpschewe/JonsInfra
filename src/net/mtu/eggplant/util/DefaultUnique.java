@@ -28,9 +28,11 @@
 package net.mtu.eggplant.util;
 
 /**
-   Default implementation of the {@link Unique} interface.  Can be used as a
-   delegate.
-**/
+ * Default implementation of the {@link Unique} interface.  Can be used as a
+ * delegate.
+ * 
+ * @version $Revision: 1.6 $
+ */
 public class DefaultUnique implements Unique {
 
   public DefaultUnique() {

@@ -36,6 +36,8 @@ import java.io.FilenameFilter;
 
 /**
  * Rename all the packages we've changed since the last revision.
+ * 
+ * @version $Revision: 1.4 $
  */
 final public class PackageRenamer {
 

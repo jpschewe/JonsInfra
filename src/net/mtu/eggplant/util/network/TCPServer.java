@@ -38,6 +38,11 @@ import java.net.Socket;
 
 import java.io.IOException;
 
+/**
+ * Simple TCP server class
+ * 
+ * @version $Revision: 1.4 $
+ */
 public class TCPServer extends Object implements Runnable, Cloneable {
   public final static int DEFAULT_PORT = 6789;
   

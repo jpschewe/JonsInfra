@@ -30,6 +30,9 @@ package net.mtu.eggplant.util.gui;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * @version $Revision: 1.5 $
+ */
 public class TimeEditor extends JPanel {
   public final static int HOUR = 1;
   public final static int MINUTE = 2;

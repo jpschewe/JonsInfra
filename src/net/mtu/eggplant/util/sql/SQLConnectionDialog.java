@@ -46,10 +46,12 @@ import javax.swing.JPasswordField;
 import javax.swing.JLabel;
 
 /**
-   This dialog allows the user to fill in the parameters needed for a
-   connection.  It is hardcoded to use either the standard jdbc to odbc driver 
-   or to use the rmi driver.
-**/
+ * This dialog allows the user to fill in the parameters needed for a
+ * connection.  It is hardcoded to use either the standard jdbc to odbc driver
+ * or to use the rmi driver.
+ * 
+ * @version $Revision: 1.5 $
+ */
 public class SQLConnectionDialog extends JDialog {
   
   public SQLConnectionDialog(java.awt.Frame parent, StringPair[] drivers) {

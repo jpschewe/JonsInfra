@@ -29,6 +29,8 @@ package net.mtu.eggplant.util;
 
 /**
  * Pair of {@link java.lang.String Strings}.
+ * 
+ * @version $Revision: 1.5 $
  */
 public class StringPair extends Pair {
   public StringPair(String one, String two) {

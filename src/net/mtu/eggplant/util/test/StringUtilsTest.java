@@ -34,8 +34,10 @@ import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
 /**
-   Test class for StringUtils.
-**/
+ * Test class for StringUtils.
+ * 
+ * @version $Revision: 1.5 $
+ */
 public class StringUtilsTest extends TestCase {
 
   static public void main(final String[] args) {

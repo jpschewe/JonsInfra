@@ -32,8 +32,10 @@ import java.util.Collection;
 import javax.swing.event.EventListenerList;
 
 /**
-   Adds support for Collection events.
-**/
+ * Adds support for Collection events.
+ * 
+ * @version $Revision: 1.4 $
+ */
 public class CollectionSupport {
 
   /**

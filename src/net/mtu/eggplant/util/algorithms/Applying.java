@@ -33,8 +33,10 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
-   Ways to apply things to Collections.
-**/
+ * Ways to apply things to Collections.
+ * 
+ * @version $Revision: 1.5 $
+ */
 final public class Applying {
   private Applying() {}
 

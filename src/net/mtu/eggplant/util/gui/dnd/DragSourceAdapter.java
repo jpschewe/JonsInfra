@@ -33,8 +33,10 @@ import java.awt.dnd.DragSourceDragEvent;
 import java.awt.dnd.DragSourceEvent;
   
 /**
-   Empty implementation of DragSourceListener.
-**/
+ * Empty implementation of DragSourceListener.
+ * 
+ * @version $Revision: 1.4 $
+ */
 public class DragSourceAdapter implements DragSourceListener {
   public void dragDropEnd(final DragSourceDropEvent dsde) { }
   public void dragEnter(final DragSourceDragEvent dsde) { }

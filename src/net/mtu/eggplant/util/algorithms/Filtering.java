@@ -33,8 +33,10 @@ import net.mtu.eggplant.util.UnaryPredicate;
 import java.util.Collection;
 
 /**
-   Utility functions for filtering collections.
-**/
+ * Utility functions for filtering collections.
+ * 
+ * @version $Revision: 1.4 $
+ */
 final public class Filtering {
 
   private Filtering() {}

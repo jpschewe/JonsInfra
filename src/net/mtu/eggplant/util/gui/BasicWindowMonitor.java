@@ -33,11 +33,12 @@ import java.awt.event.WindowAdapter;
 import java.awt.Window;
 
 /**
-   basic window adapter for use in mains for testing.
-
-   @author Jon Schewe
-   @since schedinfra 1.2
-**/
+ *  basic window adapter for use in mains for testing.
+ *
+ * @author Jon Schewe
+ * @since schedinfra 1.2
+ * @version $Revision: 1.4 $
+ */
 public class BasicWindowMonitor extends WindowAdapter {
 
   /**

@@ -30,6 +30,9 @@ package net.mtu.eggplant.util.event;
 import java.util.Collection;
 import java.util.EventObject;
 
+/**
+ * @version $Revision: 1.4 $
+ */
 public class CollectionEvent extends EventObject {
 
   public CollectionEvent(final Object source, final Collection data) {

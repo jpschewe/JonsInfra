@@ -30,8 +30,10 @@ package net.mtu.eggplant.util.predicates;
 import net.mtu.eggplant.util.UnaryPredicate;
 
 /**
-   return true if object is an instanceof type.
-**/
+ * return true if object is an instanceof type.
+ * 
+ * @version $Revision: 1.4 $
+ */
 final public class InstanceOf implements UnaryPredicate {
 
   /**

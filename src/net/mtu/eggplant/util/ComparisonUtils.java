@@ -28,8 +28,10 @@
 package net.mtu.eggplant.util;
 
 /**
-   Handy comparision routines.
-**/
+ * Handy comparision routines.
+ * 
+ * @version $Revision: 1.4 $
+ */
 final public class ComparisonUtils {
 
   private ComparisonUtils() {}

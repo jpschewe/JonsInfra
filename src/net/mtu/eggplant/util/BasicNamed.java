@@ -31,6 +31,8 @@ import java.beans.PropertyChangeListener;
 
 /**
  * generic class that allows objects to have names
+ * 
+ * @version $Revision: 1.2 $
  */
 public class BasicNamed extends DefaultBean implements Named {
 

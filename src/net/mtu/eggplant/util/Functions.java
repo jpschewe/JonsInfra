@@ -28,8 +28,10 @@
 package net.mtu.eggplant.util;
 
 /**
-   general functions that can be used in most any class
-**/
+ * general functions that can be used in most any class
+ * 
+ * @version $Revision: 1.6 $
+ */
 public class Functions {
 
   /**

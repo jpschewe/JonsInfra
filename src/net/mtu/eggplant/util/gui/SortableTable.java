@@ -41,6 +41,9 @@ import java.beans.PropertyChangeEvent;
 
 import java.util.Enumeration;
 
+/**
+ * @version $Revision: 1.5 $
+ */
 public class SortableTable extends JTable {
 
   public SortableTable(final SortableTableModel tm) {

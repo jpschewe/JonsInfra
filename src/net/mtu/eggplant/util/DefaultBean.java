@@ -33,8 +33,10 @@ import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 
 /**
-   Basic class to add property change support.  
-**/
+ * Basic class to add property change support.
+ * 
+ * @version $Revision: 1.5 $
+ */
 public class DefaultBean implements Bean, Serializable {
   public DefaultBean() {
     _propertyListener = new PropertyChangeSupport(this);

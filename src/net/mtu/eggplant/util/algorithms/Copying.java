@@ -32,8 +32,10 @@ import net.mtu.eggplant.util.Function;
 import java.util.Collection;
 
 /**
-   Some copy algorithms for Collections.
-**/
+ * Some copy algorithms for Collections.
+ * 
+ * @version $Revision: 1.4 $
+ */
 final public class Copying {
 
   private Copying() {}

@@ -28,12 +28,14 @@
 package net.mtu.eggplant.util;
 
 /**
-   This class represents a column for a table.  It is assumed that all data in 
-   a column is of the same java class.  There is also a read only flag for the 
-   coulmn.  This can be used to make a column read only and can be used with a 
-   flag on a row in the data to determine if a cell is editable.  By default a 
-   column is read only.
-**/
+ * This class represents a column for a table.  It is assumed that all data in
+ * a column is of the same java class.  There is also a read only flag for the
+ * coulmn.  This can be used to make a column read only and can be used with a
+ * flag on a row in the data to determine if a cell is editable.  By default a
+ * column is read only.
+ * 
+ * @version $Revision: 1.5 $
+ */
 public class ColumnHeader extends DefaultNamed {
 
   public ColumnHeader(String name, Class theClass) {

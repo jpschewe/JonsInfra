@@ -34,8 +34,10 @@ import java.util.Collection;
 import java.util.HashMap;
 
 /**
-   Handy utilities for working with Collections that Sun didn't provide.
-**/
+ * Handy utilities for working with Collections that Sun didn't provide.
+ * 
+ * @version $Revision: 1.5 $
+ */
 final public class CollectionUtils {
   private CollectionUtils() {}
 

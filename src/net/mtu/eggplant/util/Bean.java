@@ -30,8 +30,10 @@ package net.mtu.eggplant.util;
 import java.beans.PropertyChangeListener;
 
 /**
-   Basic interface to add property change support.  
-**/
+ * Basic interface to add property change support.
+ * 
+ * @version $Revision: 1.6 $
+ */
 public interface Bean {
   public void addPropertyListener(final PropertyChangeListener listener);
 

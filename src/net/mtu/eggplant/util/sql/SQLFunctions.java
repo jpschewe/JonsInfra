@@ -29,8 +29,16 @@ package net.mtu.eggplant.util.sql;
 
 import java.sql.Types;
 
+/**
+ * Handy functions for SQL
+ * 
+ * @version $Revision: 1.5 $
+ */
 public class SQLFunctions {
 
+  private SQLFunctions() {
+  }
+  
   /**
    * Do simple mapping from an SQL type to a Java Class.
    */

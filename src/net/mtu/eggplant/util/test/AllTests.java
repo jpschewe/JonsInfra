@@ -31,6 +31,9 @@ import junit.framework.TestSuite;
 import junit.framework.Test;
 import junit.textui.TestRunner;
 
+/**
+ * @version $Revision: 1.2 $
+ */
 public class AllTests {
 
   public static void main(String[] args) {

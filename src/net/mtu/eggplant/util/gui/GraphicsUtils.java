@@ -45,10 +45,12 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
-   graphics functions that should exist in java, but don't
-
-   @author Jon Schewe
-**/
+ * graphics functions that should exist in java, but don't
+ *
+ * @author Jon Schewe
+ * 
+ * @version $Revision: 1.8 $
+ */
 public class GraphicsUtils {
 
   /**

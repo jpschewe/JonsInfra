@@ -37,10 +37,12 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
-   A ListModel that orders the objects according to a comparator and does
-   sorted insert.  The comparator must be able to handle all objects in the
-   list.
-**/
+ * A ListModel that orders the objects according to a comparator and does
+ * sorted insert.  The comparator must be able to handle all objects in the
+ * list.
+ * 
+ * @version $Revision: 1.4 $
+ */
 public class SortedListModel extends AbstractListModel {
 
   /**

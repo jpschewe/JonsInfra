@@ -32,9 +32,12 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.EventListenerList;
 
 /**
-   Class that controls wether debugging is on or not.  Fires ChangeEvents when
-   the debug state changes.  These events have a source of <tt>Debug.class</tt>.
-**/
+ * Class that controls wether debugging is on or not.  Fires ChangeEvents when
+ * the debug state changes.  These events have a source of
+ * <tt>Debug.class</tt>..  <i>Should be replaced by log4j</i>
+ *
+ * @version $Revision: 1.6 $
+ */
 final public class Debug {
 
   private static boolean _debug = false;

@@ -34,9 +34,11 @@ import java.awt.Component;
 import java.awt.Insets;
 
 /**
-   Lets box be it's preferred size and lays out components inside accordingly.
-   Currently only veritcal layout is supported.
-**/
+ * Lets box be it's preferred size and lays out components inside accordingly.
+ * Currently only veritcal layout is supported.
+ * 
+ * @version $Revision: 1.4 $
+ */
 public class BetterBoxLayout implements LayoutManager2 {
 
   /**

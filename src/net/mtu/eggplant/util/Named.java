@@ -28,8 +28,10 @@
 package net.mtu.eggplant.util;
 
 /**
-   interface for Named objects
-**/
+ * interface for Named objects
+ * 
+ * @version $Revision: 1.6 $
+ */
 public interface Named {
   public String getName();
 }

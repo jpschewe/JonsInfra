@@ -46,21 +46,22 @@ import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 /**
-   <p>Class that knows how to render lots of things.  If you want to create a
-   renderer, just subclass this SmartRenderer and override the
-   getStringValue() method.  For any object that is not a known type toString
-   is used.  Null values are always displayed as "NULL".  This class counts on
-   the fact that the default renderers for list, trable and tree all return a
-   subclass of JLabel.  If that ever changes, this class breaks.<p>
-
-   <p>Known types</p>
-   <ul>
-     <li>Unique</li>
-     <li>Named</li>
-     <li>Icon</li>
-   </ul>
-   
-**/
+ * <p>Class that knows how to render lots of things.  If you want to create a
+ * renderer, just subclass this SmartRenderer and override the
+ * getStringValue() method.  For any object that is not a known type toString
+ * is used.  Null values are always displayed as "NULL".  This class counts on
+ * the fact that the default renderers for list, trable and tree all return a
+ * subclass of JLabel.  If that ever changes, this class breaks.<p>
+ *
+ * <p>Known types</p>
+ * <ul>
+ *   <li>Unique</li>
+ *   <li>Named</li>
+ *   <li>Icon</li>
+ * </ul>
+ * 
+ * @version $Revision: 1.5 $
+ */
 public class SmartRenderer implements ListCellRenderer, TableCellRenderer, TreeCellRenderer {
 
   public SmartRenderer() {

@@ -30,12 +30,14 @@ package net.mtu.eggplant.util;
 import java.util.Comparator;
 
 /**
-   This interface is used to represent the uniqueness of an object.  Each
-   object within a JVM that implements the Unique interface must return a
-   different uid unless those objects are to be considered equal.  An easy way
-   to implement this is to create a new {@link DefaultUnique} object in the
-   constructor and delegate the getUID() method to that object.
-**/
+ * This interface is used to represent the uniqueness of an object.  Each
+ * object within a JVM that implements the Unique interface must return a
+ * different uid unless those objects are to be considered equal.  An easy way
+ * to implement this is to create a new {@link DefaultUnique} object in the
+ * constructor and delegate the getUID() method to that object.
+ * 
+ * @version $Revision: 1.6 $
+ */
 public interface Unique {
   public long getUID();
 

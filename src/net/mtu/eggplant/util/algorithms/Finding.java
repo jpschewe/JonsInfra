@@ -33,8 +33,10 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
-   Ways to find things in collections.
-**/
+ * Ways to find things in collections.
+ * 
+ * @version $Revision: 1.5 $
+ */
 final public class Finding {
 
   private Finding() {}

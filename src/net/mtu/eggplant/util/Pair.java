@@ -28,8 +28,10 @@
 package net.mtu.eggplant.util;
 
 /**
-   class to put multiple objects in one.  
-**/
+ *  class to put multiple objects in one.
+ *  
+ * @version $Revision: 1.5 $
+ */
 public class Pair extends Object {
 
   public Pair(Object one, Object two) {

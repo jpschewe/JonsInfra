@@ -54,14 +54,16 @@ import javax.swing.BorderFactory;
 import javax.swing.plaf.basic.BasicArrowButton;
 
 /**
-   <pre>
-  TODO:
-  fix am/pm increment
-  modify check method to handle am/pm
-  modify check method to check for what fields are visible
-  test removing odd fields
-  </pre>
-*/
+ * <pre>
+ * TODO:
+ * fix am/pm increment
+ * modify check method to handle am/pm
+ * modify check method to check for what fields are visible
+ * test removing odd fields
+ * </pre>
+ * 
+ * @version $Revision: 1.5 $
+ */
 public class DateEditor extends JPanel {
 
   public static void main(String[] args) {
