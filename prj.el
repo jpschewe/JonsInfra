@@ -8,7 +8,7 @@
  '(jde-run-read-app-args t)
  '(jde-global-classpath (list
 			 (expand-file-name "src/" infra-root)
-			 (expand-file-name "lib/junit-3.4.jar" infra-root)
+			 (expand-file-name "lib/junit-3.6.jar" infra-root)
 			 (expand-file-name "jre/lib/rt.jar" java-home)
 			 (expand-file-name "lib/tools.jar" java-home)
 			 ))

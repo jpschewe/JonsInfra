@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE project PUBLIC "-//ANT//DTD project//EN" "file:/usr/src/ant/ant.dtd">
+<!DOCTYPE project PUBLIC "-//ANT//DTD project//EN" "file:///usr/src/ant/ant.dtd">
 
 <project name="infra" default="compile" basedir=".">
   
@@ -9,7 +9,7 @@
   
   <path id="base.classpath">
     <pathelement location="${basedir}/src/"/>
-    <pathelement location="${basedir}/lib/junit-3.4.jar"/>
+    <pathelement location="${basedir}/lib/junit-3.6.jar"/>
     <pathelement location="${java_home}/lib/tools.jar"/>
   </path>
   
