@@ -65,7 +65,7 @@ public class SortableTable extends JTable {
   /**
      Overriden to make sure that the table model set is a SortedTableModel.
      
-     @throws IllegalArgumentException if tm is not an instanceof {@link SortedTableModel}
+     @throws IllegalArgumentException if tm is not an instanceof {@link SortableTableModel}
   **/
   public void setModel(final TableModel tm) {
     if(! (tm instanceof SortableTableModel) ) {

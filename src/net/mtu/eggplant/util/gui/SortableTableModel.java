@@ -34,7 +34,7 @@ public interface SortableTableModel extends TableModel {
   /**
      Sort the table model on this column.  If this is the currently sorted
      column, reverse the sort.  Needs to fire a
-     {@link javax.swing.event.TableEvent TableEvent} signaling that the table data
+     {@link javax.swing.event.TableModelEvent TableModelEvent} signaling that the table data
      has changed.
 
      @pre (column >= 0)
