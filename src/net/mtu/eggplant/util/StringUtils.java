@@ -21,14 +21,14 @@ final public class StringUtils {
      @pre (replace != null)
   **/
   static public String searchAndReplace(final String source, final String search, final String replace) {
-    final int searchLength = search.length();
-    String newString = source;
-    int index = newString.indexOf(search);
-    while(index != -1) {
-      final String front = newString.substring(0, index);
-      final String end = newString.substring(index+searchLength);
-      newString = new StringBuffer().append(front).append(replace).append(end).toString();
-      index = newString.indexOf(search, index);
+    final String newString;
+    final int index = source.indexOf(search);
+    if(index != -1) {
+      final String front = source.substring(0, index);
+      final String end = source.substring(index+search.length());
+      newString = new StringBuffer().append(front).append(replace).append(searchAndReplace(end, search, replace)).toString();
+    } else {
+      newString = source;
     }
 
     return newString;

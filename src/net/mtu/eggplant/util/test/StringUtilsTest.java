@@ -23,6 +23,7 @@ public class StringUtilsTest extends TestCase {
     System.setProperty("ASSERT_BEHAVIOR", "EXCEPTION");
 
     final TestSuite suite = new TestSuite();
+    //suite.addTest(new StringUtilsTest("testSearchAndReplace2"));
     suite.addTest(suite());
     TestRunner.run(suite);
     
@@ -58,4 +59,12 @@ public class StringUtilsTest extends TestCase {
 
   }  
 
+  public void testSearchAndReplace2() {
+    final String source = "(!dateStr.equals(\"\"))";
+    final String search = "\"";
+    final String replace = "\\\"";
+    final String expectedResult = "(!dateStr.equals(\\\"\\\"))";
+    final String result = StringUtils.searchAndReplace(source, search, replace);    
+    assertEquals("a1", expectedResult, result);
+  }
 }
