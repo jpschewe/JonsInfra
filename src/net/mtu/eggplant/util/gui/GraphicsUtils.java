@@ -23,6 +23,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JDialog;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
    graphics functions that should exist in java, but don't
@@ -150,6 +151,13 @@ public class GraphicsUtils {
   **/
   static public ImageIcon getIcon(final String path) {
     return new ImageIcon(ClassLoader.getSystemClassLoader().getResource(path));
+  }
+
+  /**
+     Popup a warning dialog displaying <tt>message</tt>.
+  **/
+  static public void notImplemented(final String message) {
+    JOptionPane.showMessageDialog(null, message, message, JOptionPane.WARNING_MESSAGE);
   }
   
 }
