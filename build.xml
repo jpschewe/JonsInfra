@@ -363,7 +363,7 @@
              windowtitle="${app.name}"
              overview="${dir.src}/overview.html"
              access="${javadoc.access}"
-             Splitindex="true"
+             splitindex="true"
              additionalparam="-tag pre:cm:PreConditions -tag post:cm:PostConditions -tag invariant:tc:Invariants -breakiterator"
              >
       <classpath refid="classpath.base" />
@@ -526,9 +526,3 @@
   </target>
 
 </project>
-
-<!--
-Local Variables:
-eval: (auto-fill-mode -1)
-End:
--->

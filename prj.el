@@ -1,7 +1,4 @@
-;;
-;; template prj.el
-;;
-(jde-set-project-name "infra") ;; important that it be unique
+(jde-set-project-name "JonsInfra") ;; important that it be unique
 
 (let ((project-root (file-name-directory load-file-name)))
   ;; Setup TAGS list
@@ -105,7 +102,7 @@
       "(progn (require 'jde-javadoc) (jde-javadoc-insert-start-block))"
       "\" * Add class comment here!\" '>'n"
       "\" \" (jde-javadoc-insert-empty-line)"
-      "\" * @version $Revision: 1.13 $\" '>'n"
+      "\" * @version $Revision: 1.14 $\" '>'n"
       "\" \" (jde-javadoc-insert 'tempo-template-jde-javadoc-end-block \"*/\")"
       "\"public class \"" 
       "(file-name-sans-extension (file-name-nondirectory buffer-file-name))" 
@@ -133,7 +130,7 @@
       "(progn (require 'jde-javadoc) (jde-javadoc-insert-start-block))"
       "\" * Add interface comment here!\" '>'n"
       "\" \" (jde-javadoc-insert-empty-line)"
-      "\" * @version $Revision: 1.13 $\" '>'n"
+      "\" * @version $Revision: 1.14 $\" '>'n"
       "\" \" (jde-javadoc-insert 'tempo-template-jde-javadoc-end-block \"*/\")"
       "\"public interface \"" 
       "(file-name-sans-extension (file-name-nondirectory buffer-file-name))" 
