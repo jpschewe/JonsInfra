@@ -1,3 +1,7 @@
+2001-01-07  Jon Schewe  <jpschewe@mtu.net>
+
+	* prj.el: Upgraded to junit-3.4
+
 2000-12-29  Jon Schewe  <jpschewe@eggplant.mtu.net>
 
 	* : Moved all files into the package net.mtu.eggplant and changed

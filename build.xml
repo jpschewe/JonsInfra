@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!--DOCTYPE project PUBLIC "-//ANT//DTD project//EN" "/usr/src/ant/project.dtd"-->
+
+<project name="infra" default="compile" basedir=".">
+
+  <property file="${user.home}/.ant.properties" />
+
+  <property name="app.name"   value="JonsInfra" />
+  <property name="instrument.dir"  value="instrumented" />
+  
+  <target name="init">
+    <tstamp />
+    <available property="junit.present" classname="junit.framework.TestCase" />
+    <available property="assert.present" classname="net.mtu.eggplant.assert.JonsAssert" />
+  </target>
+
+  <path id="base.classpath">
+    <pathelement location="${basedir}/src/"/>
+    <pathelement location="${basedir}/lib/junit-3.4.jar"/>
+  </path>
+  
+<!--  <target name="compile" depends="init,instrument">-->
+  <target name="compile" depends="init">
+<!--    <javac srcdir="${instrument.dir}" destdir="${basedir}" >-->
+    <javac srcdir="${basedir}/src" destdir="${basedir}/src">
+      <classpath>
+        <path refid="base.classpath"/>
+      </classpath>
+      <include name="net/**/*.java"/>
+    </javac>
+  </target>
+
+  <target name="jar" depends="compile">
+    <jar jarfile="${app.name}.jar"
+	 basedir="${basedir}/src" includes="**" />
+  </target>
+
+  <target name="runtests" depends="compile" if="junit.present">
+    <java fork="yes" classname="junit.textui.TestRunner" 
+	  taskname="junit" failonerror="true">
+      <arg value="net.mtu.eggplant.util.test.AllTests"/>
+      <classpath>
+        <path refid="base.classpath"/>
+      </classpath>
+    </java>
+  </target>
+
+<!--  <target name="instrument" depends="init" if="assert.present">
+    <java fork="no" classname="net.mtu.eggplant.assert.JonsAssert"
+	  taskname="assert" failonerror="true">
+      <arg value="${basedir}/src/net/" />
+      <arg value="-d ${basedir}/${instrument.dir}" />
+    </java>
+  </target>-->
+
+  <target name="clean">
+    <delete>
+      <fileset dir="${basedir}/src">
+        <patternset>
+          <include name="**/*.class" />
+        </patternset>
+      </fileset>
+    </delete>
+  </target>
+
+</project>
