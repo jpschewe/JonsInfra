@@ -50,7 +50,10 @@ final public class PackageRenamer {
        {"old value", "new value", "exempt"}
        exempt is not required
     */
-    {"org.tcfreenet.schewe.utils", "net.mtu.eggplant.util"},
+    //release 0.1 changes
+    //{"org.tcfreenet.schewe.utils", "net.mtu.eggplant.util"},
+
+    //changes for next release
   };
 
   private String _oldText;               // the original text
