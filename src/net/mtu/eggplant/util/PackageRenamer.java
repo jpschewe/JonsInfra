@@ -51,7 +51,6 @@ final public class PackageRenamer {
        exempt is not required
     */
     {"org.tcfreenet.schewe.utils", "net.mtu.eggplant.util"},
-    {"org.tcfreenet.schewe", "net.mtu.eggplant"},
   };
 
   private String _oldText;               // the original text
