@@ -33,7 +33,7 @@
 
   <!-- used for building releases -->
   <property name="app.name"   value="JonsInfra" />
-  <property name="app.version" value="0.4" />
+  <property name="app.version" value="0.5" />
   <property name="release.html.dir" value="/home/jpschewe/public_html/mtu.net/public_html" />
             
   <!-- used for *.javadoc -->
