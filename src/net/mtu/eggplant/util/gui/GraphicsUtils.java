@@ -157,7 +157,14 @@ public class GraphicsUtils {
      Popup a warning dialog displaying <tt>message</tt>.
   **/
   static public void notImplemented(final String message) {
-    JOptionPane.showMessageDialog(null, message, message, JOptionPane.WARNING_MESSAGE);
+    JOptionPane.showMessageDialog(null, message, "Not Implemented", JOptionPane.WARNING_MESSAGE);
+  }
+
+  /**
+     Popup an error dialog with <tt>message</tt> in it.
+  **/
+  static public void error(final String message) {
+    JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.WARNING_MESSAGE);
   }
   
 }

@@ -10,10 +10,12 @@ package org.tcfreenet.schewe.utils;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
+import java.io.Serializable;
+
 /**
    Basic class to add property change support.  
 **/
-public class DefaultBean implements Bean {
+public class DefaultBean implements Bean, Serializable {
   public DefaultBean() {
     _propertyListener = new PropertyChangeSupport(this);
   }

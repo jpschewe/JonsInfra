@@ -46,5 +46,19 @@ final public class Finding {
     }
     return retval;
   }
-  
+
+  /**
+    @return the first object in collection that predicate returns true for.
+    Null if none found.
+  **/
+  static public Object detect(final Collection collection, final UnaryPredicate predicate) {
+    final Iterator iter = collection.iterator();
+    while(iter.hasNext()) {
+      final Object o = iter.next();
+      if(predicate.execute(o)) {
+        return o;
+      }
+    }
+    return null;
+  }
 }
