@@ -42,6 +42,14 @@ import javax.swing.plaf.basic.BasicArrowButton;
 
 public class DateEditor extends JPanel {
 
+  public static void main(String[] args) {
+    DateEditor de = new DateEditor(Locale.getDefault(),
+                                   Calendar.getInstance(), false, true, true,
+                                   true, true, true, false);
+    GraphicsUtils.basicGUIMain(de, false);
+  }
+  
+  
   public final static int SECOND = 1;
   public final static int MINUTE = 2;
   public final static int HOUR = 3;
@@ -515,23 +523,7 @@ public class DateEditor extends JPanel {
   public void removeDateListener(PropertyChangeListener l) {
     _dateListener.removePropertyChangeListener(l);
   }
-  
-  public static void main(String[] args) {
-    javax.swing.JFrame frame = new javax.swing.JFrame();
-    frame.addWindowListener(new java.awt.event.WindowAdapter() {
-      public void windowClosing(java.awt.event.WindowEvent we) {
-        System.exit(0);
-      }
-    });
-    DateEditor de = new DateEditor(Locale.getDefault(),
-                                   Calendar.getInstance(), false, true, true,
-                                   true, true, true, false);
-    de.setLocation(100, 100);
-    frame.getContentPane().add(de);
-    frame.setSize(500, 500);
-    frame.show();
-  }
-  
+
   private JPanel _internalPanel;
   private Calendar _currentCalendar = Calendar.getInstance();
   private boolean _military;
