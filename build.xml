@@ -34,7 +34,7 @@
   <property name="release.html.dir" value="/home/jpschewe/public_html/mtu.net/public_html" />
             
   <!-- used for *.javadoc -->
-  <property name="local.java.packages" value="http://netserver.mn.mtu.net/package-docs/java" />
+  <property name="local.java.packages" value="http://workstation.mn.mtu.net/package-docs/java" />
   <property name="nightly.html.dir" value="/srv/www/htdocs/package-docs/projects" />
 
   <path id="base.classpath">
