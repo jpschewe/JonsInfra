@@ -12,12 +12,12 @@ import java.beans.PropertyChangeListener;
 /**
    generic class that allows objects to have names
 **/
-public class DefaultNamed extends Bean implements Named {
+public class DefaultNamed extends DefaultBean implements Named {
 
   /**
      standard constructor
   **/
-  public DefaultNamed(String name) {
+  public DefaultNamed(final String name) {
     super();
     _name = name;
   }
@@ -26,11 +26,11 @@ public class DefaultNamed extends Bean implements Named {
   private String _name = null;
 
   /**
-     set the name for the object.
+     Set the name for the object.  This is a bound property.
      @param n the new name
   **/
-  public void setName(String n) {
-    String old = new String(n);
+  final public void setName(final String n) {
+    final String old = new String(n);
     _name = n;
     fireNameChange(old, new String(_name));
   }
@@ -39,20 +39,16 @@ public class DefaultNamed extends Bean implements Named {
      get the name of the object.
      @return the name
   **/
-  public String getName() {
+  final public String getName() {
     return _name;
   }
 
-  protected void fireNameChange(String old, String clone) {
+  final protected void fireNameChange(String old, String clone) {
     firePropertyChange("name", old, clone);
   }
 
-  public void addNameListener(PropertyChangeListener l) {
-    addPropertyChangeListener("name", l);
+  public String toString() {
+    return "Named: " + getName();
   }
-
-  public void removeNameListener(PropertyChangeListener l) {
-    removePropertyChangeListener("name", l);
-  }
-
+  
 }

@@ -7,37 +7,17 @@
 */
 package org.tcfreenet.schewe.utils;
 
-import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
 /**
-   Basic class to add property change support.  
+   Basic interface to add property change support.  
 **/
-public class Bean {
-  public Bean() {
-    _propertyListener = new PropertyChangeSupport(this);
-  }
+public interface Bean {
+  public void addPropertyListener(final PropertyChangeListener listener);
 
-  public void addPropertyListener(PropertyChangeListener listener) {
-    _propertyListener.addPropertyChangeListener(listener);
-  }
-
-  public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-    _propertyListener.addPropertyChangeListener(propertyName, listener);
-  }
+  public void addPropertyChangeListener(final String propertyName, final PropertyChangeListener listener);
   
-  public void removePropertyListener(PropertyChangeListener listener) {
-    _propertyListener.removePropertyChangeListener(listener);
-  }
+  public void removePropertyListener(final PropertyChangeListener listener);
 
-  public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-    _propertyListener.removePropertyChangeListener(propertyName, listener);
-  }
-  
-  protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) 
-  {
-    _propertyListener.firePropertyChange(propertyName, oldValue, newValue);
-  }
-
-  private PropertyChangeSupport _propertyListener;
+  public void removePropertyChangeListener(final String propertyName, final PropertyChangeListener listener);
 }

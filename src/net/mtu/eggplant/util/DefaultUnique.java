@@ -23,9 +23,16 @@ public class DefaultUnique implements Unique {
   static private long _nextUID = Long.MIN_VALUE;
 
   private long _uid;
-  public long getUID() {
+  final public long getUID() {
     return _uid;
   }
   
-
+  public boolean equals(final Object o) {
+    if(o instanceof Unique) {
+      return ((Unique)o).getUID() == getUID();
+    } else {
+      return false;
+    }
+  }
+  
 }
