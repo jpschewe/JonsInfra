@@ -7,6 +7,14 @@
 */
 package org.tcfreenet.schewe.utils;
 
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.EventListenerList;
+
+/**
+   Class that controls wether debugging is on or not.  Fires ChangeEvents when
+   the debug state changes.  These events have a source of <tt>Debug.class</tt>.
+**/
 final public class Debug {
 
   private static boolean _debug = false;
@@ -237,5 +245,43 @@ final public class Debug {
     // print to some cool panel here too later
   }
 
+  static public boolean isDebugMode() { return _debug; }
+  /**
+     Change the debug mode.  Fires a ChangeEvent.
+  **/
+  static public void setDebugMode(boolean debug) {
+    _debug = debug;
+    fireDebugStateChanged();
+  }
+
+  /**
+     Add a listener for the debug mode changing.
+  **/
+  static public void addDebugStateListener(final ChangeListener listener) {
+    _listenerList.add(ChangeListener.class, listener);
+  }
+
+  /**
+     Remove a listener for the debug mode changing.
+  **/
+  static public void removeDebugStateListener(final ChangeListener listener) {
+    _listenerList.add(ChangeListener.class, listener);
+  }
+
+  static private void fireDebugStateChanged() {
+    final Object[] listeners = _listenerList.getListenerList();
+    for(int i = listeners.length-2; i>=0; i-=2) {
+      ((ChangeListener)listeners[i+1]).stateChanged(_changeEvent);
+    }
+  }
+
+  /**
+     List of listeners.
+  **/
+  final static private EventListenerList _listenerList = new EventListenerList();
+  /**
+     Single change event we use.
+  **/
+  final static private ChangeEvent _changeEvent = new ChangeEvent(Debug.class);
   
 }
