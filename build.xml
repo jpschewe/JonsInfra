@@ -105,7 +105,8 @@
     <!-- get the source out of cvs -->
     <cvs cvsRoot="${cvs.root}"
          package="${cvs.module}"
-         dest="${temp.dir}"/>
+         dest="${temp.dir}"
+         quiet="true" />
     
     <!-- run javadoc on the source -->
     <mkdir dir="${nightly.html.dir}/JonsInfra" />
@@ -133,28 +134,42 @@
 
   <!-- do a release, the tag is created manually -->
   <target name="release">
+    <mkdir dir="${release.html.dir}/JonsInfra/${app.version}" />
+           
     <!-- checkout to a temp directory -->
     <cvs cvsRoot="${cvs.root}"
          package="${cvs.module}"
          dest="${temp.dir}"
-         tag="${cvs.release.tag}" />
-
-    <!-- build the jar -->
-    <jar jarfile="${release.html.dir}/JonsInfra/${app.version}/${app.name}-${app.version}.jar"
-         basedir="${temp.dir}/infra/src" includes="infra/**" />
+         tag="${release.cvs.tag}" />
 
     <!-- copy index.html, ChangeLog to web directory -->
-    <copy todir="${release.html.dir}/JonsInfra/${app.version}"
+    <copy todir="${release.html.dir}/JonsInfra/${app.version}">
       <fileset dir="${temp.dir}/infra">
         <include name="ChangeLog" />
+        <include name="doc/index.html" />
       </fileset>
     </copy>
 
     <!-- zip source to web directory -->
-    <zip basedir="${temp.dir}/infra"
-         destfile="${release.html.dir}/JonsInfra/{$app.version}/${app.name}-${app.version}-src.zip"
+    <zip basedir="${temp.dir}"
+         destfile="${release.html.dir}/JonsInfra/${app.version}/${app.name}-${app.version}-src.zip"
          />
-         
+
+    <!-- compile -->
+    <javac srcdir="${temp.dir}/infra/src" destdir="${temp.dir}/infra/src">
+      <classpath>
+        <pathelement location="${temp.dir}/infra/src/" />
+        <pathelement location="${temp.dir}/infra/lib/junit-3.8.jar" />
+      </classpath>
+      <include name="net/**/*.java"/>
+    </javac>
+    
+    <!-- build the jar -->
+    <jar jarfile="${release.html.dir}/JonsInfra/${app.version}/${app.name}-${app.version}.jar"
+         basedir="${temp.dir}/infra/src"
+         excludes="**/*.java"
+          />
+
     
     <!-- delete the temp files -->
     <delete dir="${temp.dir}" />
@@ -169,7 +184,7 @@
     <cvs cvsRoot="${cvs.root}"
          package="${cvs.module}"
          dest="${temp.dir}"
-         tag="${cvs.release.tag}" />
+         tag="${release.cvs.tag}" />
     <!-- run javadoc on the source -->
     <mkdir dir="${release.html.dir}/JonsInfra/${app.version}/api" />
     <javadoc packagenames="net.mtu.eggplant.*"
