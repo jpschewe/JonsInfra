@@ -239,7 +239,9 @@
   <!-- Javadoc targets below here -->
   
   <!-- do a nightly build to my fileserver -->
-  <target name="nightly.javadoc">
+  <target name="nightly.javadoc"
+          depends="checkstyle.nightly"
+          >
     <!-- run javadoc on the source -->
     <mkdir dir="${nightly.html.dir}/${app.name}" />
     <javadoc packagenames="net.mtu.eggplant.*"
