@@ -35,7 +35,7 @@
             
   <!-- used for *.javadoc -->
   <property name="local.java.packages" value="http://netserver.mn.mtu.net/package-docs/java" />
-  <property name="nightly.html.dir" value="/net/package-docs/projects" />
+  <property name="nightly.html.dir" value="/srv/www/htdocs/package-docs/projects" />
 
   <path id="base.classpath">
     <pathelement location="${basedir}/src/"/>
@@ -259,11 +259,13 @@
         <path refid="base.classpath"/>
       </classpath>
       <!-- core java -->
-      <link href="${local.java.packages}/jdk-1.4.0/api/"/>
+      <link href="${local.java.packages}/jdk-1.4.2/api"/>
       <!-- junit -->
-      <link href="${local.java.packages}/junit-3.8/" />
+      <link href="${local.java.packages}/junit-3.8.1/" />
       <!-- log4j -->
-      <link href="${local.java.packages}/log4j-1.2.8/api" />
+      <link href="${local.java.packages}/log4j-1.2.8/" />
+      <!-- commons-logging -->
+      <link href="${local.java.packages}/commons-logging-1.0.3/" />
     </javadoc>
     
   </target>
