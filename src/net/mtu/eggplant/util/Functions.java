@@ -15,5 +15,25 @@ public class Functions {
     System.exit(1);
   }
     
-  
+
+  /**
+     Convert an array to a string.
+
+  **/
+  static public String printArray(Object[] array) {
+    if(array == null) {
+      return "NULL";
+    }
+    StringBuffer sb = new StringBuffer();
+    sb.append(array.getClass());
+    sb.append(" [");
+    for(int i=0; i<array.length; i++) {
+      if(i>0) {
+        sb.append(", ");
+      }
+      sb.append(array[i]);
+    }
+    sb.append(" ]");
+    return sb.toString();
+  }
 }

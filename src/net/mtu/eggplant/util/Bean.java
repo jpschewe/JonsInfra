@@ -11,27 +11,33 @@ import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
 /**
-   basic class to add property change support.  Remove when we start using
-   jdk1.2.x.
+   Basic class to add property change support.  
 **/
-public class Bean extends PropertyChangeSupport {
+public class Bean {
   public Bean() {
     _propertyListener = new PropertyChangeSupport(this);
   }
 
-  public void addPropertyListener(PropertyChangeListener l) {
-    _propertyListener.addPropertyChangeListener(l);
+  public void addPropertyListener(PropertyChangeListener listener) {
+    _propertyListener.addPropertyChangeListener(listener);
   }
 
-  public void removePropertyListener(PropertyChangeListener l) {
-    _propertyListener.removePropertyChangeListener(l);
+  public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+    _propertyListener.addPropertyChangeListener(propertyName, listener);
+  }
+  
+  public void removePropertyListener(PropertyChangeListener listener) {
+    _propertyListener.removePropertyChangeListener(listener);
   }
 
-  protected void firePropertyChange(String property, Object old, Object clone) 
+  public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+    _propertyListener.removePropertyChangeListener(propertyName, listener);
+  }
+  
+  protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) 
   {
-    _propertyListener.firePropertyChange(property, old, clone);
+    _propertyListener.firePropertyChange(propertyName, oldValue, newValue);
   }
 
   private PropertyChangeSupport _propertyListener;
-
 }
