@@ -212,7 +212,7 @@
       <!-- junit -->
       <link href="${local.java.packages}/junit-3.8/" />
       <!-- log4j -->
-      <link href="${local.java.packages}/log4j-1.2.8/" />
+      <link href="${local.java.packages}/log4j-1.2.8/api" />
     </javadoc>
     
     <!-- delete the temp files -->
