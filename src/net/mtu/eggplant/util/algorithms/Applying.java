@@ -7,6 +7,8 @@
 */
 package org.tcfreenet.schewe.utils.algorithms;
 
+import org.tcfreenet.schewe.utils.Function;
+
 import java.util.Collection;
 import java.util.Iterator;
 
