@@ -8,18 +8,23 @@
 package org.tcfreenet.schewe.utils;
 
 /**
-   Default implementation of hte {@link Unique} interface.  Can be used as a
+   Default implementation of the {@link Unique} interface.  Can be used as a
    delegate.
 **/
 public class DefaultUnique implements Unique {
 
-  static private long _nextUID = Long.MIN_VALUE;
-
-  public long getUID() {
+  public DefaultUnique() {
     if(_nextUID == Long.MAX_VALUE) {
       throw new RuntimeException("You have run out of Unique IDs!");
     }
-    return _nextUID++;
+    _uid = _nextUID++;
+  }
+  
+  static private long _nextUID = Long.MIN_VALUE;
+
+  private long _uid;
+  public long getUID() {
+    return _uid;
   }
   
 
