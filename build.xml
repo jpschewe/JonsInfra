@@ -85,7 +85,7 @@
   <target name="local.javadoc">
     <mkdir dir="${basedir}/api" />
     <javadoc packagenames="net.mtu.eggplant.*"
-             sourcepath="${basedir}/src"
+             sourcepath="${temp.dir}/infra/src"
              use="true"
              splitindex="true"
              version="true"
