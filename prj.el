@@ -1,6 +1,4 @@
 ;;This file assumes that the following variables and methods exist:
-;;infra-root - root of project
-;;java-home - root of java install directory
 (jde-set-project-name "infra-project")
 (let ((project-root (file-name-directory load-file-name)))
   (jde-set-variables
@@ -8,7 +6,7 @@
    '(jde-run-read-app-args t)
    '(jde-global-classpath (list
 			   (expand-file-name "src/" project-root)
-			   (expand-file-name "lib/junit-3.6.jar" project-root)
+			   (expand-file-name "lib/junit-3.8.jar" project-root)
 			   (expand-file-name "jre/lib/rt.jar" java-home)
 			   (expand-file-name "lib/tools.jar" java-home)
 			   ))

@@ -1,3 +1,11 @@
+2002-08-25  Jon Schewe  <jpschewe@mtu.net>
+	
+	* Release 0.2
+	
+2002-08-25  Jon Schewe  <jpschewe@mtu.net>
+
+	* build.xml: Upgraded to junit-3.8
+
 2002-05-27  Jon Schewe  <jpschewe@mtu.net>
 
 	* build.xml: Upgraded to junit-3.7

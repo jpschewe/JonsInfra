@@ -2,20 +2,42 @@
 <!DOCTYPE project PUBLIC "-//ANT//DTD project//EN" "project.dtd">
 
 <project name="infra" default="compile" basedir=".">
-  
+
+  <!-- properties -->
   <property file="${user.home}/.ant.properties" />
   <property name="temp.dir"  value="${basedir}/tmp" />
-  <property name="java_home" value="/usr/lib/java" />
   
+  <property name="instrument.dir"  value="instrumented" />
+
+  <property name="cvs.root" value="disk:/export/CVS-Repository" />
+  <property name="cvs.module" value="infra" />
+
+  <!-- used for building releases -->
+  <property name="app.name"   value="JonsInfra" />
+  <property name="app.version" value="0.2" />
+  <property name="release.cvs.tag" value="JonsInfra_0_2" />
+  <property name="release.html.dir" value="/home/jpschewe/public_html/mtu.net/public_html" />
+            
+  <!-- used for *.javadoc -->
+  <property name="local.java.packages" value="http://disk.mn.mtu.net/package-docs/java" />
+  <property name="nightly.html.dir" value="/net/package-docs/projects" />
+
   <path id="base.classpath">
     <pathelement location="${basedir}/src/"/>
-    <pathelement location="${basedir}/lib/junit-3.7.jar"/>
-    <pathelement location="${java_home}/lib/tools.jar"/>
+    <pathelement location="${basedir}/lib/junit-3.8.jar"/>
   </path>
   
-<!--  <target name="compile" depends="init,instrument">-->
+  <!-- targets -->
+  <target name="init">
+    <tstamp />
+    <available property="junit.present" classname="junit.framework.TestCase" />
+    <available property="assert.present" classname="net.mtu.eggplant.assert.JonsAssert" />
+  </target>
+
+  
+  <!--  <target name="compile" depends="init,instrument">-->
   <target name="compile" depends="init">
-<!--    <javac srcdir="${instrument.dir}" destdir="${basedir}" >-->
+    <!--    <javac srcdir="${instrument.dir}" destdir="${basedir}" >-->
     <javac srcdir="${basedir}/src" destdir="${basedir}/src">
       <classpath>
         <path refid="base.classpath"/>
@@ -24,14 +46,9 @@
     </javac>
   </target>
 
-  <target name="jar" depends="compile">
-    <jar jarfile="${app.name}.jar"
-	 basedir="${basedir}/src" includes="**" />
-  </target>
-
   <target name="runtests" depends="compile" if="junit.present">
     <java fork="yes" classname="junit.textui.TestRunner" 
-	  taskname="junit" failonerror="true">
+          taskname="junit" failonerror="true">
       <arg value="net.mtu.eggplant.util.test.AllTests"/>
       <classpath>
         <path refid="base.classpath"/>
@@ -41,7 +58,7 @@
 
 <!--  <target name="instrument" depends="init" if="assert.present">
     <java fork="no" classname="net.mtu.eggplant.assert.JonsAssert"
-	  taskname="assert" failonerror="true">
+          taskname="assert" failonerror="true">
       <arg value="${basedir}/src/net/" />
       <arg value="-d ${basedir}/${instrument.dir}" />
     </java>
@@ -60,122 +77,122 @@
 
   <!-- Javadoc targets below here -->
   
-  <!-- tell javadoc where to find out doclet -->
-  <!--<property name="doclet.name" value="com.honeywell.htc.schedinfra.javadoc.Standard" />
-  <property name="doclet.path" value="/home/jpschewe/projects/java/scripts/javadoc.jar" />-->
-  <property name="doclet.name" value="net.mtu.eggplant.doclet.Standard"/>
-  <property name="doclet.path" value="/home/jpschewe/projects/infra/src/"/>
+  <!-- FIX should make one that people can use locally and one for nightly,
+  plus release.  Local one will not reference external packages, nightly one
+  is stored on disk, release is set to goto mtu.net -->
 
-
-  <!-- used for releases -->
-  <property name="release.home.html.dir" value="http://disk.mn.mtu.net/~jpschewe/mtu.net" />
-  <!--<property name="home.html.dir" value="http://mtu.net/~jpschewe" />-->
-  <property name="release.html.dir" value="/net/home-jpschewe/public_html/mtu.net/" />
-
-
-  <!-- used for active_javadoc -->
-  <property name="active.home.html.dir" value="http://disk.mn.mtu.net/~jpschewe" />
-  <property name="active.html.dir" value="/net/home-jpschewe/public_html/" />
-  
-  <target name="active_javadoc">
-    <!-- run javadoc on the source -->
-    <mkdir dir="${active.html.dir}/JonsInfra" />
+  <!-- do a local build without external links -->
+  <target name="local.javadoc">
+    <mkdir dir="${basedir}/api" />
     <javadoc packagenames="net.mtu.eggplant.*"
-	     sourcepath="${basedir}/src"
-	     use="true"
-	     splitindex="true"
-	     version="true"
-	     windowtitle="JonsInfra">
-	<doclet name="${doclet.name}"
-		path="${doclet.path}">
-          <param name="-d" value="${active.html.dir}/infra" />
-        </doclet>
-	<classpath>
-	  <path refid="base.classpath"/>
+             sourcepath="${basedir}/src"
+             use="true"
+             splitindex="true"
+             version="true"
+             windowtitle="JonsInfra"
+             destdir="${basedir}/api"
+             additionalparam="-tag beaninfo:a:BeanInfo -tag test:a:Tests -tag pre:cm:PreConditions -tag post:cm:PostConditions -tag invariant:tc:Invariants -breakiterator"
+             >
+        <classpath>
+          <path refid="base.classpath"/>
         </classpath>
-	<!-- core java -->
-	<link href="${active.home.html.dir}/java/jdk1.3.0/docs/api/"/>
-	<!-- junit -->
-	<link href="${active.home.html.dir}/java/junit-3.2/" />
-        <!-- com.sun.javadoc -->
-        <link href="${active.home.html.dir}/java/jdk1.3.0/docs/tooldocs/javadoc/doclet"/>
       </javadoc>
   </target>
-  
-  <target name="javadoc">
+
+  <!-- do a nightly build to my fileserver -->
+  <target name="nightly.javadoc">
     <mkdir dir="${temp.dir}" />    
     <!-- get the source out of cvs -->
-    <cvs cvsRoot="/home/CVS-Repository"
-	 package="infra"
-	 dest="${temp.dir}"/>
+    <cvs cvsRoot="${cvs.root}"
+         package="${cvs.module}"
+         dest="${temp.dir}"/>
+    
     <!-- run javadoc on the source -->
-    <mkdir dir="${active.html.dir}/JonsInfra" />
+    <mkdir dir="${nightly.html.dir}/JonsInfra" />
     <javadoc packagenames="net.mtu.eggplant.*"
-	     sourcepath="${temp.dir}/infra/src"
-	     use="true"
-	     splitindex="true"
-	     version="true"
-	     windowtitle="JonsInfra">
-	<doclet name="${doclet.name}"
-		path="${doclet.path}">
-          <param name="-d" value="${active.html.dir}/infra" />
-        </doclet>
-	<classpath>
-	  <path refid="base.classpath"/>
-        </classpath>
-	<!-- core java -->
-	<link href="${active.home.html.dir}/java/jdk1.3.0/docs/api/"/>
-	<!-- junit -->
-	<link href="${active.home.html.dir}/java/junit-3.2/" />
-        <!-- com.sun.javadoc -->
-        <link href="${active.home.html.dir}/java/jdk1.3.0/docs/tooldocs/javadoc/doclet"/>
-      </javadoc>
+             sourcepath="${basedir}/src"
+             use="true"
+             splitindex="true"
+             version="true"
+             windowtitle="JonsInfra"
+             destdir="${nightly.html.dir}/JonsInfra"
+             additionalparam="-tag beaninfo:a:BeanInfo -tag test:a:Tests -tag pre:cm:PreConditions -tag post:cm:PostConditions -tag invariant:tc:Invariants -breakiterator"
+             >
+      <classpath>
+        <path refid="base.classpath"/>
+      </classpath>
+      <!-- core java -->
+      <link href="${local.java.packages}/jdk-1.4.0/api/"/>
+      <!-- junit -->
+      <link href="${local.java.packages}/junit-3.8/" />
+    </javadoc>
     
     <!-- delete the temp files -->
     <delete dir="${temp.dir}" />
   </target>
+
+  <!-- do a release, the tag is created manually -->
+  <target name="release">
+    <!-- checkout to a temp directory -->
+    <cvs cvsRoot="${cvs.root}"
+         package="${cvs.module}"
+         dest="${temp.dir}"
+         tag="${cvs.release.tag}" />
+
+    <!-- build the jar -->
+    <jar jarfile="${release.html.dir}/JonsInfra/${app.version}/${app.name}-${app.version}.jar"
+         basedir="${temp.dir}/infra/src" includes="infra/**" />
+
+    <!-- copy index.html, ChangeLog to web directory -->
+    <copy todir="${release.html.dir}/JonsInfra/${app.version}"
+      <fileset dir="${temp.dir}/infra">
+        <include name="ChangeLog" />
+      </fileset>
+    </copy>
+
+    <!-- zip source to web directory -->
+    <zip basedir="${temp.dir}/infra"
+         destfile="${release.html.dir}/JonsInfra/{$app.version}/${app.name}-${app.version}-src.zip"
+         />
+         
+    
+    <!-- delete the temp files -->
+    <delete dir="${temp.dir}" />
+    
+    <!-- generate javadoc -->
+    <antcall target="release.javadoc" />
+  </target>
   
-  <target name="0.1_javadoc">
+  <target name="release.javadoc">
     <mkdir dir="${temp.dir}" />
     <!-- get the source out of cvs -->
-    <cvs cvsRoot="/home/CVS-Repository"
-	 package="infra"
-	 dest="${temp.dir}"
-	 tag="JonsInfra_0_1" />
+    <cvs cvsRoot="${cvs.root}"
+         package="${cvs.module}"
+         dest="${temp.dir}"
+         tag="${cvs.release.tag}" />
     <!-- run javadoc on the source -->
-    <mkdir dir="${release.html.dir}/JonsInfra" />
+    <mkdir dir="${release.html.dir}/JonsInfra/${app.version}/api" />
     <javadoc packagenames="net.mtu.eggplant.*"
-	     sourcepath="${temp.dir}/infra/src"
-	     use="true"
-	     splitindex="true"
-	     version="true"
-	     windowtitle="JonsInfra">
-	<doclet name="${doclet.name}"
-		path="${doclet.path}">
-          <param name="-d" value="${release.html.dir}/JonsInfra/0.1/api" />
-        </doclet>
-	<classpath>
+             sourcepath="${temp.dir}/infra/src"
+             use="true"
+             splitindex="true"
+             version="true"
+             windowtitle="JonsInfra"
+             destdir="${release.html.dir}/JonsInfra/${app.version}/api"
+             additionalparam="-tag beaninfo:a:BeanInfo -tag test:a:Tests -tag pre:cm:PreConditions -tag post:cm:PostConditions -tag invariant:tc:Invariants -breakiterator"
+             >
+        <classpath>
           <pathelement location="${temp.dir}/infra/src/" />
-          <pathelement location="${temp.dir}/infra/lib/junit.jar" />
+          <pathelement location="${temp.dir}/infra/lib/junit-3.8.jar" />
         </classpath>
-	<!-- core java -->
-	<link href="http://java.sun.com/j2se/1.3/docs/api/" />
-	<!-- junit -->
-	<link href="${release.home.html.dir}/java/junit-3.2/" />
+        <!-- core java -->
+        <link href="http://java.sun.com/j2se/1.4/docs/api/" />
+        <!-- junit -->
+        <link href="http://www.junit.org/junit/javadoc/3.8/" />
       </javadoc>
     
     <!-- delete the temp files -->
     <delete dir="${temp.dir}" />
   </target>
-
-  <property name="app.name"   value="JonsInfra" />
-  <property name="instrument.dir"  value="instrumented" />
-  
-  <target name="init">
-    <tstamp />
-    <available property="junit.present" classname="junit.framework.TestCase" />
-    <available property="assert.present" classname="net.mtu.eggplant.assert.JonsAssert" />
-  </target>
-
   
 </project>
