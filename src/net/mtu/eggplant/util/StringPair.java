@@ -19,4 +19,8 @@ public class StringPair extends Pair {
   public String getStringTwo() {
     return (String)super.getTwo();
   }
+
+  public String toString() {
+    return "[StringPair one:" + getStringOne() + " two: " + getStringTwo() + "]";
+  }
 }

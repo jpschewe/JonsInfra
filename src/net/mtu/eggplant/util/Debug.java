@@ -75,55 +75,55 @@ final public class Debug {
 
   static public void println(boolean b) {
     if(_debug) {
-      internalPrint(new Boolean(b).toString() + "\n");
+      internalPrint(new Boolean(b).toString() + System.getProperty("line.separator"));
     }
   }
 
   static public void println(char c) {
     if(_debug) {
-      internalPrint(new Character(c).toString() + "\n");
+      internalPrint(new Character(c).toString() + System.getProperty("line.separator"));
     }
   }
 
   static public void println(char[] s) {
     if(_debug) {
-      internalPrint((s == null ? "NULL" : s.toString()) + "\n");
+      internalPrint((s == null ? "NULL" : s.toString()) + System.getProperty("line.separator"));
     }
   }
 
   static public void println(double d) {
     if(_debug) {
-      internalPrint(new Double(d).toString() + "\n");
+      internalPrint(new Double(d).toString() + System.getProperty("line.separator"));
     }
   }
 
   static public void println(float f) {
     if(_debug) {
-      internalPrint(new Float(f).toString() + "\n");
+      internalPrint(new Float(f).toString() + System.getProperty("line.separator"));
     }
   }
 
   static public void println(int i) {
     if(_debug) {
-      internalPrint(new Integer(i).toString() + "\n");
+      internalPrint(new Integer(i).toString() + System.getProperty("line.separator"));
     }
   }
 
   static public void println(long l) {
     if(_debug) {
-      internalPrint(new Long(l).toString() + "\n");
+      internalPrint(new Long(l).toString() + System.getProperty("line.separator"));
     }
   }
 
   static public void println(Object obj) {
     if(_debug) {
-      internalPrint((obj == null ? "NULL" : obj.toString()) + "\n");
+      internalPrint((obj == null ? "NULL" : obj.toString()) + System.getProperty("line.separator"));
     }
   }
 
   static public void println(String s) {
     if(_debug) {
-      internalPrint(s + "\n");
+      internalPrint(s + System.getProperty("line.separator"));
     }
   }  
 
@@ -183,55 +183,55 @@ final public class Debug {
 
   static public void errPrintln(boolean b) {
     if(_debug) {
-      internalErrPrint(new Boolean(b).toString() + "\n");
+      internalErrPrint(new Boolean(b).toString() + System.getProperty("line.separator"));
     }
   }
 
   static public void errPrintln(char c) {
     if(_debug) {
-      internalErrPrint(new Character(c).toString() + "\n");
+      internalErrPrint(new Character(c).toString() + System.getProperty("line.separator"));
     }
   }
 
   static public void errPrintln(char[] s) {
     if(_debug) {
-      internalErrPrint((s == null ? "NULL" : s.toString()) + "\n");
+      internalErrPrint((s == null ? "NULL" : s.toString()) + System.getProperty("line.separator"));
     }
   }
 
   static public void errPrintln(double d) {
     if(_debug) {
-      internalErrPrint(new Double(d).toString() + "\n");
+      internalErrPrint(new Double(d).toString() + System.getProperty("line.separator"));
     }
   }
 
   static public void errPrintln(float f) {
     if(_debug) {
-      internalErrPrint(new Float(f).toString() + "\n");
+      internalErrPrint(new Float(f).toString() + System.getProperty("line.separator"));
     }
   }
 
   static public void errPrintln(int i) {
     if(_debug) {
-      internalErrPrint(new Integer(i).toString() + "\n");
+      internalErrPrint(new Integer(i).toString() + System.getProperty("line.separator"));
     }
   }
 
   static public void errPrintln(long l) {
     if(_debug) {
-      internalErrPrint(new Long(l).toString() + "\n");
+      internalErrPrint(new Long(l).toString() + System.getProperty("line.separator"));
     }
   }
 
   static public void errPrintln(Object obj) {
     if(_debug) {
-      internalErrPrint((obj == null ? "NULL" : obj.toString()) + "\n");
+      internalErrPrint((obj == null ? "NULL" : obj.toString()) + System.getProperty("line.separator"));
     }
   }
 
   static public void errPrintln(String s) {
     if(_debug) {
-      internalErrPrint(s + "\n");
+      internalErrPrint(s + System.getProperty("line.separator"));
     }
   }  
   

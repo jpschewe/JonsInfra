@@ -8,9 +8,7 @@
 package org.tcfreenet.schewe.utils;
 
 /**
-   class to put multiple objects in one.  I got the idea for this class from
-   the JGL class Pair.  I didn't use that one because I kind of like to keep
-   my code self contained.
+   class to put multiple objects in one.  
 **/
 public class Pair extends Object {
 
@@ -31,4 +29,30 @@ public class Pair extends Object {
     return _two;
   }
 
+  public String toString() {
+    return "[Pair one:" + getOne() + " two: " + getTwo() + "]";
+  }
+
+  /**
+     Equality is defined by the equality of the objects in the Pair.
+  **/
+  public boolean equals(final Object o) {
+    if(o instanceof Pair) {
+      final Pair other = (Pair)o;
+      return ( (other.getOne() == null && getOne() == null)
+               || (other.getOne() != null && getOne() != null && other.getOne().equals(getOne())) )
+        && ( (other.getTwo() == null && getTwo() == null)
+             || (other.getTwo() != null && getTwo() != null && other.getTwo().equals(getTwo())) );
+    }
+    return false;
+  }
+
+  public int hashCode() {
+    if(getOne() == null) {
+      return -1;
+    } else {
+      return getOne().hashCode();
+    }
+  }
+  
 }
