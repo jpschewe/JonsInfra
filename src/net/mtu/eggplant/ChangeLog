@@ -1,0 +1,60 @@
+2000-12-01  Jon Schewe  <jpschewe@eggplant.mtu.net>
+
+	* utils/StringUtils.java: Found a bug with the replace string
+	having the search string in it and calling searchAndReplace, gets
+	into an infinite loop.
+
+2000-11-14  Jon Schewe  <jpschewe@eggplant.mtu.net>
+
+	* utils/DefaultBean.java: Made serializable so that it's easy to
+	save things out.	
+
+	* utils/algorithms/Finding.java: Added detect method.
+
+	* utils/ComparisonUtils.java: Added some convenient comparison
+	functions.  
+
+	* utils/gui/SortableTable.java: Added ability to sort tables.
+
+2000-10-19  Jon Schewe  <jpschewe@eggplant.mtu.net>
+
+	* utils/algorithms/Copying.java: Added for copying Collections.
+
+2000-10-10  Jon Schewe  <jpschewe@eggplant.mtu.net>
+
+	* utils/Unique.java: Made anonymous inner class named so that
+	javadoc doesn't get confused.  This bug has been reported to Sun.
+
+2000-10-04  Jon Schewe  <jpschewe@eggplant.mtu.net>
+
+	* utils/predicates/InstanceOf.java: My first default predicate.
+	More to come.
+
+	* utils/gui/SortedListModel.java: Having a sorted list model is a
+	really nifty idea, so I wrote one.  It's being used in JavaDome
+	for the nodes in the main editor panel.
+
+	* utils/event/CollectionEvent.java: Added collection events for
+	collections that you can listen to. 
+
+	* utils/algorithms/Finding.java: Added to help replace JGL.
+
+	* utils/algorithms/Filtering.java: Java's collections framework is
+	just too far from JGL.  Need to enhance it with Filters.
+
+	* utils/UnaryPredicate.java: Needed for Finding and Filtering classes.
+
+	* utils/Unique.java: Added default comparator for use when
+	creating total order comparators.
+
+	* utils/DefaultUnique.java: Added a correct equals method.
+
+	* utils/CollectionUtils.java: Needed instanceof check for objects
+	in a container, particularly for assertions.
+
+	* utils/Bean.java: Now follows standard naming conection where
+	interface is the name used and Default is prepended for default class.
+
+	* utils/gui/BetterBoxLayout.java: Added for better layout.  Swing's box
+	doesn't size so good. 
+
