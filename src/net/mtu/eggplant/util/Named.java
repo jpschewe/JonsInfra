@@ -8,7 +8,7 @@
 package org.tcfreenet.schewe.utils;
 
 /**
-   interface for objects that have names
+   interface for Named objects
 **/
 public interface Named {
   public String getName();
