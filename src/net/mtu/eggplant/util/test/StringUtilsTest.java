@@ -36,7 +36,7 @@ import junit.textui.TestRunner;
 /**
  * Test class for StringUtils.
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class StringUtilsTest extends TestCase {
 
@@ -49,10 +49,6 @@ public class StringUtilsTest extends TestCase {
     suite.addTest(suite());
     TestRunner.run(suite);
     
-  }
-
-  public StringUtilsTest(final String name) {
-    super(name);
   }
 
   static public TestSuite suite() {

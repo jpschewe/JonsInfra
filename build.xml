@@ -8,13 +8,32 @@
   
   <property name="instrument.dir"  value="instrumented" />
 
+  <property name="build.home"    value="build"/>
+
+  <!--
+  
+    These properties control option settings on the Javac compiler when it
+    is invoked using the <javac> task.
+  
+    compile.debug        Should compilation include the debug option?
+  
+    compile.deprecation  Should compilation include the deprecation option?
+  
+    compile.optimize     Should compilation include the optimize option?
+  
+  -->
+  
+  <property name="compile.debug"       value="true"/>
+  <property name="compile.deprecation" value="true"/>
+  <property name="compile.optimize"    value="false"/>
+  
   <property name="cvs.root" value="/net/CVS-Repository" />
   <property name="cvs.module" value="infra" />
 
   <!-- used for building releases -->
   <property name="app.name"   value="JonsInfra" />
-  <property name="app.version" value="0.2" />
-  <property name="release.cvs.tag" value="JonsInfra_0_2_1" />
+  <property name="app.version" value="0.3" />
+  <property name="release.cvs.tag" value="JonsInfra_0_3" />
   <property name="release.html.dir" value="/home/jpschewe/public_html/mtu.net/public_html" />
             
   <!-- used for *.javadoc -->
@@ -30,15 +49,21 @@
   <!-- targets -->
   <target name="init">
     <tstamp />
-    <available property="junit.present" classname="junit.framework.TestCase" />
-    <available property="assert.present" classname="net.mtu.eggplant.assert.JonsAssert" />
   </target>
 
   
   <!--  <target name="compile" depends="init,instrument">-->
   <target name="compile" depends="init">
+
+    <mkdir dir="${build.home}/classes"/>
+    
     <!--    <javac srcdir="${instrument.dir}" destdir="${basedir}" >-->
-    <javac srcdir="${basedir}/src" destdir="${basedir}/src">
+    <javac srcdir="${basedir}/src"
+           destdir="${build.home}/classes"
+           debug="${compile.debug}"
+           deprecation="${compile.deprecation}"
+           optimize="${compile.optimize}"
+           >
       <classpath>
         <path refid="base.classpath"/>
       </classpath>
@@ -46,17 +71,20 @@
     </javac>
   </target>
 
-  <target name="runtests" depends="compile" if="junit.present">
-    <java fork="yes" classname="junit.textui.TestRunner" 
+  <target name="runtests"
+          depends="compile">
+    <java fork="yes"
+          classname="junit.textui.TestRunner" 
           taskname="junit" failonerror="true">
       <arg value="net.mtu.eggplant.util.test.AllTests"/>
       <classpath>
         <path refid="base.classpath"/>
+        <pathelement location="${build.home}/classes" />
       </classpath>
     </java>
   </target>
 
-<!--  <target name="instrument" depends="init" if="assert.present">
+<!--  <target name="instrument" depends="init">
     <java fork="no" classname="net.mtu.eggplant.assert.JonsAssert"
           taskname="assert" failonerror="true">
       <arg value="${basedir}/src/net/" />
@@ -64,14 +92,9 @@
     </java>
   </target>-->
 
-  <target name="clean">
-    <delete>
-      <fileset dir="${basedir}/src">
-        <patternset>
-          <include name="**/*.class" />
-        </patternset>
-      </fileset>
-    </delete>
+  <target name="clean"
+         description="Delete old build and dist directories">
+    <delete dir="${build.home}"/>
   </target>
 
 

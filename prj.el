@@ -2,10 +2,10 @@
 (jde-set-project-name "infra")
 (let ((project-root (file-name-directory load-file-name)))
   (jde-set-variables
-   '(jde-run-working-directory (expand-file-name "src/" project-root))
+   '(jde-run-working-directory (expand-file-name "build/" project-root))
    '(jde-run-read-app-args t)
    '(jde-global-classpath (list
-			   (expand-file-name "src/" project-root)
+			   (expand-file-name "build/classes" project-root)
 			   (expand-file-name "lib/junit-3.8.jar" project-root)
 			   (expand-file-name "lib/log4j-1.2.8.jar" project-root)
 			   ))
@@ -20,7 +20,7 @@
       "\"/**\" '>'n"
       "\" * Add class comment here!\" '>'n"
       "\" *\" '>'n"
-      "\" * @version $Revision: 1.10 $\" '>'n"
+      "\" * @version $Revision: 1.11 $\" '>'n"
       "\" */\" '>'n'"
       "\"public class \"" 
       "(file-name-sans-extension (file-name-nondirectory buffer-file-name))" 
