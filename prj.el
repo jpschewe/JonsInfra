@@ -1,5 +1,5 @@
 ;;This file assumes that the following variables and methods exist:
-(jde-set-project-name "infra-project")
+(jde-set-project-name "infra")
 (let ((project-root (file-name-directory load-file-name)))
   (jde-set-variables
    '(jde-run-working-directory (expand-file-name "src/" project-root))
