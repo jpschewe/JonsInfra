@@ -36,7 +36,7 @@ import java.util.Comparator;
  * to implement this is to create a new {@link DefaultUnique} object in the
  * constructor and delegate the getUID() method to that object.
  * 
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public interface Unique {
   long getUID();
@@ -44,7 +44,7 @@ public interface Unique {
   /**
      Comparator for comparing unique objects.
   **/
-  static final Comparator UNIQUE_COMPARATOR = new UComparator();
+  Comparator UNIQUE_COMPARATOR = new UComparator();
 
   /**
      This is here just because javadoc and javac don't agree on what is valid

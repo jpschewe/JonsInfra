@@ -48,9 +48,27 @@
     <tstamp />
   </target>
 
+  <target name="NightlyTasks"
+          description="Tasks to run on a regular basis in batch">
+    <!-- delete the temp files -->
+    <delete dir="${temp.dir}" />
+    <mkdir dir="${temp.dir}" />    
+    <!-- get the source out of cvs -->
+    <cvs cvsRoot="${cvs.root}"
+         package="${cvs.module}"
+         dest="${temp.dir}"
+         quiet="true" />
+
+    <antcall target="nightly.javadoc">
+      <param name="basedir" value="${temp.dir}/${cvs.module}" />
+    </antcall>
+
+    <!-- delete the temp files -->
+    <delete dir="${temp.dir}" />
+  </target>
   
-  <!--  <target name="compile" depends="init,instrument">-->
-  <target name="compile" depends="init">
+  <!--  <target name="compile" depends="init,instrument,checkstyle">-->
+  <target name="compile" depends="init,checkstyle">
 
     <mkdir dir="${build.dir}/classes"/>
     
@@ -222,13 +240,6 @@
   
   <!-- do a nightly build to my fileserver -->
   <target name="nightly.javadoc">
-    <mkdir dir="${temp.dir}" />    
-    <!-- get the source out of cvs -->
-    <cvs cvsRoot="${cvs.root}"
-         package="${cvs.module}"
-         dest="${temp.dir}"
-         quiet="true" />
-    
     <!-- run javadoc on the source -->
     <mkdir dir="${nightly.html.dir}/${app.name}" />
     <javadoc packagenames="net.mtu.eggplant.*"
@@ -251,8 +262,6 @@
       <link href="${local.java.packages}/log4j-1.2.8/api" />
     </javadoc>
     
-    <!-- delete the temp files -->
-    <delete dir="${temp.dir}" />
   </target>
 
 </project>
