@@ -52,7 +52,7 @@ import javax.swing.JOptionPane;
  *
  * @author Jon Schewe
  * 
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public final class GraphicsUtils {
 
@@ -193,7 +193,7 @@ public final class GraphicsUtils {
      @pre (path != null)
   **/
   public static ImageIcon getIcon(final String path) {
-    return new ImageIcon(ClassLoader.getSystemClassLoader().getResource(path));
+    return new ImageIcon(Thread.currentThread().getContextClassLoader().getResource(path));
   }
 
   /**
