@@ -10,7 +10,7 @@
   <property name="dir.build"   value="build" />
   <property name="dir.inst"    value="${dir.build}/instrumented" />
   <property name="dir.classes" value="${dir.build}/classes" />
-  <property name="dir.api"     value="${dir.build}/doc/api" />
+  <property name="dir.api"     value="${dir.build}/api" />
   <property name="dir.bin"     value="${dir.build}/bin" />
   <property name="dir.reports" value="${dir.build}/reports" />
   <property name="dir.dist"    value="${dir.build}/dist" />
@@ -40,15 +40,8 @@
   <!-- file for emacs tags tables -->
   <property name="tagstable" value="${dir.src}/TAGS" />
 
-  <property name="cvs.root" value="/export/CVS-Repository" />
-  <property name="cvs.module" value="infra" />
-
   <property name="release.html.dir" value="/home/jpschewe/public_html/mtu.net/public_html" />
 
-  <!-- used for *.javadoc -->
-  <property name="local.java.packages" value="http://workstation.mn.mtu.net/package-docs/java" />
-  <property name="nightly.html.dir" value="/srv/www/htdocs/package-docs/projects" />
-  
   <!-- Base/default classpath; if you don't run inside ant, copy this -->
   <path id="classpath.base">
     <pathelement location="${basedir}/lib/commons-collections-3.1.jar"/>
@@ -293,7 +286,7 @@
       <param name="javadoc.access" value="protected" />
       <param name="compile.debug" value="false" />
       <param name="compile.optimize" value="true" />
-      <param name="dir.api" value="${release.html.dir}" />
+      <param name="dir.api" value="${release.html.dir}/${app.name}/${app.version}/api" />
     </antcall>
   </target>
 
@@ -316,6 +309,7 @@
           flatten="true">
       <fileset dir="${basedir}">
         <include name="lib/*" />
+        <exclude name="lib/ant" />
       </fileset>
     </copy>
 
@@ -344,20 +338,23 @@
   </target>
   
   <!-- ==================== JavaDoc ==================== -->
-  <!-- set javadoc.access in your build.properties files to
-       change level of javadoc created (e.g. private, etc) -->
-  <condition property="javadoc.uptodate">
-    <and>
-      <available file="${dir.api}/index.html" />
-      <uptodate targetfile="${dir.api}/index.html">
-        <srcfiles dir="${dir.src}" includes="**/*.java" />
-      </uptodate>
-    </and>
-  </condition>
+  <target name="-javadoc.check">
+    <!-- set javadoc.access in your build.properties files to
+    change level of javadoc created (e.g. private, etc) -->
+    <condition property="javadoc.uptodate">
+      <and>
+        <available file="${dir.api}/index.html" />
+        <uptodate targetfile="${dir.api}/index.html">
+          <srcfiles dir="${dir.src}" includes="**/*.java" />
+        </uptodate>
+      </and>
+    </condition>
+  </target>
 
   <target name="javadoc"
-          description="Create Javadoc API documentation"
-          unless="javadoc.uptodate">
+    description="Create Javadoc API documentation"
+    depends="-javadoc.check"
+    unless="javadoc.uptodate">
     <mkdir dir="${dir.api}" />
     <javadoc sourcepath="${dir.src}"
              destdir="${dir.api}"

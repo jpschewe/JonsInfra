@@ -1,5 +1,9 @@
 2004-11-12  Jon Schewe  <jpschewe@mtu.net>
 
+	* build.xml: Fixed build of api documentation for Releases.
+
+	* Release 0.5
+	
 	* Updated with new build template.  Removed old code and updated
 	libraries.  Depend on commons-collections now to do collections
 	stuff instead of my own implementations. 
