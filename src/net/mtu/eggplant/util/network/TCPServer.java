@@ -37,12 +37,17 @@ import java.net.Socket;
 
 import net.mtu.eggplant.util.Functions;
 
+import org.apache.log4j.Logger;
+
 /**
  * Simple TCP server class
  * 
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class TCPServer extends Object implements Runnable, Cloneable {
+
+  private static final Logger LOG = Logger.getLogger(TCPServer.class);
+  
   public static final int DEFAULT_PORT = 6789;
   
   private int _port;
@@ -125,6 +130,7 @@ public class TCPServer extends Object implements Runnable, Cloneable {
         getSocket().close();
       } catch (final IOException e2) {
         /* nothing */
+        LOG.debug(e2);
       }
       System.err.println("Exception while getting socket streams: " + e);
       return;
@@ -144,11 +150,13 @@ public class TCPServer extends Object implements Runnable, Cloneable {
       }
     } catch (final IOException e) {
       /* nothing */
+      LOG.debug(e);
     } finally {
       try {
         getSocket().close();
       } catch (final IOException e2) {
         /* nothing */
+        LOG.debug(e2);
       }
     }
     

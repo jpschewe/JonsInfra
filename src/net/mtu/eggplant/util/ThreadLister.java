@@ -35,7 +35,7 @@ import java.io.PrintStream;
  * may study, use, modify, and distribute this example for any purpose.  This
  * example is provided WITHOUT WARRANTY either expressed or implied.
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public final class ThreadLister {
 
@@ -84,10 +84,10 @@ public final class ThreadLister {
                 (g.isDaemon()?" Daemon":""));
         
     for(int i = 0; i < numThreads; i++) {
-      print_thread_info(out, threads[i], indent + "    ");
+      printThreadInfo(out, threads[i], indent + "    ");
     }
     for(int i = 0; i < numGroups; i++) {
-      list_group(out, groups[i], indent + "    ");
+      listGroup(out, groups[i], indent + "    ");
     }
   }
     
@@ -112,7 +112,7 @@ public final class ThreadLister {
     }
         
     // And list it, recursively
-    listGroup(out, rootThread_group, "");
+    listGroup(out, rootThreadGroup, "");
   }
     
     

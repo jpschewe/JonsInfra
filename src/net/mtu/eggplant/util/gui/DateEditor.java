@@ -62,7 +62,7 @@ import javax.swing.plaf.basic.BasicArrowButton;
  * test removing odd fields
  * </pre>
  * 
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class DateEditor extends JPanel {
 
@@ -509,9 +509,9 @@ public class DateEditor extends JPanel {
 
   protected boolean check(final int field,
                           final String text) {
-    if(field == AMPM) {
-      // special case
-    }
+    //if(field == AMPM) {
+    //  // special case
+    //}
     int value;
     try {
       value = Integer.parseInt(text);
