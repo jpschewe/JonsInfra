@@ -132,8 +132,8 @@
 
     <!-- zip source to web directory -->
     <zip destfile="${release.html.dir}/${app.name}/${app.version}/${app.name}-${app.version}-src.zip">
-      <zipfileset basedir="${basedir}"
-                  prefix="${app.version}"
+      <zipfileset dir="${basedir}"
+                  prefix="${app.name}-${app.version}"
                   >
         <include name="src/**" />
         <include name="doc/**" />
@@ -141,7 +141,7 @@
         <include name="prj.el" />
         <include name="build.xml" />
         <include name="ChangeLog" />
-      </zipfilset>
+      </zipfileset>
     </zip>
 
     <!-- now compile everything -->
