@@ -22,7 +22,14 @@ public interface Unique {
   /**
      Comparator for comparing unique objects.
   **/
-  final static Comparator UNIQUE_COMPARATOR = new Comparator() {
+  final static public Comparator UNIQUE_COMPARATOR = new UComparator();
+
+  /**
+     This is here just because javadoc and javac don't agree on what is valid
+     java code.
+  **/
+  final static /*package*/ class UComparator implements Comparator {
+    private UComparator() {}
     public boolean equals(final Object o) {
       return o == this;
     }
