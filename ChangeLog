@@ -1,10 +1,13 @@
 2004-01-28  Jon Schewe  <jpschewe@mtu.net>
+	
+	* Release 0.4
 
 	* src/net/mtu/eggplant/util/gui/GraphicsUtils.java (centerWindow):
 	Updated to use geom package for more accurate measurements and
 	fixed the calculation to use width AND height, rather than just width.
 
 2004-01-22  Jon Schewe  <jpschewe@mtu.net>
+	
 	* Release 0.3
 
 	* src/net/mtu/eggplant/util/Debug.java: Deprecated Debug in favor
