@@ -1,7 +1,11 @@
 2004-01-22  Jon Schewe  <jpschewe@mtu.net>
 
+	* src/net/mtu/eggplant/util/Debug.java: Deprecated Debug in favor
+	of Log4j
+
 	* src/net/mtu/eggplant/util/DefaultBean.java (DefaultBean): Fixed
 	some method names.
+	(DefaultBean): Added getPropertyChangeListeners methods.
 
 2003-07-02  Jon Schewe  <jpschewe@mtu.net>
 

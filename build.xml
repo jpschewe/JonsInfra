@@ -24,6 +24,7 @@
   <path id="base.classpath">
     <pathelement location="${basedir}/src/"/>
     <pathelement location="${basedir}/lib/junit-3.8.jar"/>
+    <pathelement location="${basedir}/lib/log4j-1.2.8.jar"/>
   </path>
   
   <!-- targets -->

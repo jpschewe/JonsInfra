@@ -36,7 +36,8 @@ import javax.swing.event.EventListenerList;
  * the debug state changes.  These events have a source of
  * <tt>Debug.class</tt>..  <i>Should be replaced by log4j</i>
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
+ * @deprecated Use log4j instead
  */
 final public class Debug {
 
