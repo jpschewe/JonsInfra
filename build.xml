@@ -1,7 +1,4 @@
-<?xml version="1.0"?>
-<!DOCTYPE project PUBLIC "-//ANT//DTD project//EN" "project.dtd">
-
-<project name="infra" default="compile" basedir=".">
+<project name="infra" default="compile">
 
   <!-- properties -->
   <property name="temp.dir"  value="${basedir}/tmp" />
