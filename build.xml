@@ -25,7 +25,7 @@
   <property name="compile.deprecation" value="true"/>
   <property name="compile.optimize"    value="false"/>
   
-  <property name="cvs.root" value="/net/CVS-Repository" />
+  <property name="cvs.root" value="/export/CVS-Repository" />
   <property name="cvs.module" value="infra" />
 
   <!-- used for building releases -->
