@@ -27,21 +27,25 @@
  */
 package net.mtu.eggplant.util.test;
 
-import junit.framework.TestSuite;
 import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import junit.textui.TestRunner;
 
 /**
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
-public class AllTests {
+public final class AllTests {
 
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     TestRunner.run(suite());
     System.exit(0);
   }
 
 
+  private AllTests() {
+  }
+  
   /**
      Runs all of the unit tests for the project.  As tests are added for a top
      level package, add a refernece to them here.

@@ -33,10 +33,12 @@ import java.util.Iterator;
 /**
  * some handy methods for working with collections of objects
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
-final public class JPSCollections {
+public final class JPSCollections {
 
+  private JPSCollections() {}
+  
   /**
      @param list the list to check
      @param theClass the class to check for
@@ -45,7 +47,7 @@ final public class JPSCollections {
      @pre (list != null)
      @pre (theClass != null)
   **/
-  static public boolean elementsInstanceOf(final Collection list, final Class theClass) {
+  public static boolean elementsInstanceOf(final Collection list, final Class theClass) {
     final Iterator iter = list.iterator();    
     while(iter.hasNext()) {
       final Object o = iter.next();

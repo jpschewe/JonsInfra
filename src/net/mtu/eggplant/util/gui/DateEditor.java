@@ -27,30 +27,30 @@
  */
 package net.mtu.eggplant.util.gui;
 
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 
 import java.util.Calendar;
 import java.util.Locale;
 
-import java.beans.PropertyChangeSupport;
-import java.beans.PropertyChangeListener;
-
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-
-import javax.swing.UIManager;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.BorderFactory;
+import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicArrowButton;
 
 /**
@@ -62,11 +62,11 @@ import javax.swing.plaf.basic.BasicArrowButton;
  * test removing odd fields
  * </pre>
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class DateEditor extends JPanel {
 
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     DateEditor de = new DateEditor(Locale.getDefault(),
                                    Calendar.getInstance(), false, true, true,
                                    true, true, true, false);
@@ -74,16 +74,16 @@ public class DateEditor extends JPanel {
   }
   
   
-  public final static int SECOND = 1;
-  public final static int MINUTE = 2;
-  public final static int HOUR = 3;
-  public final static int DAY = 4;
-  public final static int MONTH = 5;
-  public final static int YEAR = 6;
-  public final static int DATESEPARATOR = 7;
-  public final static int TIMESEPARATOR = 8;
-  public final static int SPACER = 9;
-  public final static int AMPM = 10;
+  public static final int SECOND = 1;
+  public static final int MINUTE = 2;
+  public static final int HOUR = 3;
+  public static final int DAY = 4;
+  public static final int MONTH = 5;
+  public static final int YEAR = 6;
+  public static final int DATESEPARATOR = 7;
+  public static final int TIMESEPARATOR = 8;
+  public static final int SPACER = 9;
+  public static final int AMPM = 10;
   
   /**
      standard constructor
@@ -98,9 +98,15 @@ public class DateEditor extends JPanel {
      @param minute <code>true</code> show the minute field
      @param second <code>true</code> show the second field
   **/
-  public DateEditor(Locale locale, Calendar cal, boolean military,
-                    boolean month, boolean day, boolean year, boolean hour,
-                    boolean minute, boolean second) {
+  public DateEditor(final Locale locale,
+                    final Calendar cal,
+                    final boolean military,
+                    final boolean month,
+                    final boolean day,
+                    final boolean year,
+                    final boolean hour,
+                    final boolean minute,
+                    final boolean second) {
     super();
     _month = month;
     _day = day;
@@ -144,13 +150,13 @@ public class DateEditor extends JPanel {
     _monthText.setBorder(BorderFactory.createEmptyBorder());
     _monthText.setHorizontalAlignment(JTextField.CENTER);
     _monthText.addFocusListener(new FocusListener() {
-      public void focusGained(FocusEvent fe) {
+      public void focusGained(final FocusEvent fe) {
         if(!fe.isTemporary()) {
           _monthText.setBackground(_textSelectedColor);
           _currentField = MONTH;
         }
       }
-      public void focusLost(FocusEvent fe) {
+      public void focusLost(final FocusEvent fe) {
         if(!fe.isTemporary()) {
           _monthText.setBackground(_textUnselectedColor);
           check(MONTH, _monthText.getText());
@@ -162,13 +168,13 @@ public class DateEditor extends JPanel {
     _dayText.setBorder(BorderFactory.createEmptyBorder());
     _dayText.setHorizontalAlignment(JTextField.CENTER);
     _dayText.addFocusListener(new FocusListener() {
-      public void focusGained(FocusEvent fe) {
+      public void focusGained(final FocusEvent fe) {
         if(!fe.isTemporary()) {
           _dayText.setBackground(_textSelectedColor);
           _currentField = DAY;
         }
       }
-      public void focusLost(FocusEvent fe) {
+      public void focusLost(final FocusEvent fe) {
         if(!fe.isTemporary()) {
           _dayText.setBackground(_textUnselectedColor);
           check(DAY, _dayText.getText());
@@ -180,13 +186,13 @@ public class DateEditor extends JPanel {
     _yearText.setBorder(BorderFactory.createEmptyBorder());
     _yearText.setHorizontalAlignment(JTextField.CENTER);
     _yearText.addFocusListener(new FocusListener() {
-      public void focusGained(FocusEvent fe) {
+      public void focusGained(final FocusEvent fe) {
         if(!fe.isTemporary()) {
           _yearText.setBackground(_textSelectedColor);
           _currentField = YEAR;
         }
       }
-      public void focusLost(FocusEvent fe) {
+      public void focusLost(final FocusEvent fe) {
         if(!fe.isTemporary()) {
           _yearText.setBackground(_textUnselectedColor);
           check(YEAR, _yearText.getText());
@@ -198,13 +204,13 @@ public class DateEditor extends JPanel {
     _hourText.setBorder(BorderFactory.createEmptyBorder());
     _hourText.setHorizontalAlignment(JTextField.CENTER);
     _hourText.addFocusListener(new FocusListener() {
-      public void focusGained(FocusEvent fe) {
+      public void focusGained(final FocusEvent fe) {
         if(!fe.isTemporary()) {
           _hourText.setBackground(_textSelectedColor);
           _currentField = HOUR;
         }
       }
-      public void focusLost(FocusEvent fe) {
+      public void focusLost(final FocusEvent fe) {
         if(!fe.isTemporary()) {
           _hourText.setBackground(_textUnselectedColor);
           check(HOUR, _hourText.getText());
@@ -216,13 +222,13 @@ public class DateEditor extends JPanel {
     _minuteText.setBorder(BorderFactory.createEmptyBorder());
     _minuteText.setHorizontalAlignment(JTextField.CENTER);
     _minuteText.addFocusListener(new FocusListener() {
-      public void focusGained(FocusEvent fe) {
+      public void focusGained(final FocusEvent fe) {
         if(!fe.isTemporary()) {
           _minuteText.setBackground(_textSelectedColor);
           _currentField = MINUTE;
         }
       }
-      public void focusLost(FocusEvent fe) {
+      public void focusLost(final FocusEvent fe) {
         if(!fe.isTemporary()) {
           _minuteText.setBackground(_textUnselectedColor);
           check(MINUTE, _minuteText.getText());
@@ -234,13 +240,13 @@ public class DateEditor extends JPanel {
     _secondText.setBorder(BorderFactory.createEmptyBorder());
     _secondText.setHorizontalAlignment(JTextField.CENTER);
     _secondText.addFocusListener(new FocusListener() {
-      public void focusGained(FocusEvent fe) {
+      public void focusGained(final FocusEvent fe) {
         if(!fe.isTemporary()) {
           _secondText.setBackground(_textSelectedColor);
           _currentField = SECOND;
         }
       }
-      public void focusLost(FocusEvent fe) {
+      public void focusLost(final FocusEvent fe) {
         if(!fe.isTemporary()) {
           _secondText.setBackground(_textUnselectedColor);
           check(SECOND, _secondText.getText());
@@ -252,13 +258,13 @@ public class DateEditor extends JPanel {
     _ampmText.setBorder(BorderFactory.createEmptyBorder());
     _ampmText.setHorizontalAlignment(JTextField.CENTER);
     _ampmText.addFocusListener(new FocusListener() {
-      public void focusGained(FocusEvent fe) {
+      public void focusGained(final FocusEvent fe) {
         if(!fe.isTemporary()) {
           _ampmText.setBackground(_textSelectedColor);
           _currentField = AMPM;
         }
       }
-      public void focusLost(FocusEvent fe) {
+      public void focusLost(final FocusEvent fe) {
         if(!fe.isTemporary()) {
           _ampmText.setBackground(_textUnselectedColor);
           check(AMPM, _ampmText.getText());
@@ -268,7 +274,7 @@ public class DateEditor extends JPanel {
     
   }
 
-  protected void addFields(Locale locale) {
+  protected void addFields(final Locale locale) {
     DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, locale);
     // not sure here, just assume US    
     boolean europe = false;
@@ -277,61 +283,68 @@ public class DateEditor extends JPanel {
     if(europe) {
       if(_day) {
         addField(DAY);
-        if(_month || _year)
+        if(_month || _year) {
           addField(DATESEPARATOR);
+        }
       }
       if(_month) {
         addField(MONTH);
-        if(_year)
-          addField(DATESEPARATOR);        
+        if(_year) {
+          addField(DATESEPARATOR);
+        }
       }
-    }
-    else {
+    } else {
       if(_month) {
         addField(MONTH);
-        if(_day || _year)
-          addField(DATESEPARATOR);        
+        if(_day || _year) {
+          addField(DATESEPARATOR);
+        }
       }
       if(_day) {
         addField(DAY);
-        if(_year)
-          addField(DATESEPARATOR);        
+        if(_year) {
+          addField(DATESEPARATOR);
+        }
       }
     }
     if(_year) {
       addField(YEAR);
-      if(_hour || _minute || _second)
+      if(_hour || _minute || _second) {
         addField(SPACER);
+      }
     }
     if(_hour) {
       addField(HOUR);
-      if(_minute || _second)
+      if(_minute || _second) {
         addField(TIMESEPARATOR);
+      }
     }
     if(_minute) {
       addField(MINUTE);
-      if(_second)
+      if(_second) {
         addField(TIMESEPARATOR);
+      }
     }
     if(_second) {
       addField(SECOND);
     }
-    if(!_military)
+    if(!_military) {
       addField(AMPM);
+    }
     
     // add the buttons
     JPanel buttonBox = new JPanel();
     buttonBox.setLayout(new BoxLayout(buttonBox, BoxLayout.Y_AXIS));
     BasicArrowButton upArrow = new BasicArrowButton(BasicArrowButton.NORTH);
     upArrow.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent ae) {
+      public void actionPerformed(final ActionEvent ae) {
         increment(_currentField, 1);
       }
     });
     buttonBox.add(upArrow);
     BasicArrowButton downArrow = new BasicArrowButton(BasicArrowButton.SOUTH);
     downArrow.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent ae) {
+      public void actionPerformed(final ActionEvent ae) {
         increment(_currentField, -1);
       }
     });
@@ -345,14 +358,14 @@ public class DateEditor extends JPanel {
     return (Calendar)_currentCalendar.clone();
   }
 
-  public void setCalendar(Calendar cal) {
-    Calendar old = (Calendar)_currentCalendar.clone();
+  public void setCalendar(final Calendar cal) {
+    final Calendar old = (Calendar)_currentCalendar.clone();
     _currentCalendar = (Calendar)cal.clone();
     fireDateChange(old, (Calendar)_currentCalendar.clone());
     populate();
   }
 
-  protected void addField(int field) {
+  protected void addField(final int field) {
     switch(field) {
     case SECOND:
       _internalPanel.add(_secondText);
@@ -384,6 +397,8 @@ public class DateEditor extends JPanel {
     case AMPM:
       _internalPanel.add(_ampmText);
       break;
+    default:
+      throw new IllegalArgumentException("Unknown constant: " + field);
     }
   }
 
@@ -395,8 +410,7 @@ public class DateEditor extends JPanel {
     long value = _currentCalendar.get(Calendar.YEAR);
     if(_year) {
       _yearText.setText(_twoFormat.format(value));
-    }
-    else {
+    } else {
       offset = value * 12; // to months
       System.out.println("months offset " + offset);
       _monthText.setColumns(8);
@@ -405,8 +419,7 @@ public class DateEditor extends JPanel {
     if(_month) {
       _monthText.setText(_twoFormat.format(value+1));
       offset = 0;
-    }
-    else {
+    } else {
       Calendar foo = (Calendar)_currentCalendar.clone();
       foo.set(Calendar.DATE, 1);
       // convert to days      
@@ -418,8 +431,7 @@ public class DateEditor extends JPanel {
     if(_day) {
       _dayText.setText(_twoFormat.format(value));
       offset = 0;
-    }
-    else {
+    } else {
       offset *= 24;
       System.out.println("hours offset " + offset);
       //offset = (offset + _currentCalendar.get(Calendar.DATE)) * 24; // to hours
@@ -427,15 +439,13 @@ public class DateEditor extends JPanel {
     }
     if(_military) {
       value = _currentCalendar.get(Calendar.HOUR_OF_DAY) + offset;
-    }
-    else {
+    } else {
       value = _currentCalendar.get(Calendar.HOUR) + offset;
     }
     if(_hour) {
       _hourText.setText(_twoFormat.format(value));
       offset = 0;
-    }
-    else {
+    } else {
       offset += _currentCalendar.get(Calendar.HOUR_OF_DAY) * 60; // to minutes
       _minuteText.setColumns(8);
     }
@@ -443,8 +453,7 @@ public class DateEditor extends JPanel {
     if(_minute) {
       _minuteText.setText(_twoFormat.format(value));
       offset = 0;
-    }
-    else {
+    } else {
       offset += _currentCalendar.get(Calendar.MINUTE) * 60; // to seconds
       _secondText.setColumns(8);
     }
@@ -455,12 +464,14 @@ public class DateEditor extends JPanel {
     }
     // don't care about offset anymore
 
-    if(!_military)
+    if(!_military) {
       _ampmText.setText(_currentCalendar.get(Calendar.AM_PM) == Calendar.AM ? "AM" : "PM");
+    }
   }
 
-  public void increment(int field, int amount) {
-    Object old = _currentCalendar.clone();
+  public void increment(final int field,
+                        final int amount) {
+    final Object old = _currentCalendar.clone();
     switch(field) {
     case SECOND:
       _currentCalendar.add(Calendar.SECOND, amount);
@@ -484,26 +495,27 @@ public class DateEditor extends JPanel {
       if(Math.IEEEremainder(amount, 2) != 0) {
         if(_currentCalendar.get(Calendar.AM_PM) == Calendar.AM) {
           _currentCalendar.add(Calendar.HOUR_OF_DAY, 12);
-        }
-        else {
+        } else {
           _currentCalendar.add(Calendar.HOUR_OF_DAY, -12);
         }
       }
       break;
+    default:
+      throw new IllegalArgumentException("Unknown constant: " + field);
     }
     populate();
     fireDateChange((Calendar)old, _currentCalendar);
   }
 
-  protected boolean check(int field, String text) {
+  protected boolean check(final int field,
+                          final String text) {
     if(field == AMPM) {
       // special case
     }
     int value;
     try {
       value = Integer.parseInt(text);
-    }
-    catch(NumberFormatException nfe) {
+    } catch(final NumberFormatException nfe) {
       populate();
       return false;
     }
@@ -515,10 +527,11 @@ public class DateEditor extends JPanel {
       _currentCalendar.set(Calendar.MINUTE, value);
       break;
     case HOUR:
-      if(_military)
+      if(_military) {
          _currentCalendar.set(Calendar.HOUR_OF_DAY, value);
-      else
+      } else {
         _currentCalendar.set(Calendar.HOUR, value);
+      }
       break;
     case DAY:
       _currentCalendar.set(Calendar.DATE, value);
@@ -536,15 +549,16 @@ public class DateEditor extends JPanel {
     return true;
   }
 
-  protected void fireDateChange(Calendar old, Calendar clone) {
+  protected void fireDateChange(final Calendar old,
+                                final Calendar clone) {
     _dateListener.firePropertyChange("date", old, clone);
   }
   
-  public void addDateListener(PropertyChangeListener l) {
+  public void addDateListener(final PropertyChangeListener l) {
     _dateListener.addPropertyChangeListener(l);
   }
 
-  public void removeDateListener(PropertyChangeListener l) {
+  public void removeDateListener(final PropertyChangeListener l) {
     _dateListener.removePropertyChangeListener(l);
   }
 

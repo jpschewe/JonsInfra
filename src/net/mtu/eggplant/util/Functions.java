@@ -30,16 +30,19 @@ package net.mtu.eggplant.util;
 /**
  * general functions that can be used in most any class
  * 
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
-public class Functions {
+public final class Functions {
 
+  private Functions() {}
+  
   /**
      Exit with an error message, when an exception occurs.
      @param e the exception
      @param msg the message
   **/
-  public static void fail(Exception e, String msg) {
+  public static void fail(final Exception e,
+                          final String msg) {
     System.err.println(msg + ": " +  e);
     System.exit(1);
   }
@@ -49,7 +52,7 @@ public class Functions {
      Convert an array to a string.
 
   **/
-  static public String printArray(Object[] array) {
+  public static String printArray(final Object[] array) {
     if(array == null) {
       return "NULL";
     }

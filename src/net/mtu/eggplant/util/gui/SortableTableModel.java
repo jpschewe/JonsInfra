@@ -30,7 +30,7 @@ package net.mtu.eggplant.util.gui;
 import javax.swing.table.TableModel;
 
 /**
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public interface SortableTableModel extends TableModel {
 
@@ -42,15 +42,15 @@ public interface SortableTableModel extends TableModel {
 
      @pre (column >= 0)
   **/
-  public void sort(final int column);
+  void sort(final int column);
 
   /**
      @return the index of the currently sorted column.
   **/
-  public int getSortedColumn();
+  int getSortedColumn();
 
   /**
      @return if the current column is sorted in ascending or descending order.
   **/
-  public boolean isAscending();
+  boolean isAscending();
 }

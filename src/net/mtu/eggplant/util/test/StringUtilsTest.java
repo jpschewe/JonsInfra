@@ -27,20 +27,21 @@
  */
 package net.mtu.eggplant.util.test;
 
-import net.mtu.eggplant.util.StringUtils;
-
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
 import junit.textui.TestRunner;
+
+import net.mtu.eggplant.util.StringUtils;
 
 /**
  * Test class for StringUtils.
  * 
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class StringUtilsTest extends TestCase {
 
-  static public void main(final String[] args) {
+  public static void main(final String[] args) {
     //Make sure exceptions are thrown for assertions
     System.setProperty("ASSERT_BEHAVIOR", "EXCEPTION");
 
@@ -51,7 +52,7 @@ public class StringUtilsTest extends TestCase {
     
   }
 
-  static public TestSuite suite() {
+  public static TestSuite suite() {
     return new TestSuite(StringUtilsTest.class);
   }
 

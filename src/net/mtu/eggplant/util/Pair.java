@@ -30,11 +30,11 @@ package net.mtu.eggplant.util;
 /**
  *  class to put multiple objects in one.
  *  
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class Pair extends Object {
 
-  public Pair(Object one, Object two) {
+  public Pair(final Object one, final Object two) {
     _one = one;
     _two = two;
   }

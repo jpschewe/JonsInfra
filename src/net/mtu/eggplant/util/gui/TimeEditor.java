@@ -28,16 +28,15 @@
 package net.mtu.eggplant.util.gui;
 
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 /**
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class TimeEditor extends JPanel {
-  public final static int HOUR = 1;
-  public final static int MINUTE = 2;
-  public final static int SECOND = 3;
-  public final static int TIMESEPARATOR = 4;
+  public static final int HOUR = 1;
+  public static final int MINUTE = 2;
+  public static final int SECOND = 3;
+  public static final int TIMESEPARATOR = 4;
   
   public TimeEditor() {
     

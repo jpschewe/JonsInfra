@@ -27,12 +27,11 @@
  */
 package net.mtu.eggplant.util;
 
-import java.beans.PropertyChangeListener;
 
 /**
  * generic class that allows objects to have names
  * 
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class BasicNamed extends DefaultBean implements Named {
 
@@ -51,7 +50,7 @@ public class BasicNamed extends DefaultBean implements Named {
      get the name of the object.
      @return the name
   **/
-  final public String getName() {
+  public final String getName() {
     return _name;
   }
 

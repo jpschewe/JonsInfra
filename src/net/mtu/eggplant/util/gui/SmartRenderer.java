@@ -27,23 +27,22 @@
  */
 package net.mtu.eggplant.util.gui;
 
-import net.mtu.eggplant.util.Named;
-import net.mtu.eggplant.util.Unique;
-
 import java.awt.Component;
 
-import javax.swing.ListCellRenderer;
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.JList;
-import javax.swing.JTree;
 import javax.swing.Icon;
-import javax.swing.border.Border;
-import javax.swing.table.TableCellRenderer;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JTable;
+import javax.swing.JTree;
+import javax.swing.ListCellRenderer;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.tree.TreeCellRenderer;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreeCellRenderer;
+
+import net.mtu.eggplant.util.Named;
+import net.mtu.eggplant.util.Unique;
 
 /**
  * <p>Class that knows how to render lots of things.  If you want to create a
@@ -60,7 +59,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
  *   <li>Icon</li>
  * </ul>
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class SmartRenderer implements ListCellRenderer, TableCellRenderer, TreeCellRenderer {
 
@@ -74,7 +73,7 @@ public class SmartRenderer implements ListCellRenderer, TableCellRenderer, TreeC
   private DefaultListCellRenderer _listRenderer;
   private DefaultTableCellRenderer _tableRenderer;
   
-  final public Component getListCellRendererComponent(final JList list,
+  public final Component getListCellRendererComponent(final JList list,
                                                       final Object value,
                                                       final int index,
                                                       final boolean isSelected,
@@ -94,7 +93,7 @@ public class SmartRenderer implements ListCellRenderer, TableCellRenderer, TreeC
     return renderer;
   }
 
-  final public Component getTableCellRendererComponent(final JTable table,
+  public final Component getTableCellRendererComponent(final JTable table,
                                                        final Object value,
                                                        final boolean isSelected,
                                                        final boolean hasFocus,

@@ -28,16 +28,16 @@
 package net.mtu.eggplant.util.gui;
 
 import javax.swing.JTable;
-import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 /**
  * utilities for working with tables
  * 
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
-final public class TableUtils {
+public final class TableUtils {
 
   private TableUtils() {
     // don't create instances

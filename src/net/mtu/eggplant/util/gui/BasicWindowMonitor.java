@@ -37,7 +37,7 @@ import java.awt.Window;
  *
  * @author Jon Schewe
  * @since schedinfra 1.2
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class BasicWindowMonitor extends WindowAdapter {
 
@@ -45,8 +45,8 @@ public class BasicWindowMonitor extends WindowAdapter {
      dispose of the window and exit the application
      @param e the event
   **/
-  public void windowClosing(WindowEvent e) {
-    Window w = e.getWindow();
+  public void windowClosing(final WindowEvent e) {
+    final Window w = e.getWindow();
     w.setVisible(false);
     w.dispose();
     System.exit(0);

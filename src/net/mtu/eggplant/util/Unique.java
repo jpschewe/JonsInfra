@@ -36,25 +36,22 @@ import java.util.Comparator;
  * to implement this is to create a new {@link DefaultUnique} object in the
  * constructor and delegate the getUID() method to that object.
  * 
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public interface Unique {
-  public long getUID();
+  long getUID();
 
   /**
      Comparator for comparing unique objects.
   **/
-  final static public Comparator UNIQUE_COMPARATOR = new UComparator();
+  static final Comparator UNIQUE_COMPARATOR = new UComparator();
 
   /**
      This is here just because javadoc and javac don't agree on what is valid
      java code.
   **/
-  final static /*package*/ class UComparator implements Comparator {
+  /*package*/ static final class UComparator implements Comparator {
     private UComparator() {}
-    public boolean equals(final Object o) {
-      return o == this;
-    }
     
     /**
        @throws ClassCastException if o1 and o2 are not instances of Unique

@@ -32,9 +32,9 @@ import java.sql.Types;
 /**
  * Handy functions for SQL
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
-public class SQLFunctions {
+public final class SQLFunctions {
 
   private SQLFunctions() {
   }
@@ -42,7 +42,7 @@ public class SQLFunctions {
   /**
    * Do simple mapping from an SQL type to a Java Class.
    */
-  public static Class getClassForType(int type) {
+  public static Class getClassForType(final int type) {
     try {
       switch(type) {
       case Types.CHAR:
@@ -81,8 +81,7 @@ public class SQLFunctions {
       default:
         return Class.forName("java.lang.Object");
       }
-    }
-    catch(ClassNotFoundException cnfe) {
+    } catch(final ClassNotFoundException cnfe) {
       throw new RuntimeException("Can't find standard class type " + cnfe);
     }
   }

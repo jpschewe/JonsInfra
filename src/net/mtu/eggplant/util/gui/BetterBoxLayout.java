@@ -27,28 +27,28 @@
  */
 package net.mtu.eggplant.util.gui;
 
-import java.awt.LayoutManager2;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Component;
 import java.awt.Insets;
+import java.awt.LayoutManager2;
 
 /**
  * Lets box be it's preferred size and lays out components inside accordingly.
  * Currently only veritcal layout is supported.
  * 
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class BetterBoxLayout implements LayoutManager2 {
 
   /**
      Layout components along the Y axis.
   **/
-  final static public BetterBoxLayout_Orientation VERTICAL = new BetterBoxLayout_Orientation();
+  public static final BetterBoxLayoutOrientation VERTICAL = new BetterBoxLayoutOrientation();
   /**
      Layout components along the X axis.
   **/
-  final static public BetterBoxLayout_Orientation HORIZONTAL = new BetterBoxLayout_Orientation();
+  public static final BetterBoxLayoutOrientation HORIZONTAL = new BetterBoxLayoutOrientation();
 
   /**
      Create a BetterBoxLayout with a HORIZONTAL orientation, ie. components
@@ -61,7 +61,7 @@ public class BetterBoxLayout implements LayoutManager2 {
   /**
      Create a BetterBoxLayout with given orientation.
   **/
-  public BetterBoxLayout(final BetterBoxLayout_Orientation orientation ) {
+  public BetterBoxLayout(final BetterBoxLayoutOrientation orientation ) {
     _orientation = orientation;
   }
   
@@ -148,6 +148,6 @@ public class BetterBoxLayout implements LayoutManager2 {
   /**
      Private class to simulate enum types.
   **/
-  static private class BetterBoxLayout_Orientation {}
+  private static final class BetterBoxLayoutOrientation {}
   
 }

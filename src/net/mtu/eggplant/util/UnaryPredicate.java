@@ -30,9 +30,9 @@ package net.mtu.eggplant.util;
 /**
  * Basic unary predicate.
  * 
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public interface UnaryPredicate {
   
-  public boolean execute(final Object o);
+  boolean execute(final Object o);
 }

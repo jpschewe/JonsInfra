@@ -35,9 +35,11 @@ import java.io.PrintStream;
  * may study, use, modify, and distribute this example for any purpose.  This
  * example is provided WITHOUT WARRANTY either expressed or implied.
  * 
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
-public class ThreadLister {
+public final class ThreadLister {
+
+  private ThreadLister() { }
   
   /**
      Display info about a thread.
@@ -45,9 +47,12 @@ public class ThreadLister {
      @param t the thread to get info on
      @param indent how much to indent
   **/
-  public static void print_thread_info(PrintStream out, Thread t, 
-                                       String indent) {
-    if (t == null) return;
+  public static void printThreadInfo(final PrintStream out,
+                                     final Thread t, 
+                                     final String indent) {
+    if (t == null) {
+      return;
+    }
     out.println(indent + "Thread: " + t.getName() +
                 "  Priority: " + t.getPriority() +
                 (t.isDaemon()?" Daemon":"") +
@@ -60,13 +65,16 @@ public class ThreadLister {
      @param g the thread group
      @param indent how much to indent
   **/
-  public static void list_group(PrintStream out, ThreadGroup g, 
-                                String indent) {
-    if (g == null) return;
-    int num_threads = g.activeCount();
-    int num_groups = g.activeGroupCount();
-    Thread[] threads = new Thread[num_threads];
-    ThreadGroup[] groups = new ThreadGroup[num_groups];
+  public static void listGroup(final PrintStream out,
+                               final ThreadGroup g, 
+                               final String indent) {
+    if (g == null) {
+      return;
+    }
+    int numThreads = g.activeCount();
+    int numGroups = g.activeGroupCount();
+    Thread[] threads = new Thread[numThreads];
+    ThreadGroup[] groups = new ThreadGroup[numGroups];
         
     g.enumerate(threads, false);
     g.enumerate(groups, false);
@@ -75,38 +83,40 @@ public class ThreadLister {
                 "  Max Priority: " + g.getMaxPriority() +
                 (g.isDaemon()?" Daemon":""));
         
-    for(int i = 0; i < num_threads; i++)
+    for(int i = 0; i < numThreads; i++) {
       print_thread_info(out, threads[i], indent + "    ");
-    for(int i = 0; i < num_groups; i++)
+    }
+    for(int i = 0; i < numGroups; i++) {
       list_group(out, groups[i], indent + "    ");
+    }
   }
     
   /**
      Find the root thread group and list it recursively
      @param out the stream to print on
   **/
-  public static void listAllThreads(PrintStream out) {
-    ThreadGroup current_thread_group;
-    ThreadGroup root_thread_group;
+  public static void listAllThreads(final PrintStream out) {
+    ThreadGroup currentThreadGroup;
+    ThreadGroup rootThreadGroup;
     ThreadGroup parent;
         
     // Get the current thread group
-    current_thread_group = Thread.currentThread().getThreadGroup();
+    currentThreadGroup = Thread.currentThread().getThreadGroup();
         
     // Now go find the root thread group
-    root_thread_group = current_thread_group;
-    parent = root_thread_group.getParent();
+    rootThreadGroup = currentThreadGroup;
+    parent = rootThreadGroup.getParent();
     while(parent != null) {
-      root_thread_group = parent;
+      rootThreadGroup = parent;
       parent = parent.getParent();
     }
         
     // And list it, recursively
-    list_group(out, root_thread_group, "");
+    listGroup(out, rootThread_group, "");
   }
     
     
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     ThreadLister.listAllThreads(System.out);
   }
 }

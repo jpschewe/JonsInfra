@@ -34,15 +34,18 @@ package net.mtu.eggplant.util;
  * flag on a row in the data to determine if a cell is editable.  By default a
  * column is read only.
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class ColumnHeader extends DefaultNamed {
 
-  public ColumnHeader(String name, Class theClass) {
+  public ColumnHeader(final String name,
+                      final Class theClass) {
     this(name, theClass, true);
   }
   
-  public ColumnHeader(String name, Class theClass, boolean readonly) {
+  public ColumnHeader(final String name,
+                      final Class theClass,
+                      final boolean readonly) {
     super(name);
     setClass(theClass);
     setReadOnly(readonly);
@@ -61,7 +64,7 @@ public class ColumnHeader extends DefaultNamed {
      set the class for this column.
      @param theClass the new class
   **/
-  public void setClass(Class theClass) {
+  public void setClass(final Class theClass) {
     _className = theClass;
   }
 
@@ -72,7 +75,7 @@ public class ColumnHeader extends DefaultNamed {
      set the read only flag on this column.
      @param readonly the flag
   **/
-  public void setReadOnly(boolean readonly) {
+  public void setReadOnly(final boolean readonly) {
     _readOnly = readonly;
   }
 

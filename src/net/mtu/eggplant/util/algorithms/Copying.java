@@ -27,16 +27,16 @@
  */
 package net.mtu.eggplant.util.algorithms;
 
-import net.mtu.eggplant.util.Function;
-  
 import java.util.Collection;
+
+import net.mtu.eggplant.util.Function;
 
 /**
  * Some copy algorithms for Collections.
  * 
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
-final public class Copying {
+public final class Copying {
 
   private Copying() {}
 
@@ -46,7 +46,7 @@ final public class Copying {
      @pre (source != null)
      @pre (dest != null)
   **/
-  static public void copy(final Collection source, final Collection dest) {
+  public static void copy(final Collection source, final Collection dest) {
     Applying.forEach(source, new Function() {
       public void execute(final Object o) {
         dest.add(o);

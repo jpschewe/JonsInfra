@@ -27,17 +27,17 @@
  */
 package net.mtu.eggplant.util.algorithms;
 
-import net.mtu.eggplant.util.UnaryPredicate;
-
 import java.util.Collection;
 import java.util.Iterator;
+
+import net.mtu.eggplant.util.UnaryPredicate;
 
 /**
  * Ways to find things in collections.
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
-final public class Finding {
+public final class Finding {
 
   private Finding() {}
 
@@ -45,7 +45,7 @@ final public class Finding {
      @return true if every element in collection causes predicate to return
      true.  An empty collection returns true.
   **/
-  static public boolean every(final Collection collection, final UnaryPredicate predicate) {
+  public static boolean every(final Collection collection, final UnaryPredicate predicate) {
     final Iterator iter = collection.iterator();
     boolean retval = true;
     while(iter.hasNext() && retval) {
@@ -59,7 +59,7 @@ final public class Finding {
      @return true if some element in collection causes predicate to return
      true.  An empty collection returns false.
   **/
-  static public boolean some(final Collection collection, final UnaryPredicate predicate) {
+  public static boolean some(final Collection collection, final UnaryPredicate predicate) {
     final Iterator iter = collection.iterator();
     boolean retval = false;
     while(iter.hasNext() && !retval) {
@@ -73,7 +73,7 @@ final public class Finding {
     @return the first object in collection that predicate returns true for.
     Null if none found.
   **/
-  static public Object detect(final Collection collection, final UnaryPredicate predicate) {
+  public static Object detect(final Collection collection, final UnaryPredicate predicate) {
     final Iterator iter = collection.iterator();
     while(iter.hasNext()) {
       final Object o = iter.next();

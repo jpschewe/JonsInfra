@@ -30,9 +30,9 @@ package net.mtu.eggplant.util;
 /**
  * Some handy utilities for working with strings.
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
-final public class StringUtils {
+public final class StringUtils {
 
   private StringUtils() {}
 
@@ -46,7 +46,7 @@ final public class StringUtils {
      @pre (search != null)
      @pre (replace != null)
   **/
-  static public String searchAndReplace(final String source, final String search, final String replace) {
+  public static String searchAndReplace(final String source, final String search, final String replace) {
     final String newString;
     final int index = source.indexOf(search);
     if(index != -1) {

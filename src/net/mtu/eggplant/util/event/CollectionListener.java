@@ -32,7 +32,7 @@ import java.util.EventListener;
 /**
  * Listener for events fired on collections that change.
  * 
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public interface CollectionListener extends EventListener {
 
@@ -40,12 +40,12 @@ public interface CollectionListener extends EventListener {
      Called to notify the listener that objects have been added to the
      Collection.
   **/
-  public void objectsAdded(final CollectionEvent ce);
+  void objectsAdded(final CollectionEvent ce);
 
   /**
      Called to notify the listener that objects have been removed from the
      Collection.
   **/
-  public void objectsRemoved(final CollectionEvent ce);
+  void objectsRemoved(final CollectionEvent ce);
 
 }

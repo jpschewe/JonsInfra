@@ -32,9 +32,9 @@ import net.mtu.eggplant.util.UnaryPredicate;
 /**
  * return true if object is an instanceof type.
  * 
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
-final public class InstanceOf implements UnaryPredicate {
+public final class InstanceOf implements UnaryPredicate {
 
   /**
      @pre (type != null)

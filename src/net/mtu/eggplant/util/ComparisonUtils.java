@@ -30,9 +30,9 @@ package net.mtu.eggplant.util;
 /**
  * Handy comparision routines.
  * 
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
-final public class ComparisonUtils {
+public final class ComparisonUtils {
 
   private ComparisonUtils() {}
 
@@ -40,7 +40,7 @@ final public class ComparisonUtils {
   /**
      true is always greater than false.
   **/
-  static public int compareBooleans(final boolean one, final boolean two) {
+  public static int compareBooleans(final boolean one, final boolean two) {
     if(one == two) {
       return 0;
     } else if(one) {
@@ -53,7 +53,7 @@ final public class ComparisonUtils {
   /**
      Compare two non-floating point numbers.
   **/
-  static public int compareIntegers(final long one, final long two) {
+  public static int compareIntegers(final long one, final long two) {
     if(one == two) {
       return 0;
     } else if(one < two) {
@@ -67,7 +67,7 @@ final public class ComparisonUtils {
      Compare two doubles.  Comparisions exist for double and float because
      casting a float to a double and vice versa can cause loss of precision.
   **/
-  static public int compareDoubles(final double one, final double two) {
+  public static int compareDoubles(final double one, final double two) {
     if(one == two) {
       return 0;
     } else if(one < two) {
@@ -81,7 +81,7 @@ final public class ComparisonUtils {
      Compare two floats.  Comparisions exist for double and float because
      casting a float to a double and vice versa can cause loss of precision.
   **/
-  static public int compareFloats(final float one, final float two) {
+  public static int compareFloats(final float one, final float two) {
     if(one == two) {
       return 0;
     } else if(one < two) {
@@ -94,7 +94,7 @@ final public class ComparisonUtils {
   /**
      Compare two Strings, null is allowed and is greater than every non-null String.
   **/
-  static public int compareStrings(final String one, final String two) {
+  public static int compareStrings(final String one, final String two) {
     if(one == null && two != null) {
       return 1;
     } else if(one != null && two == null) {

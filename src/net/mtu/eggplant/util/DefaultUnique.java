@@ -31,7 +31,7 @@ package net.mtu.eggplant.util;
  * Default implementation of the {@link Unique} interface.  Can be used as a
  * delegate.
  * 
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class DefaultUnique implements Unique {
 
@@ -42,11 +42,15 @@ public class DefaultUnique implements Unique {
     _uid = _nextUID++;
   }
   
-  static private long _nextUID = Long.MIN_VALUE;
+  private static long _nextUID = Long.MIN_VALUE;
 
   private long _uid;
-  final public long getUID() {
+  public final long getUID() {
     return _uid;
+  }
+
+  public int hashCode() {
+    return (int)getUID();
   }
   
   public boolean equals(final Object o) {

@@ -29,7 +29,6 @@ package net.mtu.eggplant.util.sql;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -50,13 +49,14 @@ import org.apache.log4j.Logger;
  * connection.  It is hardcoded to use either the standard jdbc to odbc driver
  * or to use the rmi driver.
  * 
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class SQLConnectionDialog extends JDialog {
 
   private static final Logger LOG = Logger.getLogger(SQLConnectionDialog.class);
   
-  public SQLConnectionDialog(java.awt.Frame parent, StringPair[] drivers) {
+  public SQLConnectionDialog(final java.awt.Frame parent,
+                             final StringPair[] drivers) {
     super(parent, "Open JDBC Connection", true);
     _drivers = drivers;
     
@@ -181,8 +181,7 @@ public class SQLConnectionDialog extends JDialog {
     
     try {
       Class.forName(sp.getStringTwo()).newInstance();
-    }
-    catch(Exception e) {
+    } catch(final Exception e) {
       System.err.println("Couldn't find driver: " + sp.getStringTwo());
       _connection = null;
       return;
@@ -191,8 +190,7 @@ public class SQLConnectionDialog extends JDialog {
 
     try {
       Class.forName("RmiJdbc.RJDriver").newInstance();
-    }
-    catch(Exception e) {
+    } catch(final Exception e) {
       LOG.debug("Couldn't find the driver");
       _connection = null;
       return;
@@ -214,8 +212,7 @@ public class SQLConnectionDialog extends JDialog {
       
     try {
       _connection = DriverManager.getConnection(connectString, user, pass);
-    }
-    catch(SQLException sqle) {
+    } catch(final SQLException sqle) {
       LOG.debug("caught sql error opening connection: " + sqle);
       _connection = null;
     }
@@ -228,10 +225,9 @@ public class SQLConnectionDialog extends JDialog {
   public Connection getConnection() { return _connection; }
 
   private StringPair[] _drivers = null;
-  protected Connection _connection = null;
-  protected JTextField _userText;
-  //protected DefaultComboBoxModel _driverModel;
-  protected JComboBox _driverCombo;
-  protected JPasswordField _passText;
-  protected JTextField _dataSourceText;
+  private Connection _connection = null;
+  private JTextField _userText;
+  private JComboBox _driverCombo;
+  private JPasswordField _passText;
+  private JTextField _dataSourceText;
 }

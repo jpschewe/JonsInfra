@@ -27,12 +27,10 @@
  */
 package net.mtu.eggplant.util;
 
-import java.beans.PropertyChangeListener;
-
 /**
  * generic class that allows objects to have names and listeners
  * 
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class DefaultNamed extends DefaultBean implements Named {
 
@@ -51,7 +49,7 @@ public class DefaultNamed extends DefaultBean implements Named {
      Set the name for the object.  This is a bound property.
      @param n the new name
   **/
-  final public void setName(final String n) {
+  public final void setName(final String n) {
     final String old = new String(n);
     _name = n;
     fireNameChange(old, new String(_name));
@@ -61,11 +59,12 @@ public class DefaultNamed extends DefaultBean implements Named {
      get the name of the object.
      @return the name
   **/
-  final public String getName() {
+  public final String getName() {
     return _name;
   }
 
-  final protected void fireNameChange(String old, String clone) {
+  protected final void fireNameChange(final String old,
+                                      final String clone) {
     firePropertyChange("name", old, clone);
   }
 

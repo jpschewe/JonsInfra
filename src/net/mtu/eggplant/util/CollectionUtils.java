@@ -27,18 +27,19 @@
  */
 package net.mtu.eggplant.util;
 
-import net.mtu.eggplant.util.predicates.InstanceOf;
-import net.mtu.eggplant.util.algorithms.Finding;
-
 import java.util.Collection;
 import java.util.HashMap;
+
+import net.mtu.eggplant.util.algorithms.Finding;
+
+import net.mtu.eggplant.util.predicates.InstanceOf;
 
 /**
  * Handy utilities for working with Collections that Sun didn't provide.
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
-final public class CollectionUtils {
+public final class CollectionUtils {
   private CollectionUtils() {}
 
   /**
@@ -47,7 +48,7 @@ final public class CollectionUtils {
      @pre (collection != null)
      @pre (type != null)
   **/
-  static public boolean checkInstanceOf(final Collection collection, final Class type) {
+  public static boolean checkInstanceOf(final Collection collection, final Class type) {
     return Finding.every(collection, new InstanceOf(type));
   }
 
@@ -57,7 +58,7 @@ final public class CollectionUtils {
    * @pre (expectedSize >= 0)
    * @pre (loadRatio > 0)
    */
-  static public HashMap createHashMap(final int expectedSize,
+  public static HashMap createHashMap(final int expectedSize,
                                       final float loadRatio) {
     return new HashMap(Math.max(1, (int)Math.ceil((float)expectedSize/loadRatio)), loadRatio);
   }
@@ -69,7 +70,7 @@ final public class CollectionUtils {
    * 
    * @pre (expectedSize >= 0)
    */
-  static public HashMap createHashMap(final int expectedSize) {
+  public static HashMap createHashMap(final int expectedSize) {
     return createHashMap(expectedSize, 0.75F);
   }
   

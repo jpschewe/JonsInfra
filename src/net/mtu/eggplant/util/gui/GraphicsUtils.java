@@ -30,7 +30,6 @@ package net.mtu.eggplant.util.gui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -53,10 +52,14 @@ import javax.swing.JOptionPane;
  *
  * @author Jon Schewe
  * 
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
-public class GraphicsUtils {
+public final class GraphicsUtils {
 
+  private GraphicsUtils() {
+    //no instances
+  }
+  
   /**
      a basic main for testing a graphical class.  Takes the component and puts 
      * in in a JFrame or JDialog and shows the window.
@@ -70,8 +73,7 @@ public class GraphicsUtils {
     if(dialog) {
       window = new JDialog();
       container = ((JDialog)window).getContentPane();
-    }
-    else {
+    } else {
       window = new JFrame();
       container = ((JFrame)window).getContentPane();      
     }
@@ -190,21 +192,21 @@ public class GraphicsUtils {
 
      @pre (path != null)
   **/
-  static public ImageIcon getIcon(final String path) {
+  public static ImageIcon getIcon(final String path) {
     return new ImageIcon(ClassLoader.getSystemClassLoader().getResource(path));
   }
 
   /**
      Popup a warning dialog displaying <tt>message</tt>.
   **/
-  static public void notImplemented(final String message) {
+  public static void notImplemented(final String message) {
     JOptionPane.showMessageDialog(null, message, "Not Implemented", JOptionPane.WARNING_MESSAGE);
   }
 
   /**
      Popup an error dialog with <tt>message</tt> in it.
   **/
-  static public void error(final String message) {
+  public static void error(final String message) {
     JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.WARNING_MESSAGE);
   }
   

@@ -27,17 +27,17 @@
  */
 package net.mtu.eggplant.util.algorithms;
 
-import net.mtu.eggplant.util.Function;
-
 import java.util.Collection;
 import java.util.Iterator;
+
+import net.mtu.eggplant.util.Function;
 
 /**
  * Ways to apply things to Collections.
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
-final public class Applying {
+public final class Applying {
   private Applying() {}
 
   /**
@@ -49,7 +49,7 @@ final public class Applying {
      @pre (collection != null)
      @pre (func != null)
   **/
-  static public void forEach(final Collection collection, final Function func) {
+  public static void forEach(final Collection collection, final Function func) {
     final Iterator iter = collection.iterator();
     while(iter.hasNext()) {
       final Object o = iter.next();

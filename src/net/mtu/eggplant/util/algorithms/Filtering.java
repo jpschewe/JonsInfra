@@ -27,17 +27,17 @@
  */
 package net.mtu.eggplant.util.algorithms;
 
+import java.util.Collection;
+
 import net.mtu.eggplant.util.Function;
 import net.mtu.eggplant.util.UnaryPredicate;
-
-import java.util.Collection;
 
 /**
  * Utility functions for filtering collections.
  * 
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
-final public class Filtering {
+public final class Filtering {
 
   private Filtering() {}
 
@@ -53,7 +53,7 @@ final public class Filtering {
      @pre (dest != null)
      @pre (predicate != null)
   **/
-  static public void select(final Collection source, final Collection dest, final UnaryPredicate predicate) throws UnsupportedOperationException {
+  public static void select(final Collection source, final Collection dest, final UnaryPredicate predicate) throws UnsupportedOperationException {
     Applying.forEach(source, new Function() {
       public void execute(final Object o) {
         if(predicate.execute(o)) {
