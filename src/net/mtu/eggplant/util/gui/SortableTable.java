@@ -42,7 +42,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.Enumeration;
 
 /**
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class SortableTable extends JTable {
 
@@ -77,7 +77,7 @@ public class SortableTable extends JTable {
     super.setModel(tm);
   }
 
-    private MouseAdapter _columnListener = new MouseAdapter() {
+  private MouseAdapter _columnListener = new MouseAdapter() {
     public void mouseClicked(final MouseEvent me) {
       final JTableHeader header = getTableHeader(); 
       final TableColumnModel colModel = getColumnModel();

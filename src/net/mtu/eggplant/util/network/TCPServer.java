@@ -41,7 +41,7 @@ import java.io.IOException;
 /**
  * Simple TCP server class
  * 
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class TCPServer extends Object implements Runnable, Cloneable {
   public final static int DEFAULT_PORT = 6789;
@@ -63,7 +63,7 @@ public class TCPServer extends Object implements Runnable, Cloneable {
   /**
      Create a ServerSocket to listen for connections on
      If port < 0 or port > 65535 port defaults to DEFAULT_PORT.
-     @param the port to listen on
+     @param port the port to listen on
   **/
   public TCPServer(int port) {
     if (port < 0 || port > 65535) {
@@ -115,9 +115,8 @@ public class TCPServer extends Object implements Runnable, Cloneable {
   }
 
   /**
-     actually make the connection and wait for data.
-     @param socket the socket we just connected to
-  **/
+   * actually make the connection and wait for data.
+   */
   public void initializeConnection() {
     try { 
       _input = new BufferedReader(new

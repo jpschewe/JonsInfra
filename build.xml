@@ -9,7 +9,7 @@
   
   <property name="instrument.dir"  value="instrumented" />
 
-  <property name="cvs.root" value="disk:/export/CVS-Repository" />
+  <property name="cvs.root" value="/net/CVS-Repository" />
   <property name="cvs.module" value="infra" />
 
   <!-- used for building releases -->
@@ -19,7 +19,7 @@
   <property name="release.html.dir" value="/home/jpschewe/public_html/mtu.net/public_html" />
             
   <!-- used for *.javadoc -->
-  <property name="local.java.packages" value="http://disk.mn.mtu.net/package-docs/java" />
+  <property name="local.java.packages" value="http://netserver.mn.mtu.net/package-docs/java" />
   <property name="nightly.html.dir" value="/net/package-docs/projects" />
 
   <path id="base.classpath">
@@ -79,7 +79,7 @@
   
   <!-- FIX should make one that people can use locally and one for nightly,
   plus release.  Local one will not reference external packages, nightly one
-  is stored on disk, release is set to goto mtu.net -->
+  is stored on netserver, release is set to goto mtu.net -->
 
   <!-- do a local build without external links -->
   <target name="local.javadoc">

@@ -1,3 +1,7 @@
+2003-07-02  Jon Schewe  <jpschewe@mtu.net>
+
+	* src/net/mtu/eggplant/util/network/TCPServer.java: Fixed javadoc
+
 2002-09-30  Jon Schewe  <jpschewe@mtu.net>
 
 	* src/net/mtu/eggplant/util/BasicFileFilter.java: Modified accept
