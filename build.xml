@@ -116,12 +116,19 @@
       <fileset dir="${basedir}">
         <include name="ChangeLog" />
         <include name="doc/*" />
-        <include name="lib/*" />
       </fileset>
       <filterset>
         <filter token="APP-VERSION" value="${app.version}" />
       </filterset>
     </copy>
+
+    <copy todir="${release.html.dir}/${app.name}/${app.version}"
+          flatten="true">
+      <fileset dir="${basedir}">
+        <include name="lib/*" />
+      </fileset>
+    </copy>
+
 
     <!-- zip source to web directory -->
     <zip basedir="${basedir}"
@@ -140,7 +147,7 @@
 
     <!-- build the jar -->
     <jar jarfile="${release.html.dir}/${app.name}/${app.version}/${app.name}-${app.version}.jar"
-         basedir="${basedir}/build"
+         basedir="${basedir}/build/classes"
          />
     
     <!-- generate javadoc -->
