@@ -15,7 +15,7 @@
   <!-- used for building releases -->
   <property name="app.name"   value="JonsInfra" />
   <property name="app.version" value="0.2" />
-  <property name="release.cvs.tag" value="JonsInfra_0_2" />
+  <property name="release.cvs.tag" value="JonsInfra_0_2_1" />
   <property name="release.html.dir" value="/home/jpschewe/public_html/mtu.net/public_html" />
             
   <!-- used for *.javadoc -->
@@ -143,7 +143,8 @@
          tag="${release.cvs.tag}" />
 
     <!-- copy index.html, ChangeLog to web directory -->
-    <copy todir="${release.html.dir}/JonsInfra/${app.version}">
+    <copy todir="${release.html.dir}/JonsInfra/${app.version}"
+          flatten="true">
       <fileset dir="${temp.dir}/infra">
         <include name="ChangeLog" />
         <include name="doc/index.html" />
@@ -171,11 +172,13 @@
           />
 
     
+    <!-- generate javadoc -->
+    <antcall target="release.javadoc" />
+
     <!-- delete the temp files -->
     <delete dir="${temp.dir}" />
     
-    <!-- generate javadoc -->
-    <antcall target="release.javadoc" />
+    <echo message="Remember to sync out to mtu.net" />
   </target>
   
   <target name="release.javadoc">
@@ -192,7 +195,7 @@
              use="true"
              splitindex="true"
              version="true"
-             windowtitle="JonsInfra"
+             windowtitle="JonsInfra-${app.version}"
              destdir="${release.html.dir}/JonsInfra/${app.version}/api"
              additionalparam="-tag beaninfo:a:BeanInfo -tag test:a:Tests -tag pre:cm:PreConditions -tag post:cm:PostConditions -tag invariant:tc:Invariants -breakiterator"
              >
