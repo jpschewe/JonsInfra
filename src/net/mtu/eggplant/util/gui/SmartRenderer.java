@@ -42,7 +42,6 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
 
 import net.mtu.eggplant.util.Named;
-import net.mtu.eggplant.util.Unique;
 
 /**
  * <p>Class that knows how to render lots of things.  If you want to create a
@@ -54,12 +53,11 @@ import net.mtu.eggplant.util.Unique;
  *
  * <p>Known types</p>
  * <ul>
- *   <li>Unique</li>
  *   <li>Named</li>
  *   <li>Icon</li>
  * </ul>
  * 
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class SmartRenderer implements ListCellRenderer, TableCellRenderer, TreeCellRenderer {
 
@@ -143,8 +141,6 @@ public class SmartRenderer implements ListCellRenderer, TableCellRenderer, TreeC
   public String getStringValue(final Object value) {
     if(value instanceof Named) {
       return ((Named)value).getName();
-    } else if(value instanceof Unique) {
-      return Long.toString(((Unique)value).getUID());
     } else {
       return value.toString();
     }

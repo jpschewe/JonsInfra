@@ -1,0 +1,61 @@
+Creating Tags
+-------------
+
+1) Choose a tag string.  By convention thus far, tag strings are of the
+form "mald_M_m", where "MM" is the major rev number and mm is the
+minor rev number.  They need not be sequential, or include any numeric
+content at all.  As far as CVS is concerned, this is just a string.
+Don't use dashes.
+
+2) Commit *all* of your changes.  To avoid possible conflicts between
+multiple users of the repository, you are going to apply tags to the
+files in your working directory.  Therefore, CVS has to assign revision 
+numbers to those files, which it will do, when you commit.
+
+3) Modify this file and commit it.
+
+4) Finally, apply the tag: "cvs tag YOUR_TAG_STRING".
+
+Using Tags
+----------
+
+To check out a tagged version:
+
+In working directory:
+% cvs update -r YOUR_TAG_STRING
+
+In a new directory:
+% cvs -d PATH/TO/REPOSITORY checkout -r TAG_STRING mald
+
+  WARNING!!! If you check out a tagged version and then commit
+  changes, you will create a new branch in the revision tree! This is
+  almost certainly *not* what you want.  To return to the head of the 
+  revision tree, reset sticky tags with "cvs update -A".
+
+To get a copy of a tagged version without CVS admin files to use for
+distribution:
+
+% cvs -d PATH/TO/REPOSITORY export -r TAG_STRING mald
+
+To diff between a tagged version:
+
+% cvs diff -r TAG_STRING
+
+To diff between two tagged versions:
+
+% cvs diff -r TAG_STRING -r ANOTHER_TAG_STRING
+
+TAG                Date                  What
+----------------------------------------------------------------------
+
+JonsInfra_0_2      2002/08/25           First release in CVS
+
+JonsInfra_0_2_1    ??                   Bug fix release
+
+JonsInfra_0_3      2004/01/22           Lots of updates
+
+JonsInfra_0_4      2004/01/28           Some small updates for geometry
+
+JonsInfra_0_5      2004/11/12           Redid build process based on what I
+					learned on other projects and
+					hooked in commons-collections.

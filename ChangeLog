@@ -1,3 +1,9 @@
+2004-11-12  Jon Schewe  <jpschewe@mtu.net>
+
+	* Updated with new build template.  Removed old code and updated
+	libraries.  Depend on commons-collections now to do collections
+	stuff instead of my own implementations. 
+
 2004-04-04  Jon Schewe  <jpschewe@mtu.net>
 
 	* src/net/mtu/eggplant/util/DefaultBean.java (DefaultBean):

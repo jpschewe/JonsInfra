@@ -28,35 +28,58 @@
 package net.mtu.eggplant.util;
 
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.HashMap;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
+import org.apache.commons.collections.functors.InstanceofPredicate;
+import org.apache.commons.collections.functors.NotPredicate;
 
 /**
- * some handy methods for working with collections of objects
+ * Handy utilities for working with Collections that don't seem to exist
+ * elsewhere.
  * 
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public final class JPSCollections {
-
-  private JPSCollections() {}
   
-  /**
-     @param list the list to check
-     @param theClass the class to check for
-     @return true if all of the elements of list are instances of theClass
-
-     @pre (list != null)
-     @pre (theClass != null)
-  **/
-  public static boolean elementsInstanceOf(final Collection list, final Class theClass) {
-    final Iterator iter = list.iterator();    
-    while(iter.hasNext()) {
-      final Object o = iter.next();
-      if(!theClass.isInstance(o)) {
-        return false;
-      }
-    }
-
-    return true;
+  private JPSCollections() {
+    //no instances
   }
 
+  /**
+     @return true if all of the objects in collection are instances of type
+
+     @pre (collection != null)
+     @pre (type != null)
+  **/
+  public static boolean checkInstanceOf(final Collection collection, final Class type) {
+    final Predicate pred = NotPredicate.getInstance(InstanceofPredicate.getInstance(type));
+    //If there exists one element that is not an instance of type, then return
+    //false.  Yes this is kind of confusing, but it works.
+    return !CollectionUtils.exists(collection, pred);
+  }
+
+  /**
+   * Create a HashMap of expected size using loadRatio.
+   * 
+   * @pre (expectedSize >= 0)
+   * @pre (loadRatio > 0)
+   */
+  public static HashMap createHashMap(final int expectedSize,
+                                      final float loadRatio) {
+    return new HashMap(Math.max(1, (int)Math.ceil((float)expectedSize/loadRatio)), loadRatio);
+  }
+
+  /**
+   * Defaults loadRatio to 0.75.
+   *
+   * @see #createHashMap(int, float)
+   * 
+   * @pre (expectedSize >= 0)
+   */
+  public static HashMap createHashMap(final int expectedSize) {
+    return createHashMap(expectedSize, 0.75F);
+  }
+  
 }
