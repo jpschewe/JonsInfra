@@ -131,15 +131,17 @@
 
 
     <!-- zip source to web directory -->
-    <zip basedir="${basedir}"
-         destfile="${release.html.dir}/${app.name}/${app.version}/${app.name}-${app.version}-src.zip"
-         >
-      <include name="src/**" />
-      <include name="doc/**" />
-      <include name="lib/**" />
-      <include name="prj.el" />
-      <include name="build.xml" />
-      <include name="ChangeLog" />
+    <zip destfile="${release.html.dir}/${app.name}/${app.version}/${app.name}-${app.version}-src.zip">
+      <zipfileset basedir="${basedir}"
+                  prefix="${app.version}"
+                  >
+        <include name="src/**" />
+        <include name="doc/**" />
+        <include name="lib/**" />
+        <include name="prj.el" />
+        <include name="build.xml" />
+        <include name="ChangeLog" />
+      </zipfilset>
     </zip>
 
     <!-- now compile everything -->

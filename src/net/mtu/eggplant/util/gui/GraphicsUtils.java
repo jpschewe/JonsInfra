@@ -36,8 +36,12 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Window;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
+
 import java.util.Collection;
 import java.util.Iterator;
+
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -49,7 +53,7 @@ import javax.swing.JOptionPane;
  *
  * @author Jon Schewe
  * 
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class GraphicsUtils {
 
@@ -87,11 +91,14 @@ public class GraphicsUtils {
    * Centers the window on the screen.
    */
   public static void centerWindow(final Window window) {
-    final Dimension screenSize = window.getToolkit().getScreenSize();
-    final Point screenCenter = new Point(screenSize.width/2, screenSize.height/2);
-    final Dimension windowSize = window.getSize();
-    window.setLocation(new Point(screenCenter.x - windowSize.width/2,
-                                 screenCenter.y - windowSize.width/2));
+    final Dimension2D screenSize = window.getToolkit().getScreenSize();
+    final Point2D screenCenter = new Point2D.Double(screenSize.getWidth()/2,
+                                                    screenSize.getHeight()/2);
+    final Dimension2D windowSize = window.getSize();
+    final Point location = new Point();
+    location.setLocation(new Point2D.Double(screenCenter.getX() - windowSize.getWidth()/2,
+                                            screenCenter.getY() - windowSize.getHeight()/2));
+    window.setLocation(location);
   }
 
   
