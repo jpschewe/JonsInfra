@@ -10,10 +10,8 @@
 
 package net.mtu.eggplant.doclet;
 
-import com.sun.tools.doclets.*;
-import java.io.*;
-import java.lang.*;
-import java.util.*;
+import com.sun.tools.doclets.DocletAbortException;
+import java.io.IOException;
 
 /**
  * Generate the "packages.html" file for the backward compatibility.
@@ -22,59 +20,59 @@ import java.util.*;
  */
 public class PackagesFileWriter extends HtmlStandardWriter {
 
-    /**
-     * Constructor.
-     */
-    public PackagesFileWriter(String filename) throws IOException {
-        super(filename);
+  /**
+   * Constructor.
+   */
+  public PackagesFileWriter(String filename) throws IOException {
+    super(filename);
+  }
+
+  /**
+   * Generate the file.
+   */
+  public static void generate() throws DocletAbortException {
+    PackagesFileWriter packgen;
+    String filename = "";
+    try {
+      filename = "packages.html";
+      packgen = new PackagesFileWriter(filename);
+      packgen.generatePackagesFile();
+      packgen.close();
+    } catch (IOException exc) {
+      Standard.configuration().standardmessage.error(
+                                                     "doclet.exception_encountered",
+                                                     exc.toString(), filename);
+      throw new DocletAbortException();
     }
+  }
 
-    /**
-     * Generate the file.
-     */
-    public static void generate() throws DocletAbortException {
-        PackagesFileWriter packgen;
-        String filename = "";
-        try {
-            filename = "packages.html";
-            packgen = new PackagesFileWriter(filename);
-            packgen.generatePackagesFile();
-            packgen.close();
-        } catch (IOException exc) {
-            Standard.configuration().standardmessage.error(
-                "doclet.exception_encountered",
-                exc.toString(), filename);
-            throw new DocletAbortException();
-        }
-    }
+  /**
+   * Generate the packages file.
+   */
+  protected void generatePackagesFile() {
+    printHeader(getText("doclet.Window_Packages_title",
+                        Standard.configuration().windowtitle));
 
-    /**
-     * Generate the packages file.
-     */
-    protected void generatePackagesFile() {
-        printHeader(getText("doclet.Window_Packages_title",
-                            Standard.configuration().windowtitle));
+    printPackagesFileContents();
 
-        printPackagesFileContents();
+    printBodyHtmlEnd();
+  }
 
-        printBodyHtmlEnd();
-    }
-
-    /**
-     * Print the pacakges file contents.
-     */
-    protected void printPackagesFileContents() {
-        br(); br(); br();
-        center(); 
-        printText("doclet.Packages_File_line_1"); 
-        printText("doclet.Packages_File_line_2");
-        br(); printNbsps();
-        printHyperLink("index.html", getText("doclet.Frame_Version"));
-        br(); printNbsps();
-        printHyperLink(Standard.configuration().topFile,
-                       getText("doclet.Non_Frame_Version"));
-        centerEnd();
-    }
+  /**
+   * Print the pacakges file contents.
+   */
+  protected void printPackagesFileContents() {
+    br(); br(); br();
+    center(); 
+    printText("doclet.Packages_File_line_1"); 
+    printText("doclet.Packages_File_line_2");
+    br(); printNbsps();
+    printHyperLink("index.html", getText("doclet.Frame_Version"));
+    br(); printNbsps();
+    printHyperLink(Standard.configuration().topFile,
+                   getText("doclet.Non_Frame_Version"));
+    centerEnd();
+  }
 
 }
 

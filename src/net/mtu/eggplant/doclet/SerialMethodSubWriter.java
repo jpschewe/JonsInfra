@@ -10,9 +10,15 @@
 
 package net.mtu.eggplant.doclet;
 
-import com.sun.javadoc.*;
-import com.sun.tools.doclets.*;
-import java.util.*;
+import com.sun.javadoc.ClassDoc;
+import com.sun.javadoc.ExecutableMemberDoc;
+import com.sun.javadoc.MethodDoc;
+import com.sun.javadoc.ProgramElementDoc;
+import com.sun.javadoc.SeeTag;
+import com.sun.javadoc.Tag;
+import com.sun.tools.doclets.Util;
+
+import java.util.List;
 
 /**
  * Generate serialized form for Serializable/Externalizable methods.
@@ -21,87 +27,87 @@ import java.util.*;
  * @author Joe Fialli
  */
 public class SerialMethodSubWriter extends MethodSubWriter {
-    public SerialMethodSubWriter(SubWriterHolderWriter writer, 
-                                 ClassDoc classdoc) {
-        super(writer, classdoc);
-    }
+  public SerialMethodSubWriter(SubWriterHolderWriter writer, 
+                               ClassDoc classdoc) {
+    super(writer, classdoc);
+  }
 
-    public List members(ClassDoc cd) {
-	return Util.asList(cd.serializationMethods());
-    }
+  public List members(ClassDoc cd) {
+    return Util.asList(cd.serializationMethods());
+  }
 
-    protected void printHeader(ClassDoc cd) {
-        writer.anchor("serialized_methods");
-        writer.printTableHeadingBackground(writer.getText("doclet.Serialized_Form_methods"));
+  protected void printHeader(ClassDoc cd) {
+    writer.anchor("serialized_methods");
+    writer.printTableHeadingBackground(writer.getText("doclet.Serialized_Form_methods"));
 
-	// Specify if Class is Serializable or Externalizable.
+    // Specify if Class is Serializable or Externalizable.
 
+    writer.p();
+
+    if (cd.isSerializable() && !cd.isExternalizable()) {
+      if (members(cd).size() == 0) {
+        String msg =
+          writer.getText("doclet.Serializable_no_customization");
+        writer.print(msg);
         writer.p();
-
-	if (cd.isSerializable() && !cd.isExternalizable()) {
-            if (members(cd).size() == 0) {
-		String msg =
-		    writer.getText("doclet.Serializable_no_customization");
-		writer.print(msg);
-		writer.p();
-	    }
-	}
+      }
     }
+  }
 
-    protected void printMember(ClassDoc cd, ProgramElementDoc member) {
-        ExecutableMemberDoc emd = (ExecutableMemberDoc)member;
-        String name = emd.name();
-        printHead(emd);
-        printFullComment(emd);
-    }
+  protected void printMember(ClassDoc cd, ProgramElementDoc member) {
+    ExecutableMemberDoc emd = (ExecutableMemberDoc)member;
+    String name = emd.name();
+    printHead(emd);
+    printFullComment(emd);
+  }
 
-    protected void printSerialDataTag(Tag[] serialData) {
-        if (serialData != null && serialData.length > 0) {
-            writer.dt();
-            writer.boldText("doclet.SerialData");
-            writer.dd();
-	    for (int i = 0; i < serialData.length; i++)
-		writer.printInlineComment(serialData[i]);
-        }
+  protected void printSerialDataTag(Tag[] serialData) {
+    if (serialData != null && serialData.length > 0) {
+      writer.dt();
+      writer.boldText("doclet.SerialData");
+      writer.dd();
+      for (int i = 0; i < serialData.length; i++)
+        writer.printInlineComment(serialData[i]);
     }
+  }
 
-    /**
-     * Print comments, See tags and serialData for SerialMethods.
-     */
-    protected void printTags(ProgramElementDoc member) {
-        MethodDoc method = (MethodDoc)member;
-	Tag[] serialData = method.tags("serialData");
-	Tag[] sinces = method.tags("since");
-        SeeTag[] sees = method.seeTags();
-        if (serialData.length + sees.length + sinces.length > 0) {
-            writer.dd();
-            writer.dl();
-	    printSerialDataTag(serialData);
-            writer.printSinceTag(method);
-            writer.printSeeTags(method);
-            writer.dlEnd();
-            writer.ddEnd();
-	} else {
-	    if (method.name().compareTo("writeExternal") == 0) {
-		serialWarning("doclet.MissingSerialDataTag",
-			    method.containingClass().qualifiedName(),
-			    method.name());
-	    }
-	}
+  /**
+   * Print comments, See tags and serialData for SerialMethods.
+   */
+  protected void printTags(ProgramElementDoc member) {
+    MethodDoc method = (MethodDoc)member;
+    Tag[] serialData = method.tags("serialData");
+    Tag[] sinces = method.tags("since");
+    SeeTag[] sees = method.seeTags();
+    if (serialData.length + sees.length + sinces.length > 0) {
+      writer.dd();
+      writer.dl();
+      printSerialDataTag(serialData);
+      writer.printSinceTag(method);
+      writer.printSeeTags(method);
+      writer.dlEnd();
+      writer.ddEnd();
+    } else {
+      if (method.name().compareTo("writeExternal") == 0) {
+        serialWarning("doclet.MissingSerialDataTag",
+                      method.containingClass().qualifiedName(),
+                      method.name());
+      }
     }
+  }
 
-    /**
-     * Print header even if there are no serializable methods.
-     */
-    public void printMembers() {
-        if (members(classdoc).size() > 0) {
-	    super.printMembers();
-        }
+  /**
+   * Print header even if there are no serializable methods.
+   */
+  public void printMembers() {
+    if (members(classdoc).size() > 0) {
+      super.printMembers();
     }
+  }
 
-    public void buildVisibleMemberMap() {
-      // Do nothing.
-    }
+  public void buildVisibleMemberMap() {
+    // Do nothing.
+  }
 }
 
 

@@ -2,21 +2,15 @@
 <!DOCTYPE project PUBLIC "-//ANT//DTD project//EN" "file:/usr/src/ant/ant.dtd">
 
 <project name="infra" default="compile" basedir=".">
-
-  <property file="${user.home}/.ant.properties" />
-
-  <property name="app.name"   value="JonsInfra" />
-  <property name="instrument.dir"  value="instrumented" />
   
-  <target name="init">
-    <tstamp />
-    <available property="junit.present" classname="junit.framework.TestCase" />
-    <available property="assert.present" classname="net.mtu.eggplant.assert.JonsAssert" />
-  </target>
-
+  <property file="${user.home}/.ant.properties" />
+  <property name="temp.dir"  value="${basedir}/tmp" />
+  <property name="java_home" value="/usr/java/jdk1.3"/>
+  
   <path id="base.classpath">
     <pathelement location="${basedir}/src/"/>
     <pathelement location="${basedir}/lib/junit-3.4.jar"/>
+    <pathelement location="${java_home}/lib/tools.jar"/>
   </path>
   
 <!--  <target name="compile" depends="init,instrument">-->
@@ -63,4 +57,125 @@
     </delete>
   </target>
 
+
+  <!-- Javadoc targets below here -->
+  
+  <!-- tell javadoc where to find out doclet -->
+  <!--<property name="doclet.name" value="com.honeywell.htc.schedinfra.javadoc.Standard" />
+  <property name="doclet.path" value="/home/jpschewe/projects/java/scripts/javadoc.jar" />-->
+  <property name="doclet.name" value="net.mtu.eggplant.doclet.Standard"/>
+  <property name="doclet.path" value="/home/jpschewe/projects/infra/src/"/>
+
+
+  <!-- used for releases -->
+  <property name="release.home.html.dir" value="http://disk.mn.mtu.net/~jpschewe/mtu.net" />
+  <!--<property name="home.html.dir" value="http://mtu.net/~jpschewe" />-->
+  <property name="release.html.dir" value="/net/home-jpschewe/public_html/mtu.net/" />
+
+
+  <!-- used for active_javadoc -->
+  <property name="active.home.html.dir" value="http://disk.mn.mtu.net/~jpschewe" />
+  <property name="active.html.dir" value="/net/home-jpschewe/public_html/" />
+  
+  <target name="active_javadoc">
+    <!-- run javadoc on the source -->
+    <mkdir dir="${active.html.dir}/JonsInfra" />
+    <javadoc packagenames="net.mtu.eggplant.*"
+	     sourcepath="${basedir}/src"
+	     use="true"
+	     splitindex="true"
+	     version="true"
+	     windowtitle="JonsInfra">
+	<doclet name="${doclet.name}"
+		path="${doclet.path}">
+          <param name="-d" value="${active.html.dir}/infra" />
+        </doclet>
+	<classpath>
+	  <path refid="base.classpath"/>
+        </classpath>
+	<!-- core java -->
+	<link href="${active.home.html.dir}/java/jdk1.3.0/docs/api/"/>
+	<!-- junit -->
+	<link href="${active.home.html.dir}/java/junit-3.2/" />
+        <!-- com.sun.javadoc -->
+        <link href="${active.home.html.dir}/java/jdk1.3.0/docs/tooldocs/javadoc/doclet"/>
+      </javadoc>
+  </target>
+  
+  <target name="javadoc">
+    <mkdir dir="${temp.dir}" />    
+    <!-- get the source out of cvs -->
+    <cvs cvsRoot="/home/CVS-Repository"
+	 package="infra"
+	 dest="${temp.dir}"/>
+    <!-- run javadoc on the source -->
+    <mkdir dir="${active.html.dir}/JonsInfra" />
+    <javadoc packagenames="net.mtu.eggplant.*"
+	     sourcepath="${temp.dir}/infra/src"
+	     use="true"
+	     splitindex="true"
+	     version="true"
+	     windowtitle="JonsInfra">
+	<doclet name="${doclet.name}"
+		path="${doclet.path}">
+          <param name="-d" value="${active.html.dir}/infra" />
+        </doclet>
+	<classpath>
+	  <path refid="base.classpath"/>
+        </classpath>
+	<!-- core java -->
+	<link href="${active.home.html.dir}/java/jdk1.3.0/docs/api/"/>
+	<!-- junit -->
+	<link href="${active.home.html.dir}/java/junit-3.2/" />
+        <!-- com.sun.javadoc -->
+        <link href="${active.home.html.dir}/java/jdk1.3.0/docs/tooldocs/javadoc/doclet"/>
+      </javadoc>
+    
+    <!-- delete the temp files -->
+    <delete dir="${temp.dir}" />
+  </target>
+  
+  <target name="0.1_javadoc">
+    <mkdir dir="${temp.dir}" />
+    <!-- get the source out of cvs -->
+    <cvs cvsRoot="/home/CVS-Repository"
+	 package="infra"
+	 dest="${temp.dir}"
+	 tag="JonsInfra_0_1" />
+    <!-- run javadoc on the source -->
+    <mkdir dir="${release.html.dir}/JonsInfra" />
+    <javadoc packagenames="net.mtu.eggplant.*"
+	     sourcepath="${temp.dir}/infra/src"
+	     use="true"
+	     splitindex="true"
+	     version="true"
+	     windowtitle="JonsInfra">
+	<doclet name="${doclet.name}"
+		path="${doclet.path}">
+          <param name="-d" value="${release.html.dir}/JonsInfra/0.1/api" />
+        </doclet>
+	<classpath>
+          <pathelement location="${temp.dir}/infra/src/" />
+          <pathelement location="${temp.dir}/infra/lib/junit.jar" />
+        </classpath>
+	<!-- core java -->
+	<link href="http://java.sun.com/j2se/1.3/docs/api/" />
+	<!-- junit -->
+	<link href="${release.home.html.dir}/java/junit-3.2/" />
+      </javadoc>
+    
+    <!-- delete the temp files -->
+    <delete dir="${temp.dir}" />
+  </target>
+
+  <property name="app.name"   value="JonsInfra" />
+  <property name="instrument.dir"  value="instrumented" />
+  
+  <target name="init">
+    <tstamp />
+    <available property="junit.present" classname="junit.framework.TestCase" />
+    <available property="assert.present" classname="net.mtu.eggplant.assert.JonsAssert" />
+  </target>
+
+  
 </project>

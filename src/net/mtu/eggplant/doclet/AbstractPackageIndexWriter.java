@@ -10,11 +10,9 @@
 
 package net.mtu.eggplant.doclet;
 
-import com.sun.tools.doclets.*;
-import com.sun.javadoc.*;
-import java.io.*;
-import java.lang.*;
-import java.util.*;
+import com.sun.javadoc.PackageDoc;
+import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Abstract class to generate the package index. The package index needs to be

@@ -10,6 +10,7 @@
 			 (expand-file-name "src/" infra-root)
 			 (expand-file-name "lib/junit-3.4.jar" infra-root)
 			 (expand-file-name "jre/lib/rt.jar" java-home)
+			 (expand-file-name "lib/tools.jar" java-home)
 			 ))
 
  '(jde-compile-option-deprecation t)

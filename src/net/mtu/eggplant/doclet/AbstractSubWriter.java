@@ -10,10 +10,22 @@
 
 package net.mtu.eggplant.doclet;
 
-import com.sun.tools.doclets.*;
-import com.sun.javadoc.*;
-import java.util.*;
+import com.sun.javadoc.ClassDoc;
+import com.sun.javadoc.ConstructorDoc;
+import com.sun.javadoc.FieldDoc;
+import com.sun.javadoc.MemberDoc;
+import com.sun.javadoc.MethodDoc;
+import com.sun.javadoc.ProgramElementDoc;
+import com.sun.javadoc.Tag;
+import com.sun.javadoc.Type;
+import com.sun.tools.doclets.Util;
+import com.sun.tools.doclets.VisibleMemberMap;
+
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  *

@@ -10,11 +10,12 @@
 
 package net.mtu.eggplant.doclet;
 
-import com.sun.tools.doclets.*;
-import com.sun.javadoc.*;
-import java.io.*;
-import java.lang.*;
-import java.util.*;
+import com.sun.javadoc.PackageDoc;
+import com.sun.javadoc.RootDoc;
+import com.sun.tools.doclets.DocletAbortException;
+
+import java.io.IOException;
+
 
 /**
  * Write out the package index.
@@ -25,38 +26,38 @@ import java.util.*;
  */
 public class PackageListWriter extends HtmlStandardWriter {
 
-    /**
-     * Constructor.
-     */
-    public PackageListWriter(String filename) throws IOException {
-        super(filename);
-    }
+  /**
+   * Constructor.
+   */
+  public PackageListWriter(String filename) throws IOException {
+    super(filename);
+  }
 
-    /**
-     * Generate the package index.
-     *
-     * @param root the root of the doc tree.
-     */
-    public static void generate(RootDoc root) throws DocletAbortException {
-        PackageListWriter packgen;
-        String filename = "package-list";
-        try {
-            packgen = new PackageListWriter(filename);
-            packgen.generatePackageListFile(root);
-            packgen.close();
-        } catch (IOException exc) {
- Standard.configuration().standardmessage.error("doclet.exception_encountered", 
-                                                 exc.toString(), filename);
-            throw new DocletAbortException();
-        }
+  /**
+   * Generate the package index.
+   *
+   * @param root the root of the doc tree.
+   */
+  public static void generate(RootDoc root) throws DocletAbortException {
+    PackageListWriter packgen;
+    String filename = "package-list";
+    try {
+      packgen = new PackageListWriter(filename);
+      packgen.generatePackageListFile(root);
+      packgen.close();
+    } catch (IOException exc) {
+      Standard.configuration().standardmessage.error("doclet.exception_encountered", 
+                                                     exc.toString(), filename);
+      throw new DocletAbortException();
     }
+  }
 
-    protected void generatePackageListFile(RootDoc root) {
-        PackageDoc[] packages = Standard.configuration().packages;
-        for (int i = 0; i < packages.length; i++) {
-            println(packages[i].name());
-        } 
-    }
+  protected void generatePackageListFile(RootDoc root) {
+    PackageDoc[] packages = Standard.configuration().packages;
+    for (int i = 0; i < packages.length; i++) {
+      println(packages[i].name());
+    } 
+  }
 }
 
 
