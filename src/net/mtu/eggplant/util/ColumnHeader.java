@@ -14,7 +14,7 @@ package org.tcfreenet.schewe.utils;
    flag on a row in the data to determine if a cell is editable.  By default a 
    column is read only.
 **/
-public class ColumnHeader extends Named {
+public class ColumnHeader extends DefaultNamed {
 
   public ColumnHeader(String name, Class theClass) {
     this(name, theClass, true);

@@ -7,11 +7,9 @@
 */
 package org.tcfreenet.schewe.utils.sql;
 
-/**
-   This dialog allows the user to fill in the parameters needed for a
-   connection.  It is hardcoded to use either the standard jdbc to odbc driver 
-   or to use the rmi driver.
-**/
+
+import org.tcfreenet.schewe.utils.StringPair;
+import org.tcfreenet.schewe.utils.Debug;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -28,6 +26,11 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
 
+/**
+   This dialog allows the user to fill in the parameters needed for a
+   connection.  It is hardcoded to use either the standard jdbc to odbc driver 
+   or to use the rmi driver.
+**/
 public class SQLConnectionDialog extends JDialog {
   
   public SQLConnectionDialog(java.awt.Frame parent, StringPair[] drivers) {
@@ -53,8 +56,8 @@ public class SQLConnectionDialog extends JDialog {
     }
     /*
       _driverCombo.addItem("Standard JDBC driver");
-    _driverCombo.addItem("RMI JDBC driver");
-    _driverCombo.setSelectedItem("Standard JDBC driver");
+      _driverCombo.addItem("RMI JDBC driver");
+      _driverCombo.setSelectedItem("Standard JDBC driver");
     */
     _driverCombo.setSelectedIndex(0);
     
@@ -113,30 +116,30 @@ public class SQLConnectionDialog extends JDialog {
     getContentPane().add(_passText, gbc);
 
     /*
-    OkCancelApplyPanel ocap = new OkCancelApplyPanel(this, true, true, false);
-    gbc = new GridBagConstraints();
-    gbc.gridwidth = gbc.REMAINDER;
-    gbc.weightx = 1.0;
-    gbc.weighty = 0.0;
-    gbc.fill = gbc.HORIZONTAL;
-    getContentPane().add(ocap, gbc);
+      OkCancelApplyPanel ocap = new OkCancelApplyPanel(this, true, true, false);
+      gbc = new GridBagConstraints();
+      gbc.gridwidth = gbc.REMAINDER;
+      gbc.weightx = 1.0;
+      gbc.weighty = 0.0;
+      gbc.fill = gbc.HORIZONTAL;
+      getContentPane().add(ocap, gbc);
     */
   }
 
   /*
-  public void applyButtonClicked(ActionEvent ae) { 
+    public void applyButtonClicked(ActionEvent ae) { 
     depopulate();
-  }
+    }
 
-  public void okButtonClicked(ActionEvent ae) {
+    public void okButtonClicked(ActionEvent ae) {
     depopulate();
     setVisible(false);
-  }
+    }
 
-  public void cancelButtonClicked(ActionEvent ae) {
+    public void cancelButtonClicked(ActionEvent ae) {
     _connection = null;
     setVisible(false);
-  }
+    }
   */
   
   /**
@@ -148,7 +151,7 @@ public class SQLConnectionDialog extends JDialog {
 
     String dataSource = _dataSourceText.getText();
     String url = "jdbc:odbc:" + dataSource;
-    String pass = _passText.getText();//new String(_passText.getPassword());
+    String pass = new String(_passText.getPassword());
     String user = _userText.getText();
     String connectString = null;
     StringPair sp = (StringPair)_driverCombo.getSelectedItem();
@@ -163,29 +166,29 @@ public class SQLConnectionDialog extends JDialog {
     }
     connectString = url;
 
-      try {
-        Class.forName("RmiJdbc.RJDriver").newInstance();
-      }
-      catch(Exception e) {
-        Debug.println("Couldn't find the driver");
-        _connection = null;
-        return;
-      } 
-
-      // get this from the dialog box
-      String rmiHost = "//129.235.65.128";    
-      connectString = "jdbc:rmi:" + rmiHost + "/" + url;
-      /* generic
-         connectString = jdbc:subprotocol:subname
-         jdbc:???://host/db
-         examples                              subprotocol subname
-         jdbc:rst://host/db           postgre  rst      //host/db
-         jdbc:rmi://host/jdbc:odbc:db rmi      rmi      //host/jdbc:odbc:db
-         jdbc:odbc:db sun                      odbc     db
-         Driver.acceptsUrl(connectString);
-         DriverManager.getConnection(connectString, user, pass);
-      */
+    try {
+      Class.forName("RmiJdbc.RJDriver").newInstance();
     }
+    catch(Exception e) {
+      Debug.println("Couldn't find the driver");
+      _connection = null;
+      return;
+    } 
+
+    // get this from the dialog box
+    String rmiHost = "//129.235.65.128";    
+    connectString = "jdbc:rmi:" + rmiHost + "/" + url;
+    /* generic
+       connectString = jdbc:subprotocol:subname
+       jdbc:???://host/db
+       examples                              subprotocol subname
+       jdbc:rst://host/db           postgre  rst      //host/db
+       jdbc:rmi://host/jdbc:odbc:db rmi      rmi      //host/jdbc:odbc:db
+       jdbc:odbc:db sun                      odbc     db
+       Driver.acceptsUrl(connectString);
+       DriverManager.getConnection(connectString, user, pass);
+    */
+      
     try {
       _connection = DriverManager.getConnection(connectString, user, pass);
     }
