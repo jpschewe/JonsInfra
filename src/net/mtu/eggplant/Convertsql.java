@@ -35,6 +35,9 @@ import java.sql.ResultSet;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * @version $Revision: 1.4 $
+ */
 public class Convertsql {
 
   public static void main(String[] args) {
