@@ -14,15 +14,15 @@ import java.awt.Point;
 import java.awt.FontMetrics;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Container;
 
-import java.util.Vector;
-import java.util.Enumeration;
+import java.util.Collection;
+import java.util.Iterator;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JDialog;
-  
-import com.objectspace.jgl.Container;
+import javax.swing.ImageIcon;
 
 /**
    graphics functions that should exist in java, but don't
@@ -38,10 +38,9 @@ public class GraphicsUtils {
      @param dialog if <code>true</code> put in a JDialog, otherwise put in a
      * JFrame
      **/
-  public static Window basicGUIMain(Component c, boolean dialog) {
-    java.awt.Container container;
-    Window window;
-    
+  public static Window basicGUIMain(final Component c, final boolean dialog) {
+    final Container container;
+    final Window window;
     if(dialog) {
       window = new JDialog();
       container = ((JDialog)window).getContentPane();
@@ -67,15 +66,15 @@ public class GraphicsUtils {
      @param points a vector of points, anything other than a point in this
      vector is simply skipped
   **/
-  public static void drawPolyLine(Graphics g, Vector points) {
-    int[] xpoints = new int[points.size()];
-    int[] ypoints = new int[points.size()];
+  public static void drawPolyLine(final Graphics g, final Collection points) {
+    final int[] xpoints = new int[points.size()];
+    final int[] ypoints = new int[points.size()];
     int npoints = 0;
-    Enumeration iter = points.elements();
-    while(iter.hasMoreElements()) {
-      Object obj = iter.nextElement();
+    final Iterator iter = points.iterator();
+    while(iter.hasNext()) {
+      Object obj = iter.next();
       if(obj instanceof Point) {
-        Point p = (Point)obj;
+        final Point p = (Point)obj;
         xpoints[npoints] = p.x;
         ypoints[npoints] = p.y;
         npoints++;
@@ -90,17 +89,8 @@ public class GraphicsUtils {
      @param g the graphics context
      @param v a Container of polygons, other classes are ignored
   **/
-  public static void drawPolygons(Graphics g, Container v) {
-    drawPolygons(g, v.elements());
-  }
-
-  /**
-     draw a bunch of polygons
-     @param g the graphics context
-     @param v a Vector of polygons, other classes are ignored
-  **/
-  public static void drawPolygons(Graphics g, Vector v) {
-    drawPolygons(g, v.elements());
+  public static void drawPolygons(final Graphics g, final Collection v) {
+    drawPolygons(g, v.iterator());
   }
 
   /**
@@ -108,9 +98,9 @@ public class GraphicsUtils {
      @param g the graphics context
      @param iter an Enumeration of polygons, other classes are ignored
   **/
-  public static void drawPolygons(Graphics g, Enumeration iter) {
-    while(iter.hasMoreElements()) {
-      Object obj = iter.nextElement();
+  public static void drawPolygons(final Graphics g, final Iterator iter) {
+    while(iter.hasNext()) {
+      final Object obj = iter.next();
       if(obj instanceof Polygon) {
         g.drawPolygon((Polygon)obj);
       }
@@ -122,34 +112,26 @@ public class GraphicsUtils {
      @param g the graphics context
      @param v a Container of polygons, other classes are ignored
   **/
-  public static void fillPolygons(Graphics g, Container v) {
-    fillPolygons(g, v.elements());
+  public static void fillPolygons(final Graphics g, final Collection v) {
+    fillPolygons(g, v.iterator());
   }
 
-  /**
-     fill a bunch of polygons
-     @param g the graphics context
-     @param v a Vector of polygons, other classes are ignored
-  **/
-  public static void fillPolygons(Graphics g, Vector v) {
-    fillPolygons(g, v.elements());
-  }
 
   /**
      fill a bunch of polygons
      @param g the graphics context
      @param iter an Enumeration of polygons, other classes are ignored
   **/
-  public static void fillPolygons(Graphics g, Enumeration iter) {
-    while(iter.hasMoreElements()) {
-      Object obj = iter.nextElement();
+  public static void fillPolygons(final Graphics g, final Iterator iter) {
+    while(iter.hasNext()) {
+      final Object obj = iter.next();
       if(obj instanceof Polygon) {
         g.fillPolygon((Polygon)obj);
       }
     }
   }
 
-  public static int getMaxWidth(JComboBox combo, FontMetrics fm) {
+  public static int getMaxWidth(final JComboBox combo, final FontMetrics fm) {
     int maxLen = 0;
     for(int i=0; i<combo.getItemCount(); i++) {
       String str = combo.getItemAt(i).toString();
@@ -161,4 +143,13 @@ public class GraphicsUtils {
     return maxLen + 20; // leave room for the scroll bar
   }
 
+  /**
+     Create an icon from the resource at path.
+
+     @pre (path != null)
+  **/
+  static public ImageIcon getIcon(final String path) {
+    return new ImageIcon(ClassLoader.getSystemClassLoader().getResource(path));
+  }
+  
 }
