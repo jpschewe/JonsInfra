@@ -27,20 +27,20 @@
  */
 package net.mtu.eggplant;
 
-import java.sql.Types;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.sql.ResultSet;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Types;
 
 /**
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class Convertsql {
 
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     String newAddressBook = "newAddressBook";
     
     Connection connection = null;
@@ -197,6 +197,10 @@ public class Convertsql {
     catch(SQLException sqle) {
       System.out.println(sqle);
     }
+  }
+
+  private Convertsql() {
+
   }
 
   public static String cleanString(String str) {

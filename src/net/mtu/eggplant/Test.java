@@ -37,7 +37,7 @@ import java.util.*;
 import java.net.*;
 
 /**
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class Test {
   public static void main(String[] args) {
@@ -47,8 +47,7 @@ public class Test {
       URL url = classObj.getResource("Convertsql.javax");
       if(url != null) {
         System.out.println("Found file: " + url);
-      }
-      else {
+      } else {
         System.out.println("File does not exist");
       }
       
