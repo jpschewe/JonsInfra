@@ -76,19 +76,15 @@
 
   <!-- Javadoc targets below here -->
   
-  <!-- FIX should make one that people can use locally and one for nightly,
-  plus release.  Local one will not reference external packages, nightly one
-  is stored on netserver, release is set to goto mtu.net -->
-
   <!-- do a local build without external links -->
   <target name="local.javadoc">
     <mkdir dir="${basedir}/api" />
     <javadoc packagenames="net.mtu.eggplant.*"
-             sourcepath="${temp.dir}/infra/src"
+             sourcepath="{$basedir}/src"
              use="true"
              splitindex="true"
              version="true"
-             windowtitle="JonsInfra"
+             windowtitle="${app.name}"
              destdir="${basedir}/api"
              additionalparam="-tag beaninfo:a:BeanInfo -tag test:a:Tests -tag pre:cm:PreConditions -tag post:cm:PostConditions -tag invariant:tc:Invariants -breakiterator"
              >
@@ -108,14 +104,14 @@
          quiet="true" />
     
     <!-- run javadoc on the source -->
-    <mkdir dir="${nightly.html.dir}/JonsInfra" />
+    <mkdir dir="${nightly.html.dir}/${app.name}" />
     <javadoc packagenames="net.mtu.eggplant.*"
              sourcepath="${basedir}/src"
              use="true"
              splitindex="true"
              version="true"
-             windowtitle="JonsInfra"
-             destdir="${nightly.html.dir}/JonsInfra"
+             windowtitle="${app.name}"
+             destdir="${nightly.html.dir}/${app.name}"
              additionalparam="-tag beaninfo:a:BeanInfo -tag test:a:Tests -tag pre:cm:PreConditions -tag post:cm:PostConditions -tag invariant:tc:Invariants -breakiterator"
              >
       <classpath>
@@ -133,7 +129,7 @@
 
   <!-- do a release, the tag is created manually -->
   <target name="release">
-    <mkdir dir="${release.html.dir}/JonsInfra/${app.version}" />
+    <mkdir dir="${release.html.dir}/${app.name}/${app.version}" />
            
     <!-- checkout to a temp directory -->
     <cvs cvsRoot="${cvs.root}"
@@ -142,7 +138,7 @@
          tag="${release.cvs.tag}" />
 
     <!-- copy index.html, ChangeLog to web directory -->
-    <copy todir="${release.html.dir}/JonsInfra/${app.version}"
+    <copy todir="${release.html.dir}/${app.name}/${app.version}"
           flatten="true">
       <fileset dir="${temp.dir}/infra">
         <include name="ChangeLog" />
@@ -152,7 +148,7 @@
 
     <!-- zip source to web directory -->
     <zip basedir="${temp.dir}"
-         destfile="${release.html.dir}/JonsInfra/${app.version}/${app.name}-${app.version}-src.zip"
+         destfile="${release.html.dir}/${app.name}/${app.version}/${app.name}-${app.version}-src.zip"
          />
 
     <!-- compile -->
@@ -165,7 +161,7 @@
     </javac>
     
     <!-- build the jar -->
-    <jar jarfile="${release.html.dir}/JonsInfra/${app.version}/${app.name}-${app.version}.jar"
+    <jar jarfile="${release.html.dir}/${app.name}/${app.version}/${app.name}-${app.version}.jar"
          basedir="${temp.dir}/infra/src"
          excludes="**/*.java"
           />
@@ -188,14 +184,14 @@
          dest="${temp.dir}"
          tag="${release.cvs.tag}" />
     <!-- run javadoc on the source -->
-    <mkdir dir="${release.html.dir}/JonsInfra/${app.version}/api" />
+    <mkdir dir="${release.html.dir}/${app.name}/${app.version}/api" />
     <javadoc packagenames="net.mtu.eggplant.*"
              sourcepath="${temp.dir}/infra/src"
              use="true"
              splitindex="true"
              version="true"
-             windowtitle="JonsInfra-${app.version}"
-             destdir="${release.html.dir}/JonsInfra/${app.version}/api"
+             windowtitle="${app.name}-${app.version}"
+             destdir="${release.html.dir}/${app.name}/${app.version}/api"
              additionalparam="-tag beaninfo:a:BeanInfo -tag test:a:Tests -tag pre:cm:PreConditions -tag post:cm:PostConditions -tag invariant:tc:Invariants -breakiterator"
              >
         <classpath>
