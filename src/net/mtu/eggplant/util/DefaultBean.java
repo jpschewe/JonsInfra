@@ -82,6 +82,13 @@ public class DefaultBean implements Bean, Serializable {
   protected PropertyChangeListener[] getPropertyChangeListeners(final String propertyName) {
     return _propertyListener.getPropertyChangeListeners(propertyName);
   }
+
+  /**
+   * For access to all of <tt>PropertyChangeSupport</tt>
+   */
+  protected PropertyChangeSupport getPropertyChangeSupport() {
+    return _propertyListener;
+  }
   
   private PropertyChangeSupport _propertyListener;
 }

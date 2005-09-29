@@ -85,7 +85,7 @@ public final class GraphicsUtils {
     container.add(c, BorderLayout.CENTER);
     centerWindow(window);
     window.pack();    
-    window.show();
+    window.setVisible(true);
 
     return window;
   }
