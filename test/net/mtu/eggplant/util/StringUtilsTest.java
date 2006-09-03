@@ -25,14 +25,12 @@
  *
  * I'd appreciate comments/suggestions on the code jpschewe@mtu.net
  */
-package net.mtu.eggplant.util.test;
+package net.mtu.eggplant.util;
 
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import junit.textui.TestRunner;
-
-import net.mtu.eggplant.util.StringUtils;
 
 /**
  * Test class for StringUtils.
@@ -47,15 +45,23 @@ public class StringUtilsTest extends TestCase {
 
     final TestSuite suite = new TestSuite();
     //suite.addTest(new StringUtilsTest("testSearchAndReplace2"));
-    suite.addTest(suite());
+    suite.addTestSuite(StringUtilsTest.class);
     TestRunner.run(suite);
     
   }
 
-  public static TestSuite suite() {
-    return new TestSuite(StringUtilsTest.class);
+  protected void setUp()
+    throws Exception {
+    _assertProperty = System.getProperty("ASSERT_BEHAVIOR");
+    System.setProperty("ASSERT_BEHAVIOR", "EXCEPTION");
   }
 
+  protected void tearDown()
+    throws Exception {
+    System.setProperty("ASSERT_BEHAVIOR", _assertProperty);
+  }
+  private String _assertProperty;
+  
   public void testSearchAndReplace() {
     final String source = "Fred & Barney & Wilma";
     final String search = "Barney";

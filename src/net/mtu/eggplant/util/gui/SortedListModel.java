@@ -43,15 +43,15 @@ import java.util.Collections;
  * 
  * @version $Revision: 1.4 $
  */
-public class SortedListModel extends AbstractListModel {
+public class SortedListModel<E> extends AbstractListModel {
 
   /**
      Create a SortedListModel with comparator.
 
      @pre (comparator != null)
   **/
-  public SortedListModel(final Comparator comparator) {
-    this(comparator, new ArrayList(10));
+  public SortedListModel(final Comparator<E> comparator) {
+    this(comparator, new ArrayList<E>(10));
   }
 
   /**
@@ -61,21 +61,21 @@ public class SortedListModel extends AbstractListModel {
      @pre (comparator != null)
      @pre (collection != null)
   **/
-  public SortedListModel(final Comparator comparator, final Collection collection) {
-    _list = new ArrayList(collection);
+  public SortedListModel(final Comparator<E> comparator, final Collection<E> collection) {
+    _list = new ArrayList<E>(collection);
     _comparator = comparator;
     Collections.sort(_list, _comparator);
   }
   
-  private Comparator _comparator;
-  private List _list;
+  private Comparator<E> _comparator;
+  private List<E> _list;
 
   //ListModel
   public int getSize() {
     return _list.size();
   }
 
-  public Object getElementAt(final int index) {
+  public E getElementAt(final int index) {
     return _list.get(index);
   }
   //end ListModel
@@ -83,12 +83,12 @@ public class SortedListModel extends AbstractListModel {
   /**
      Add o to the list.  Sorted insert.
   **/
-  public void add(final Object o) {
-    final Iterator iter = _list.iterator();
+  public void add(final E o) {
+    final Iterator<E> iter = _list.iterator();
     int index = 0;
     boolean flag = false;
     while(iter.hasNext() && !flag) {
-      final Object listElement = iter.next();
+      final E listElement = iter.next();
       if(_comparator.compare(o, listElement) > 0) {
         flag = true;
         _list.add(index, o);
@@ -104,7 +104,7 @@ public class SortedListModel extends AbstractListModel {
   /**
      Remove the first occurrance of o from the list.
   **/
-  public void remove(final Object o) {
+  public void remove(final E o) {
     final int index = _list.indexOf(o);
     if(_list.remove(o)) {
       fireIntervalRemoved(this, index, index);

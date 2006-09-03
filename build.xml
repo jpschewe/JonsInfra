@@ -6,11 +6,12 @@
 
   <!-- basic properties for directories and the like -->
   <property name="dir.src"     value="src" />
-  <property name="dir.compile" value="${dir.src}" />
+  <property name="dir.lib" value="lib" />
   <property name="dir.build"   value="build" />
   <property name="dir.inst"    value="${dir.build}/instrumented" />
   <property name="dir.classes" value="${dir.build}/classes" />
   <property name="dir.api"     value="${dir.build}/api" />
+  <property name="dir.test"    value="test" />
   <property name="dir.bin"     value="${dir.build}/bin" />
   <property name="dir.reports" value="${dir.build}/reports" />
   <property name="dir.dist"    value="${dir.build}/dist" />
@@ -36,6 +37,7 @@
    <!-- compile options, may be overriden in other targets -->
   <property name="compile.debug" value="true" />
   <property name="compile.optimize" value="false" />
+  <property name="compile.deprecation" value="true" />
                                       
   <!-- file for emacs tags tables -->
   <property name="tagstable" value="${dir.src}/TAGS" />
@@ -46,8 +48,13 @@
   <path id="classpath.base">
     <pathelement location="${basedir}/lib/commons-collections-3.1.jar"/>
     <pathelement location="${basedir}/lib/commons-logging-1.0.3.jar"/>
-    <pathelement location="${basedir}/lib/junit-3.8.1.jar"/>
   </path>
+  <path id="test.classpath">
+    <path refid="classpath.base"/>
+
+    <pathelement location="${dir.lib}/test/junit-3.8.1.jar"/>
+  </path>
+  
 
   <!-- Build, Run and Test classpaths -->
   <path id="classpath.build">
@@ -65,6 +72,7 @@
     <mkdir dir="${dir.build}" />
     <mkdir dir="${dir.classes}" />
     <mkdir dir="${dir.bin}" />
+    <mkdir dir="${dir.build}/test-results"/>
   </target>
 
   <target name="clean"
@@ -84,16 +92,16 @@
 
     <!-- compile - into the build directory -->
     <echo level="info" taskname="compile" 
-          message="Compiling sources from: '${dir.compile}'"/>
-    <javac srcdir="${dir.compile}"
+          message="Compiling sources from: '${dir.src}'"/>
+    <javac srcdir="${dir.src}"
            excludes="**/scratch/*.java"
            destdir="${dir.classes}"
            debug="${compile.debug}"
            optimize="${compile.optimize}"
-           deprecation="true"
+           deprecation="${compile.deprecation}"
            >
       <classpath refid="classpath.base" />
-      <include name="**/*.java" />
+      <compilerarg value="-Xlint:unchecked"/>
     </javac>
 
     <!-- copy any resource (non java/class) files -->
@@ -114,9 +122,31 @@
     </antcall>
   </target>
 
+  <target name="compile.test" depends="init,compile"
+    description="Compile Java test sources">
+
+    <!-- Copy static files from external dependencies as needed -->
+    <copy todir="${dir.classes}">
+      <fileset dir="${dir.test}">
+        <exclude name="**/*.java" />
+      </fileset>
+    </copy>
+    
+    <!-- Compile Java classes as necessary -->
+    <javac srcdir="test"
+      destdir="${dir.classes}"
+      debug="${compile.debug}"
+      deprecation="${compile.deprecation}"
+      optimize="${compile.optimize}"
+      >
+      <classpath refid="test.classpath"/>
+      <compilerarg value="-Xlint:unchecked"/>
+    </javac>
+  </target>
+  
   <!-- ==================== Tests using JUnit ==================== -->
   <target name="test"
-          depends="checkstyle.strict,junit,junitreport"
+          depends="checkstyle.strict,-junit"
           description="Run the unit tests and format the results">
     <condition property="test.halt">
       <and>
@@ -129,55 +159,59 @@
     </fail>
   </target>
 
-  <!-- This target requires the junit-[version].jar be available when ant starts.  
-     - You can do either: 
-     -    1. put our lib/junit-[version].jar in your CLASSPATH
-     -    2. use ant 1.6 or better and specify the -lib option
-     -  Option (1) works well in Eclipse task definitions and JDEE for Emacs.
-     -  Option (2) works well from the command line and within JDEE for Emacs.
-     -
-     -  If you want the gory details on why we must do this, see:
-     -      http://ant.apache.org/faq.html#delegating-classloader 
-     -->
-  <target name="junit"
-          depends="compile"
-          description="Run unit tests using JUnit; specify junit.test.class for single testcase."
+  <target name="test.single"
+          depends="-junit.single,checkstyle.strict"
+          description="Run the unit tests">
+    <condition property="test.halt">
+      <and>
+        <isset property="test.failed" />
+        <!-- isset property="test.halt-if-failed" / -->
+      </and>
+    </condition>
+    <fail if="test.halt" message="JUnit tests failed">
+ ** One or more JUnit tests failed.
+    </fail>
+  </target>
+  
+  <target name="-junit"
+          depends="compile.test"
+          description="Run unit tests using JUnit"
           >
-    <mkdir dir="${dir.junit.xml}"/>
     <junit dir="${dir.build}"
-           fork="true"
-	   failureproperty="test.failed"
-           printsummary="on"
-           showoutput="true"
-           >
+      haltonfailure="false"
+      fork="true"
+      showoutput="true"
+      failureproperty="test.failed"
+      >
       <classpath refid="classpath.test" />
-      <formatter type="xml" />
-      <!-- sysproperty key="docs.dir" value="${test.classes.dir}"/ -->
+      <formatter type="brief" usefile="false"/>
       <sysproperty key="java.awt.headless" value="true" />
-      <!-- run either ${junit.test.class} or all **/test/*.java -->
-      <test name="${junit.test.class}" if="junit.test.class"
-            todir="${dir.junit.xml}" />
-      <batchtest todir="${dir.junit.xml}" unless="junit.test.class">
+      <batchtest todir="${dir.build}/test-results" unless="junit.test.class">
         <fileset dir="${dir.src}">
           <include name="**/test/*.java" />
-          <exclude name="**/test/AllTests*.java" />
-          <exclude name="dome/test/TestPropertyChangeListener.java" />
         </fileset>
       </batchtest>
     </junit>
   </target>
 
-  <target name="junitreport"
-          depends=""
-          description="Format the JUnit results">
-    <mkdir dir="${dir.junit.html}" />
-    <junitreport todir="${dir.junit.html}">
-      <fileset dir="${dir.junit.xml}">
-        <include name="*.xml"/>
-      </fileset>
-      <report format="frames" todir="${dir.junit.html}" styledir="lib/ant" />
-    </junitreport>
+  <target name="-junit.single"
+          depends="compile.test"
+          description="Run unit tests using JUnit; specify junit.test.class for single testcase."
+          >
+    <junit dir="${dir.build}"
+      haltonfailure="false"
+      fork="true"
+      showoutput="true"
+      failureproperty="test.failed"
+      >
+      <classpath refid="classpath.test" />
+      <formatter type="brief" usefile="false"/>
+      <sysproperty key="java.awt.headless" value="true" />
+      <test name="${junit.test.class}" if="junit.test.class"
+            todir="${dir.build}/test-results" />
+    </junit>
   </target>
+  
 
   <!-- ==================== Run ! ==================== -->
   <target name="run"
@@ -425,7 +459,7 @@
           description="Compile everything with DBC checks" 
           depends="instrument">
     <antcall target="compile">
-      <param name="dir.compile" value="${dir.inst}"/>
+      <param name="dir.src" value="${dir.inst}"/>
     </antcall>
   </target>
 
@@ -444,13 +478,12 @@
   <!-- ==================== Checkstyle ==================== -->
   <taskdef resource="checkstyletask.properties">
     <classpath>
-      <pathelement location="lib/ant/antlr-2.7.4.jar" />
-      <pathelement location="lib/ant/checkstyle-3.3.jar" />
-      <pathelement location="lib/ant/commons-beanutils.jar" />
-      <pathelement location="lib/ant/commons-cli-1.0.jar" />
-      <pathelement location="lib/commons-collections-3.1.jar" />
-      <pathelement location="lib/commons-logging-1.0.3.jar" />
-      <pathelement location="lib/ant/jakarta-regexp-1.3.jar" />
+      <pathelement location="${dir.lib}/ant/antlr-2.7.6.jar" />
+      <pathelement location="${dir.lib}/ant/checkstyle-4.2.jar" />
+      <pathelement location="${dir.lib}/ant/commons-beanutils-core.jar" />
+      <pathelement location="${dir.lib}/ant/commons-cli-1.0.jar" />
+      <pathelement location="${dir.lib}/ant/commons-collections.jar" />
+      <pathelement location="${dir.lib}/ant/commons-logging.jar" />
     </classpath>
   </taskdef>
 
