@@ -97,7 +97,8 @@
         </fileset>
         <html outfile="${dir.reports}/coverage.html" />
       </report>
-    </emma>    
+    </emma>
+    <echo message="See ${dir.reports}/coverage.html for the coverage report"/>
   </target>
 
   <target name="emma.instr"
