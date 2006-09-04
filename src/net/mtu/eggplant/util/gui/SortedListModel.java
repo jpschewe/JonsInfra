@@ -40,7 +40,8 @@ import java.util.Collections;
  * A ListModel that orders the objects according to a comparator and does
  * sorted insert.  The comparator must be able to handle all objects in the
  * list.
- * 
+ *
+ * @param <E> type of elements in the table model
  * @version $Revision: 1.4 $
  */
 public class SortedListModel<E> extends AbstractListModel {

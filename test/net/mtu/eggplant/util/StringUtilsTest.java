@@ -58,7 +58,9 @@ public class StringUtilsTest extends TestCase {
 
   protected void tearDown()
     throws Exception {
-    System.setProperty("ASSERT_BEHAVIOR", _assertProperty);
+    if(null != _assertProperty) {
+      System.setProperty("ASSERT_BEHAVIOR", _assertProperty);
+    }
   }
   private String _assertProperty;
   
