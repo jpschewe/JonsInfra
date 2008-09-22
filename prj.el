@@ -26,6 +26,7 @@
    '(jde-compile-option-directory 	(expand-file-name "build/classes" project-root))
    '(jde-compile-option-sourcepath 	(list (expand-file-name "src" project-root)))
    '(jde-compile-option-debug 	  	(quote ("all")))
+   '(jde-compile-option-command-line-args '("-Xlint:unchecked"))
    '(jde-compile-option-deprecation 	t)
    '(jde-build-function 		'(jde-ant-build))
    '(jde-ant-working-directory		project-root)
@@ -51,8 +52,6 @@
    '(jde-import-group-of-rules
      (quote
       (
-       ("^\\(com\\.honeywell\\.htc\\.[^.]+\\([.][^.]+[.]\\)*\\)" . 1)
-       ("^\\(com\\.honeywell\\.[^.]+\\([.][^.]+[.]\\)*\\)" . 1)
        ;;("^javax?\\.")
        ("^\\([^.]+\\([.][^.]+[.]\\)*\\)" . 1)
        )))   
@@ -64,7 +63,9 @@
       ;; additional jars
       "./lib/commons-collections-3.1.jar"
       "./lib/collons-logging-1.0.3.jar"
-      
+
+      ;; test libraries
+      "./lib/test/junit-3.8.1.jar"
       ))
    '(jde-gen-buffer-boilerplate
      (list

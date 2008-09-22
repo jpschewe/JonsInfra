@@ -48,12 +48,6 @@
     <pathelement location="${basedir}/lib/commons-collections-3.1.jar"/>
     <pathelement location="${basedir}/lib/commons-logging-1.0.3.jar"/>
   </path>
-  <path id="test.classpath">
-    <pathelement location="${dir.emma-instr}"/>
-    <path refid="classpath.base"/>
-
-    <pathelement location="${dir.lib}/test/junit-3.8.1.jar"/>
-  </path>
   
 
   <!-- Build, Run and Test classpaths -->
@@ -62,7 +56,12 @@
     <path refid="classpath.base" />
   </path>
   <path id="classpath.run" refid="classpath.build" />
-  <path id="classpath.test" refid="classpath.build" />
+  <path id="classpath.test">
+    <pathelement location="${dir.emma-instr}"/>
+    <path refid="classpath.base"/>
+
+    <pathelement location="${dir.lib}/test/junit-3.8.1.jar"/>
+  </path>
 
   <!-- ==================== Emma (Code coverage) ==================== -->
   <property name="emma.dir" value="${dir.lib}/emma" />
@@ -193,7 +192,7 @@
       deprecation="${compile.deprecation}"
       optimize="${compile.optimize}"
       >
-      <classpath refid="test.classpath"/>
+      <classpath refid="classpath.test"/>
       <compilerarg value="-Xlint:unchecked"/>
     </javac>
   </target>
