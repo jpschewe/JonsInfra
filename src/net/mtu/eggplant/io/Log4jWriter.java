@@ -29,8 +29,10 @@ package net.mtu.eggplant.io;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
 
 /**
  * Writer that outputs to log4j.
