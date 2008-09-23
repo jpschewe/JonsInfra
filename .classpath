@@ -2,13 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
-	<classpathentry kind="lib" path="lib/ant/antlr-2.7.6.jar"/>
-	<classpathentry kind="lib" path="lib/ant/checkstyle-4.2.jar"/>
-	<classpathentry kind="lib" path="lib/ant/commons-beanutils-core.jar"/>
-	<classpathentry kind="lib" path="lib/ant/commons-cli-1.0.jar"/>
-	<classpathentry kind="lib" path="lib/ant/commons-collections.jar"/>
-	<classpathentry kind="lib" path="lib/ant/commons-logging.jar"/>
-	<classpathentry kind="lib" path="lib/commons-collections-3.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.0.3.jar"/>
 	<classpathentry kind="lib" path="lib/emma/emma_ant.jar"/>
 	<classpathentry kind="lib" path="lib/emma/emma.jar"/>
