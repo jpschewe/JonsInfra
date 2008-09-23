@@ -108,14 +108,14 @@ public final class GraphicsUtils {
   /**
      draw the points on the Graphics Context.  Uses Graphics.drawPolyLine.
      @param g the graphics context
-     @param points a vector of points, anything other than a point in this
+     @param points a collection of points, anything other than a point in this
      vector is simply skipped
   **/
-  public static void drawPolyLine(final Graphics g, final Collection points) {
+  public static void drawPolyLine(final Graphics g, final Collection<?> points) {
     final int[] xpoints = new int[points.size()];
     final int[] ypoints = new int[points.size()];
     int npoints = 0;
-    final Iterator iter = points.iterator();
+    final Iterator<?> iter = points.iterator();
     while(iter.hasNext()) {
       Object obj = iter.next();
       if(obj instanceof Point) {
@@ -134,7 +134,7 @@ public final class GraphicsUtils {
      @param g the graphics context
      @param v a Container of polygons, other classes are ignored
   **/
-  public static void drawPolygons(final Graphics g, final Collection v) {
+  public static void drawPolygons(final Graphics g, final Collection<?> v) {
     drawPolygons(g, v.iterator());
   }
 
@@ -143,7 +143,7 @@ public final class GraphicsUtils {
      @param g the graphics context
      @param iter an Enumeration of polygons, other classes are ignored
   **/
-  public static void drawPolygons(final Graphics g, final Iterator iter) {
+  public static void drawPolygons(final Graphics g, final Iterator<?> iter) {
     while(iter.hasNext()) {
       final Object obj = iter.next();
       if(obj instanceof Polygon) {
@@ -157,7 +157,7 @@ public final class GraphicsUtils {
      @param g the graphics context
      @param v a Container of polygons, other classes are ignored
   **/
-  public static void fillPolygons(final Graphics g, final Collection v) {
+  public static void fillPolygons(final Graphics g, final Collection<?> v) {
     fillPolygons(g, v.iterator());
   }
 
@@ -167,7 +167,7 @@ public final class GraphicsUtils {
      @param g the graphics context
      @param iter an Enumeration of polygons, other classes are ignored
   **/
-  public static void fillPolygons(final Graphics g, final Iterator iter) {
+  public static void fillPolygons(final Graphics g, final Iterator<?> iter) {
     while(iter.hasNext()) {
       final Object obj = iter.next();
       if(obj instanceof Polygon) {

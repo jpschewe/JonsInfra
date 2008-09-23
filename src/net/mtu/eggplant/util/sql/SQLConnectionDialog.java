@@ -67,7 +67,7 @@ public class SQLConnectionDialog extends JDialog {
     
     JLabel driverLabel = new JLabel("Driver: ");
     gbc = new GridBagConstraints();
-    gbc.fill = gbc.HORIZONTAL;
+    gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.weightx = 1.0;
     gbc.weighty = 0.0;
     getContentPane().add(driverLabel, gbc);
@@ -88,55 +88,55 @@ public class SQLConnectionDialog extends JDialog {
     //_driverCombo.setModel(_driverModel);
     
     gbc = new GridBagConstraints();
-    gbc.fill = gbc.NONE;
+    gbc.fill = GridBagConstraints.NONE;
     gbc.weightx = 0.0;
     gbc.weighty = 0.0;
-    gbc.gridwidth = gbc.REMAINDER;
+    gbc.gridwidth = GridBagConstraints.REMAINDER;
     getContentPane().add(_driverCombo, gbc);
     
     JLabel dataSourceLabel = new JLabel("Data Source:");
     gbc = new GridBagConstraints();
-    gbc.fill = gbc.HORIZONTAL;
+    gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.weightx = 1.0;
     gbc.weighty = 0.0;
     getContentPane().add(dataSourceLabel, gbc);
 
     _dataSourceText = new JTextField(20);
     gbc = new GridBagConstraints();
-    gbc.fill = gbc.NONE;
+    gbc.fill = GridBagConstraints.NONE;
     gbc.weightx = 0.0;
     gbc.weighty = 0.0;
-    gbc.gridwidth = gbc.REMAINDER;
+    gbc.gridwidth = GridBagConstraints.REMAINDER;
     getContentPane().add(_dataSourceText, gbc);
 
     JLabel userLabel = new JLabel("Username:");
     gbc = new GridBagConstraints();
-    gbc.fill = gbc.HORIZONTAL;
+    gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.weightx = 1.0;
     gbc.weighty = 0.0;
     getContentPane().add(userLabel, gbc);
     
     _userText = new JTextField(20);
     gbc = new GridBagConstraints();
-    gbc.fill = gbc.NONE;
+    gbc.fill = GridBagConstraints.NONE;
     gbc.weightx = 0.0;
     gbc.weighty = 0.0;
-    gbc.gridwidth = gbc.REMAINDER;
+    gbc.gridwidth = GridBagConstraints.REMAINDER;
     getContentPane().add(_userText, gbc);
 
     JLabel passLabel = new JLabel("Password:");
     gbc = new GridBagConstraints();
-    gbc.fill = gbc.HORIZONTAL;
+    gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.weightx = 1.0;
     gbc.weighty = 0.0;
     getContentPane().add(passLabel, gbc);
     
     _passText = new JPasswordField(20);
     gbc = new GridBagConstraints();
-    gbc.fill = gbc.NONE;
+    gbc.fill = GridBagConstraints.NONE;
     gbc.weightx = 0.0;
     gbc.weighty = 0.0;
-    gbc.gridwidth = gbc.REMAINDER;
+    gbc.gridwidth = GridBagConstraints.REMAINDER;
     getContentPane().add(_passText, gbc);
 
     /*

@@ -28,7 +28,6 @@
 package net.mtu.eggplant.util;
 
 import java.util.Collection;
-import java.util.HashMap;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
@@ -53,33 +52,11 @@ public final class JPSCollections {
      @pre (collection != null)
      @pre (type != null)
   **/
-  public static boolean checkInstanceOf(final Collection collection, final Class type) {
+  public static boolean checkInstanceOf(final Collection<?> collection, final Class<?> type) {
     final Predicate pred = NotPredicate.getInstance(InstanceofPredicate.getInstance(type));
     //If there exists one element that is not an instance of type, then return
     //false.  Yes this is kind of confusing, but it works.
     return !CollectionUtils.exists(collection, pred);
   }
 
-  /**
-   * Create a HashMap of expected size using loadRatio.
-   * 
-   * @pre (expectedSize >= 0)
-   * @pre (loadRatio > 0)
-   */
-  public static HashMap createHashMap(final int expectedSize,
-                                      final float loadRatio) {
-    return new HashMap(Math.max(1, (int)Math.ceil((float)expectedSize/loadRatio)), loadRatio);
-  }
-
-  /**
-   * Defaults loadRatio to 0.75.
-   *
-   * @see #createHashMap(int, float)
-   * 
-   * @pre (expectedSize >= 0)
-   */
-  public static HashMap createHashMap(final int expectedSize) {
-    return createHashMap(expectedSize, 0.75F);
-  }
-  
 }

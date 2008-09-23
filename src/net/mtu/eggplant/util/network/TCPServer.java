@@ -139,8 +139,6 @@ public class TCPServer extends Object implements Runnable, Cloneable {
 
     // wait for data
     String line;
-    StringBuffer revline;
-    int len;
     try {
       while(true) {
         // read in a line

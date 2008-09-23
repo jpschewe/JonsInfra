@@ -66,10 +66,11 @@ public class SortableTable extends JTable {
   }
 
   /**
-     Overriden to make sure that the table model set is a SortedTableModel.
+     Overridden to make sure that the table model set is a SortedTableModel.
      
      @throws IllegalArgumentException if tm is not an instanceof {@link SortableTableModel}
   **/
+  @Override
   public void setModel(final TableModel tm) {
     if(! (tm instanceof SortableTableModel) ) {
       throw new IllegalArgumentException("table model must be a SortableTableModel");
@@ -89,11 +90,11 @@ public class SortableTable extends JTable {
       
       final SortableTableModel sm = (SortableTableModel)getModel();
       sm.sort(modelIndex);
-      final Enumeration columnIter = colModel.getColumns();
+      final Enumeration<TableColumn> columnIter = colModel.getColumns();
       final boolean ascending = sm.isAscending();
       final int sortedColumn = sm.getSortedColumn();
       for(int cindex = 0; columnIter.hasMoreElements(); cindex++) {
-        final TableColumn column = (TableColumn)columnIter.nextElement();
+        final TableColumn column = columnIter.nextElement();
         String columnName = sm.getColumnName(column.getModelIndex());
         if(cindex == sortedColumn) {
           columnName += ascending ? " ^" : " v";

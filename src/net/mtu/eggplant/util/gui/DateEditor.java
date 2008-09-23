@@ -34,13 +34,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-
-import java.text.DateFormat;
 import java.text.DecimalFormat;
-
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -126,13 +122,13 @@ public class DateEditor extends JPanel {
     _internalPanel.setBackground(Color.white);
     _internalPanel.setLayout(new BoxLayout(_internalPanel, BoxLayout.X_AXIS));
     gbc = new GridBagConstraints();
-    gbc.fill = gbc.NONE;
+    gbc.fill = GridBagConstraints.NONE;
     gbc.weightx = 0.0;
     gbc.weighty = 0.0;
-    gbc.anchor = gbc.WEST;
+    gbc.anchor = GridBagConstraints.WEST;
     add(_internalPanel, gbc);
     gbc = new GridBagConstraints();
-    gbc.fill = gbc.HORIZONTAL;
+    gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.weightx = 1.0;
     gbc.weighty = 0.0;
     add(new JPanel(), gbc);
@@ -275,7 +271,6 @@ public class DateEditor extends JPanel {
   }
 
   protected void addFields(final Locale locale) {
-    DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, locale);
     // not sure here, just assume US    
     boolean europe = false;
     // also take care of _dateSeparator and _timeSeparator

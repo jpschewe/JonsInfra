@@ -42,7 +42,7 @@ public final class SQLFunctions {
   /**
    * Do simple mapping from an SQL type to a Java Class.
    */
-  public static Class getClassForType(final int type) {
+  public static Class<?> getClassForType(final int type) {
     try {
       switch(type) {
       case Types.CHAR:

@@ -54,7 +54,7 @@ public class CollectionSupport {
      
      @pre (data != null)
   **/
-  public void fireObjectsAdded(final Collection data) {
+  public void fireObjectsAdded(final Collection<?> data) {
     final CollectionEvent ce = new CollectionEvent(_source, data);
     final Object[] listeners = _listeners.getListenerList();
     for(int i=listeners.length-2; i>=0; i-=2) {
@@ -69,7 +69,7 @@ public class CollectionSupport {
      
      @pre (data != null)
   **/
-  public void fireObjectsRemoved(final Collection data) {
+  public void fireObjectsRemoved(final Collection<?> data) {
     final CollectionEvent ce = new CollectionEvent(_source, data);
     final Object[] listeners = _listeners.getListenerList();
     for(int i=listeners.length-2; i>=0; i-=2) {
