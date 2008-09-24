@@ -33,7 +33,6 @@ import java.io.Writer;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-
 /**
  * Writer that outputs to log4j.
  */
@@ -78,11 +77,13 @@ public class Log4jWriter extends Writer {
    */
   @Override
   public void flush() throws IOException {
-    final String s = text.toString();
-    text.setLength(0);
-    if(s.length() > 0) {
-      this.logger.log(this.level, s);
+    if (this.logger.isEnabledFor(this.level)) {
+      final String s = text.toString();
+      if (s.length() > 0) {
+        this.logger.log(this.level, s);
+      }
     }
+    text.setLength(0);
   }
 
   /**
@@ -90,7 +91,9 @@ public class Log4jWriter extends Writer {
    */
   @Override
   public void write(char[] cbuf, int off, int len) throws IOException {
-    text.append(cbuf, off, len);
+    if (this.logger.isEnabledFor(this.level)) {
+      text.append(cbuf, off, len);
+    }
   }
 
 }
