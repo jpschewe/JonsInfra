@@ -34,7 +34,7 @@ import javax.swing.filechooser.FileFilter;
 /**
  * This class makes it easy to accept files by extension.
  * 
- * @version $Revision: 1.4 $
+ * @version $Revision$
  */
 public class BasicFileFilter extends FileFilter {
 
