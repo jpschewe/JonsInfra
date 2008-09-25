@@ -38,24 +38,24 @@ public final class SQLFunctions {
 
   private SQLFunctions() {
   }
-  
+
   /**
    * Do simple mapping from an SQL type to a Java Class.
    */
   public static Class<?> getClassForType(final int type) {
     try {
-      switch(type) {
+      switch (type) {
       case Types.CHAR:
       case Types.LONGVARCHAR:
       case Types.VARCHAR:
         return Class.forName("java.lang.String");
-      case Types.DECIMAL:        
+      case Types.DECIMAL:
       case Types.NUMERIC:
         return Class.forName("java.math.BigDecimal");
       case Types.BIT:
         return Class.forName("java.lang.Boolean");
       case Types.SMALLINT:
-      case Types.TINYINT:      
+      case Types.TINYINT:
       case Types.INTEGER:
         return Class.forName("java.lang.Integer");
       case Types.BIGINT:
@@ -77,13 +77,13 @@ public final class SQLFunctions {
         return Class.forName("java.sql.Timestamp");
       case Types.NULL:
         return Class.forName("java.lang.Void");
-      case Types.OTHER:      
+      case Types.OTHER:
       default:
         return Class.forName("java.lang.Object");
       }
-    } catch(final ClassNotFoundException cnfe) {
+    } catch (final ClassNotFoundException cnfe) {
       throw new RuntimeException("Can't find standard class type " + cnfe);
     }
   }
-  
+
 }

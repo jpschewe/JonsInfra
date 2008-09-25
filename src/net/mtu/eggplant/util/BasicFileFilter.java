@@ -33,55 +33,61 @@ import javax.swing.filechooser.FileFilter;
 
 /**
  * This class makes it easy to accept files by extension.
- *
+ * 
  * @version $Revision: 1.4 $
  */
 public class BasicFileFilter extends FileFilter {
 
   /**
-   * Create a Filter filter with description and allowing files with
-   * extensions in the list extensions.
-   *
-   * @param description the description of this filter
-   * @param extensions the extensions to allow
-   *
+   * Create a Filter filter with description and allowing files with extensions
+   * in the list extensions.
+   * 
+   * @param description
+   *          the description of this filter
+   * @param extensions
+   *          the extensions to allow
+   * 
    * @pre (description != null)
    * @pre (extensions != null)
    */
-  public BasicFileFilter(final String description, final String[] extensions) {
+  public BasicFileFilter(final String description,
+                         final String[] extensions) {
     _description = description;
     _extensions = extensions;
   }
 
   /**
-   * Create a Filter filter with description and allowing files with
-   * extensions equal to extension as well as directories (for traversal).
-   *
-   * @param description the description of this filter
-   * @param extension the extension to allow
-   *
+   * Create a Filter filter with description and allowing files with extensions
+   * equal to extension as well as directories (for traversal).
+   * 
+   * @param description
+   *          the description of this filter
+   * @param extension
+   *          the extension to allow
+   * 
    * @pre (description != null)
    * @pre (extension != null)
    */
-  public BasicFileFilter(final String description, final String extension) {
+  public BasicFileFilter(final String description,
+                         final String extension) {
     _description = description;
     _extensions = new String[1];
     _extensions[0] = extension;
   }
-  
+
   private String _description;
 
   private String[] _extensions;
 
   public boolean accept(final File f) {
-    //accept directories
-    if(f.isDirectory()) {
+    // accept directories
+    if (f.isDirectory()) {
       return true;
     }
 
     final String filename = f.getName();
-    for(int i=0; i<_extensions.length; i++) {
-      if(filename.endsWith('.' + _extensions[i])) {
+    for (int i = 0; i < _extensions.length; i++) {
+      if (filename.endsWith('.' + _extensions[i])) {
         return true;
       }
     }

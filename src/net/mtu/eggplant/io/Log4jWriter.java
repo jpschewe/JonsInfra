@@ -38,19 +38,19 @@ import org.apache.log4j.Logger;
  */
 public class Log4jWriter extends Writer {
 
-  private final Logger logger;
+  private final Logger _logger;
 
-  private final Level level;
+  private final Level _level;
 
-  private final StringBuilder text = new StringBuilder();
+  private final StringBuilder _text = new StringBuilder();
 
   /**
    * @param logger the logger to log to
    * @param level the level to log at
    */
   public Log4jWriter(final Logger logger, final Level level) {
-    this.logger = logger;
-    this.level = level;
+    this._logger = logger;
+    this._level = level;
   }
 
   /**
@@ -60,8 +60,8 @@ public class Log4jWriter extends Writer {
    */
   public Log4jWriter(final Object lock, final Logger logger, final Level level) {
     super(lock);
-    this.logger = logger;
-    this.level = level;
+    this._logger = logger;
+    this._level = level;
   }
 
   /**
@@ -77,22 +77,22 @@ public class Log4jWriter extends Writer {
    */
   @Override
   public void flush() throws IOException {
-    if (this.logger.isEnabledFor(this.level)) {
-      final String s = text.toString();
+    if (this._logger.isEnabledFor(this._level)) {
+      final String s = _text.toString();
       if (s.length() > 0) {
-        this.logger.log(this.level, s);
+        this._logger.log(this._level, s);
       }
     }
-    text.setLength(0);
+    _text.setLength(0);
   }
 
   /**
    * @see java.io.Writer#write(char[], int, int)
    */
   @Override
-  public void write(char[] cbuf, int off, int len) throws IOException {
-    if (this.logger.isEnabledFor(this.level)) {
-      text.append(cbuf, off, len);
+  public void write(final char[] cbuf, final int off, final int len) throws IOException {
+    if (this._logger.isEnabledFor(this._level)) {
+      _text.append(cbuf, off, len);
     }
   }
 

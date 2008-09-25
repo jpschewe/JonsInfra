@@ -50,7 +50,7 @@ import javax.swing.JOptionPane;
 
 /**
  * graphics functions that should exist in java, but don't
- *
+ * 
  * @author Jon Schewe
  * 
  * @version $Revision: 1.12 $
@@ -58,25 +58,28 @@ import javax.swing.JOptionPane;
 public final class GraphicsUtils {
 
   private GraphicsUtils() {
-    //no instances
+    // no instances
   }
-  
+
   /**
-     a basic main for testing a graphical class.  Takes the component and puts 
-     * in in a JFrame or JDialog and shows the window.
-     @param c the component to display
-     @param dialog if <code>true</code> put in a JDialog, otherwise put in a
-     * JFrame
-     **/
-  public static Window basicGUIMain(final Component c, final boolean dialog) {
+   * a basic main for testing a graphical class. Takes the component and puts in
+   * in a JFrame or JDialog and shows the window.
+   * 
+   * @param c
+   *          the component to display
+   * @param dialog
+   *          if <code>true</code> put in a JDialog, otherwise put in a JFrame
+   **/
+  public static Window basicGUIMain(final Component c,
+                                    final boolean dialog) {
     final Container container;
     final Window window;
-    if(dialog) {
+    if (dialog) {
       window = new JDialog();
-      container = ((JDialog)window).getContentPane();
+      container = ((JDialog) window).getContentPane();
     } else {
       window = new JFrame();
-      container = ((JFrame)window).getContentPane();      
+      container = ((JFrame) window).getContentPane();
     }
 
     window.setSize(c.getPreferredSize());
@@ -84,7 +87,7 @@ public final class GraphicsUtils {
     container.setLayout(new BorderLayout());
     container.add(c, BorderLayout.CENTER);
     centerWindow(window);
-    window.pack();    
+    window.pack();
     window.setVisible(true);
 
     return window;
@@ -94,32 +97,37 @@ public final class GraphicsUtils {
    * Centers the window on the screen.
    */
   public static void centerWindow(final Window window) {
-    final Rectangle2D screenSize = window.getGraphicsConfiguration().getBounds();
-    final Point2D screenCenter = new Point2D.Double(screenSize.getWidth()/2,
-                                                    screenSize.getHeight()/2);
+    final Rectangle2D screenSize = window.getGraphicsConfiguration()
+        .getBounds();
+    final Point2D screenCenter = new Point2D.Double(screenSize.getWidth() / 2,
+        screenSize.getHeight() / 2);
     final Dimension2D windowSize = window.getSize();
     final Point location = new Point();
-    location.setLocation(new Point2D.Double(screenCenter.getX() - windowSize.getWidth()/2,
-                                            screenCenter.getY() - windowSize.getHeight()/2));
+    location.setLocation(new Point2D.Double(screenCenter.getX()
+        - windowSize.getWidth() / 2, screenCenter.getY()
+        - windowSize.getHeight() / 2));
     window.setLocation(location);
   }
 
-  
   /**
-     draw the points on the Graphics Context.  Uses Graphics.drawPolyLine.
-     @param g the graphics context
-     @param points a collection of points, anything other than a point in this
-     vector is simply skipped
-  **/
-  public static void drawPolyLine(final Graphics g, final Collection<?> points) {
+   * draw the points on the Graphics Context. Uses Graphics.drawPolyLine.
+   * 
+   * @param g
+   *          the graphics context
+   * @param points
+   *          a collection of points, anything other than a point in this vector
+   *          is simply skipped
+   **/
+  public static void drawPolyLine(final Graphics g,
+                                  final Collection<?> points) {
     final int[] xpoints = new int[points.size()];
     final int[] ypoints = new int[points.size()];
     int npoints = 0;
     final Iterator<?> iter = points.iterator();
-    while(iter.hasNext()) {
+    while (iter.hasNext()) {
       Object obj = iter.next();
-      if(obj instanceof Point) {
-        final Point p = (Point)obj;
+      if (obj instanceof Point) {
+        final Point p = (Point) obj;
         xpoints[npoints] = p.x;
         ypoints[npoints] = p.y;
         npoints++;
@@ -130,58 +138,74 @@ public final class GraphicsUtils {
   }
 
   /**
-     draw a bunch of polygons
-     @param g the graphics context
-     @param v a Container of polygons, other classes are ignored
-  **/
-  public static void drawPolygons(final Graphics g, final Collection<?> v) {
+   * draw a bunch of polygons
+   * 
+   * @param g
+   *          the graphics context
+   * @param v
+   *          a Container of polygons, other classes are ignored
+   **/
+  public static void drawPolygons(final Graphics g,
+                                  final Collection<?> v) {
     drawPolygons(g, v.iterator());
   }
 
   /**
-     draw a bunch of polygons
-     @param g the graphics context
-     @param iter an Enumeration of polygons, other classes are ignored
-  **/
-  public static void drawPolygons(final Graphics g, final Iterator<?> iter) {
-    while(iter.hasNext()) {
+   * draw a bunch of polygons
+   * 
+   * @param g
+   *          the graphics context
+   * @param iter
+   *          an Enumeration of polygons, other classes are ignored
+   **/
+  public static void drawPolygons(final Graphics g,
+                                  final Iterator<?> iter) {
+    while (iter.hasNext()) {
       final Object obj = iter.next();
-      if(obj instanceof Polygon) {
-        g.drawPolygon((Polygon)obj);
+      if (obj instanceof Polygon) {
+        g.drawPolygon((Polygon) obj);
       }
     }
   }
 
   /**
-     fill a bunch of polygons
-     @param g the graphics context
-     @param v a Container of polygons, other classes are ignored
-  **/
-  public static void fillPolygons(final Graphics g, final Collection<?> v) {
+   * fill a bunch of polygons
+   * 
+   * @param g
+   *          the graphics context
+   * @param v
+   *          a Container of polygons, other classes are ignored
+   **/
+  public static void fillPolygons(final Graphics g,
+                                  final Collection<?> v) {
     fillPolygons(g, v.iterator());
   }
 
-
   /**
-     fill a bunch of polygons
-     @param g the graphics context
-     @param iter an Enumeration of polygons, other classes are ignored
-  **/
-  public static void fillPolygons(final Graphics g, final Iterator<?> iter) {
-    while(iter.hasNext()) {
+   * fill a bunch of polygons
+   * 
+   * @param g
+   *          the graphics context
+   * @param iter
+   *          an Enumeration of polygons, other classes are ignored
+   **/
+  public static void fillPolygons(final Graphics g,
+                                  final Iterator<?> iter) {
+    while (iter.hasNext()) {
       final Object obj = iter.next();
-      if(obj instanceof Polygon) {
-        g.fillPolygon((Polygon)obj);
+      if (obj instanceof Polygon) {
+        g.fillPolygon((Polygon) obj);
       }
     }
   }
 
-  public static int getMaxWidth(final JComboBox combo, final FontMetrics fm) {
+  public static int getMaxWidth(final JComboBox combo,
+                                final FontMetrics fm) {
     int maxLen = 0;
-    for(int i=0; i<combo.getItemCount(); i++) {
+    for (int i = 0; i < combo.getItemCount(); i++) {
       String str = combo.getItemAt(i).toString();
       int wi = fm.stringWidth(str);
-      if(wi > maxLen) {
+      if (wi > maxLen) {
         maxLen = wi;
       }
     }
@@ -189,26 +213,29 @@ public final class GraphicsUtils {
   }
 
   /**
-     Create an icon from the resource at path.
-
-     @pre (path != null)
-  **/
+   * Create an icon from the resource at path.
+   * 
+   * @pre (path != null)
+   **/
   public static ImageIcon getIcon(final String path) {
-    return new ImageIcon(Thread.currentThread().getContextClassLoader().getResource(path));
+    return new ImageIcon(Thread.currentThread().getContextClassLoader()
+        .getResource(path));
   }
 
   /**
-     Popup a warning dialog displaying <tt>message</tt>.
-  **/
+   * Popup a warning dialog displaying <tt>message</tt>.
+   **/
   public static void notImplemented(final String message) {
-    JOptionPane.showMessageDialog(null, message, "Not Implemented", JOptionPane.WARNING_MESSAGE);
+    JOptionPane.showMessageDialog(null, message, "Not Implemented",
+        JOptionPane.WARNING_MESSAGE);
   }
 
   /**
-     Popup an error dialog with <tt>message</tt> in it.
-  **/
+   * Popup an error dialog with <tt>message</tt> in it.
+   **/
   public static void error(final String message) {
-    JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.WARNING_MESSAGE);
+    JOptionPane.showMessageDialog(null, message, "Error",
+        JOptionPane.WARNING_MESSAGE);
   }
-  
+
 }

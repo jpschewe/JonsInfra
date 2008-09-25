@@ -28,25 +28,26 @@
 package net.mtu.eggplant.util;
 
 /**
- *  class to put multiple objects in one.
- *  
+ * class to put multiple objects in one.
+ * 
  * @version $Revision: 1.6 $
  */
 public class Pair extends Object {
 
-  public Pair(final Object one, final Object two) {
+  public Pair(final Object one,
+              final Object two) {
     _one = one;
     _two = two;
   }
 
   private Object _one = null;
-  
+
   public Object getOne() {
     return _one;
   }
 
   private Object _two = null;
-  
+
   public Object getTwo() {
     return _two;
   }
@@ -56,25 +57,25 @@ public class Pair extends Object {
   }
 
   /**
-     Equality is defined by the equality of the objects in the Pair.
-  **/
+   * Equality is defined by the equality of the objects in the Pair.
+   **/
   public boolean equals(final Object o) {
-    if(o instanceof Pair) {
-      final Pair other = (Pair)o;
-      return ( (other.getOne() == null && getOne() == null)
-               || (other.getOne() != null && getOne() != null && other.getOne().equals(getOne())) )
-        && ( (other.getTwo() == null && getTwo() == null)
-             || (other.getTwo() != null && getTwo() != null && other.getTwo().equals(getTwo())) );
+    if (o instanceof Pair) {
+      final Pair other = (Pair) o;
+      return ((other.getOne() == null && getOne() == null) || (other.getOne() != null
+          && getOne() != null && other.getOne().equals(getOne())))
+          && ((other.getTwo() == null && getTwo() == null) || (other.getTwo() != null
+              && getTwo() != null && other.getTwo().equals(getTwo())));
     }
     return false;
   }
 
   public int hashCode() {
-    if(getOne() == null) {
+    if (getOne() == null) {
       return -1;
     } else {
       return getOne().hashCode();
     }
   }
-  
+
 }

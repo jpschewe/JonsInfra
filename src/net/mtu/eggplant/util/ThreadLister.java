@@ -30,43 +30,51 @@ package net.mtu.eggplant.util;
 import java.io.PrintStream;
 
 /**
- * This example is from the book _Java in a Nutshell_ by David Flanagan.
- * Written by David Flanagan.  Copyright (c) 1996 O'Reilly & Associates.  You
- * may study, use, modify, and distribute this example for any purpose.  This
- * example is provided WITHOUT WARRANTY either expressed or implied.
+ * This example is from the book _Java in a Nutshell_ by David Flanagan. Written
+ * by David Flanagan. Copyright (c) 1996 O'Reilly & Associates. You may study,
+ * use, modify, and distribute this example for any purpose. This example is
+ * provided WITHOUT WARRANTY either expressed or implied.
  * 
  * @version $Revision: 1.6 $
  */
 public final class ThreadLister {
 
-  private ThreadLister() { }
-  
+  private ThreadLister() {
+  }
+
   /**
-     Display info about a thread.
-     @param out the stream to print stuff on
-     @param t the thread to get info on
-     @param indent how much to indent
-  **/
+   * Display info about a thread.
+   * 
+   * @param out
+   *          the stream to print stuff on
+   * @param t
+   *          the thread to get info on
+   * @param indent
+   *          how much to indent
+   **/
   public static void printThreadInfo(final PrintStream out,
-                                     final Thread t, 
+                                     final Thread t,
                                      final String indent) {
     if (t == null) {
       return;
     }
-    out.println(indent + "Thread: " + t.getName() +
-                "  Priority: " + t.getPriority() +
-                (t.isDaemon()?" Daemon":"") +
-                (t.isAlive()?"":" Not Alive"));
+    out.println(indent + "Thread: " + t.getName() + "  Priority: "
+        + t.getPriority() + (t.isDaemon() ? " Daemon" : "")
+        + (t.isAlive() ? "" : " Not Alive"));
   }
-    
+
   /**
-     Display info about a thread group and its threads and groups
-     @param out the stream to print on
-     @param g the thread group
-     @param indent how much to indent
-  **/
+   * Display info about a thread group and its threads and groups
+   * 
+   * @param out
+   *          the stream to print on
+   * @param g
+   *          the thread group
+   * @param indent
+   *          how much to indent
+   **/
   public static void listGroup(final PrintStream out,
-                               final ThreadGroup g, 
+                               final ThreadGroup g,
                                final String indent) {
     if (g == null) {
       return;
@@ -75,47 +83,47 @@ public final class ThreadLister {
     int numGroups = g.activeGroupCount();
     Thread[] threads = new Thread[numThreads];
     ThreadGroup[] groups = new ThreadGroup[numGroups];
-        
+
     g.enumerate(threads, false);
     g.enumerate(groups, false);
-        
-    out.println(indent + "Thread Group: " + g.getName() + 
-                "  Max Priority: " + g.getMaxPriority() +
-                (g.isDaemon()?" Daemon":""));
-        
-    for(int i = 0; i < numThreads; i++) {
+
+    out.println(indent + "Thread Group: " + g.getName() + "  Max Priority: "
+        + g.getMaxPriority() + (g.isDaemon() ? " Daemon" : ""));
+
+    for (int i = 0; i < numThreads; i++) {
       printThreadInfo(out, threads[i], indent + "    ");
     }
-    for(int i = 0; i < numGroups; i++) {
+    for (int i = 0; i < numGroups; i++) {
       listGroup(out, groups[i], indent + "    ");
     }
   }
-    
+
   /**
-     Find the root thread group and list it recursively
-     @param out the stream to print on
-  **/
+   * Find the root thread group and list it recursively
+   * 
+   * @param out
+   *          the stream to print on
+   **/
   public static void listAllThreads(final PrintStream out) {
     ThreadGroup currentThreadGroup;
     ThreadGroup rootThreadGroup;
     ThreadGroup parent;
-        
+
     // Get the current thread group
     currentThreadGroup = Thread.currentThread().getThreadGroup();
-        
+
     // Now go find the root thread group
     rootThreadGroup = currentThreadGroup;
     parent = rootThreadGroup.getParent();
-    while(parent != null) {
+    while (parent != null) {
       rootThreadGroup = parent;
       parent = parent.getParent();
     }
-        
+
     // And list it, recursively
     listGroup(out, rootThreadGroup, "");
   }
-    
-    
+
   public static void main(final String[] args) {
     ThreadLister.listAllThreads(System.out);
   }

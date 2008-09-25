@@ -34,33 +34,35 @@ package net.mtu.eggplant.util;
  */
 public final class Functions {
 
-  private Functions() {}
-  
+  private Functions() {
+  }
+
   /**
-     Exit with an error message, when an exception occurs.
-     @param e the exception
-     @param msg the message
-  **/
+   * Exit with an error message, when an exception occurs.
+   * 
+   * @param e
+   *          the exception
+   * @param msg
+   *          the message
+   **/
   public static void fail(final Exception e,
                           final String msg) {
-    System.err.println(msg + ": " +  e);
+    System.err.println(msg + ": " + e);
     System.exit(1);
   }
-    
 
   /**
-     Convert an array to a string.
-
-  **/
+   * Convert an array to a string.
+   **/
   public static String printArray(final Object[] array) {
-    if(array == null) {
+    if (array == null) {
       return "NULL";
     }
     StringBuffer sb = new StringBuffer();
     sb.append(array.getClass());
     sb.append(" [");
-    for(int i=0; i<array.length; i++) {
-      if(i>0) {
+    for (int i = 0; i < array.length; i++) {
+      if (i > 0) {
         sb.append(", ");
       }
       sb.append(array[i]);

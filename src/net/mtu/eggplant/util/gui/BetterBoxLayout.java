@@ -39,61 +39,65 @@ import java.awt.LayoutManager2;
  * 
  * @version $Revision: 1.6 $
  */
-public class BetterBoxLayout implements LayoutManager2 {
+public class BetterBoxLayout implements
+                            LayoutManager2 {
 
   /**
-     Layout components along the Y axis.
-  **/
+   * Layout components along the Y axis.
+   **/
   public static final BetterBoxLayoutOrientation VERTICAL = new BetterBoxLayoutOrientation();
   /**
-     Layout components along the X axis.
-  **/
+   * Layout components along the X axis.
+   **/
   public static final BetterBoxLayoutOrientation HORIZONTAL = new BetterBoxLayoutOrientation();
 
   /**
-     Create a BetterBoxLayout with a HORIZONTAL orientation, ie. components
-     laid out along the X axis.
-  **/
+   * Create a BetterBoxLayout with a HORIZONTAL orientation, ie. components laid
+   * out along the X axis.
+   **/
   public BetterBoxLayout() {
     this(HORIZONTAL);
   }
 
   /**
-     Create a BetterBoxLayout with given orientation.
-  **/
-  public BetterBoxLayout(final BetterBoxLayoutOrientation orientation ) {
+   * Create a BetterBoxLayout with given orientation.
+   **/
+  public BetterBoxLayout(final BetterBoxLayoutOrientation orientation) {
     _orientation = orientation;
   }
-  
+
   private BetterBoxLayoutOrientation _orientation;
-  
-  public void addLayoutComponent(final String name, final Component comp) {
+
+  public void addLayoutComponent(final String name,
+                                 final Component comp) {
 
   }
 
-  public void addLayoutComponent(final Component comp, final Object constraints) {
+  public void addLayoutComponent(final Component comp,
+                                 final Object constraints) {
 
   }
-  
+
   public void layoutContainer(final Container target) {
     final Insets insets = target.getInsets();
     final Dimension targetSize = target.getSize();
     final Component[] components = target.getComponents();
 
-    if(_orientation == VERTICAL) {
+    if (_orientation == VERTICAL) {
       final int componentWidth = targetSize.width - insets.left - insets.right;
       final int x = insets.left;
       int y = insets.top;
-      for(int i=0; i<components.length; i++) {
+      for (int i = 0; i < components.length; i++) {
         final int height = components[i].getPreferredSize().height;
         components[i].setBounds(x, y, componentWidth, height);
         y += height;
       }
     } else {
-      final int componentHeight = targetSize.height - insets.top - insets.bottom;
+      final int componentHeight = targetSize.height - insets.top
+          - insets.bottom;
       int x = insets.left;
       final int y = insets.top;
-      for(int i=0; i<components.length; i++) {
+      for (int i = 0; i < components.length; i++) {
         final int width = components[i].getPreferredSize().width;
         components[i].setBounds(x, y, width, componentHeight);
         x += width;
@@ -109,9 +113,9 @@ public class BetterBoxLayout implements LayoutManager2 {
     final Insets insets = target.getInsets();
     final Dimension dim = new Dimension(0, 0);
     final Component[] components = target.getComponents();
-    for(int i=0; i<components.length; i++) {
+    for (int i = 0; i < components.length; i++) {
       final Dimension preferredSize = components[i].getPreferredSize();
-      if(_orientation == VERTICAL) {
+      if (_orientation == VERTICAL) {
         dim.height += preferredSize.height;
         dim.width = Math.max(preferredSize.width, dim.width);
       } else {
@@ -119,7 +123,7 @@ public class BetterBoxLayout implements LayoutManager2 {
         dim.width += preferredSize.width;
       }
     }
-    
+
     dim.height += insets.top + insets.bottom;
     dim.width += insets.left + insets.right;
     return dim;
@@ -128,7 +132,7 @@ public class BetterBoxLayout implements LayoutManager2 {
   public Dimension maximumLayoutSize(final Container target) {
     return preferredLayoutSize(target);
   }
-  
+
   public void removeLayoutComponent(final Component comp) {
 
   }
@@ -146,8 +150,9 @@ public class BetterBoxLayout implements LayoutManager2 {
   }
 
   /**
-     Private class to simulate enum types.
-  **/
-  private static final class BetterBoxLayoutOrientation {}
-  
+   * Private class to simulate enum types.
+   **/
+  private static final class BetterBoxLayoutOrientation {
+  }
+
 }

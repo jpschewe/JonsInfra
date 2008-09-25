@@ -51,13 +51,13 @@ public class SortableTable extends JTable {
     getTableHeader().addMouseListener(_columnListener);
     addPropertyChangeListener(new PropertyChangeListener() {
       public void propertyChange(final PropertyChangeEvent pce) {
-        if(pce.getPropertyName().equals("tableHeader")) {
-          final JTableHeader oldHeader = (JTableHeader)pce.getOldValue();
-          final JTableHeader newHeader = (JTableHeader)pce.getNewValue();
-          if(oldHeader != null) {
+        if (pce.getPropertyName().equals("tableHeader")) {
+          final JTableHeader oldHeader = (JTableHeader) pce.getOldValue();
+          final JTableHeader newHeader = (JTableHeader) pce.getNewValue();
+          if (oldHeader != null) {
             oldHeader.removeMouseListener(_columnListener);
           }
-          if(newHeader != null) {
+          if (newHeader != null) {
             newHeader.addMouseListener(_columnListener);
           }
         }
@@ -66,42 +66,44 @@ public class SortableTable extends JTable {
   }
 
   /**
-     Overridden to make sure that the table model set is a SortedTableModel.
-     
-     @throws IllegalArgumentException if tm is not an instanceof {@link SortableTableModel}
-  **/
+   * Overridden to make sure that the table model set is a SortedTableModel.
+   * 
+   * @throws IllegalArgumentException
+   *           if tm is not an instanceof {@link SortableTableModel}
+   **/
   @Override
   public void setModel(final TableModel tm) {
-    if(! (tm instanceof SortableTableModel) ) {
-      throw new IllegalArgumentException("table model must be a SortableTableModel");
+    if (!(tm instanceof SortableTableModel)) {
+      throw new IllegalArgumentException(
+          "table model must be a SortableTableModel");
     }
     super.setModel(tm);
   }
 
   private MouseAdapter _columnListener = new MouseAdapter() {
     public void mouseClicked(final MouseEvent me) {
-      final JTableHeader header = getTableHeader(); 
+      final JTableHeader header = getTableHeader();
       final TableColumnModel colModel = getColumnModel();
       final int columnIndex = colModel.getColumnIndexAtX(me.getX());
       final int modelIndex = colModel.getColumn(columnIndex).getModelIndex();
-      if(modelIndex < 0) {
+      if (modelIndex < 0) {
         return;
       }
-      
-      final SortableTableModel sm = (SortableTableModel)getModel();
+
+      final SortableTableModel sm = (SortableTableModel) getModel();
       sm.sort(modelIndex);
       final Enumeration<TableColumn> columnIter = colModel.getColumns();
       final boolean ascending = sm.isAscending();
       final int sortedColumn = sm.getSortedColumn();
-      for(int cindex = 0; columnIter.hasMoreElements(); cindex++) {
+      for (int cindex = 0; columnIter.hasMoreElements(); cindex++) {
         final TableColumn column = columnIter.nextElement();
         String columnName = sm.getColumnName(column.getModelIndex());
-        if(cindex == sortedColumn) {
+        if (cindex == sortedColumn) {
           columnName += ascending ? " ^" : " v";
-        } 
+        }
         column.setHeaderValue(columnName);
       }
-      
+
       header.repaint();
     }
   };

@@ -28,10 +28,10 @@
 package net.mtu.eggplant.util;
 
 /**
- * This class represents a column for a table.  It is assumed that all data in
- * a column is of the same java class.  There is also a read only flag for the
- * column.  This can be used to make a column read only and can be used with a
- * flag on a row in the data to determine if a cell is editable.  By default a
+ * This class represents a column for a table. It is assumed that all data in a
+ * column is of the same java class. There is also a read only flag for the
+ * column. This can be used to make a column read only and can be used with a
+ * flag on a row in the data to determine if a cell is editable. By default a
  * column is read only.
  * 
  * @version $Revision: 1.6 $
@@ -42,7 +42,7 @@ public class ColumnHeader extends DefaultNamed {
                       final Class<?> theClass) {
     this(name, theClass, true);
   }
-  
+
   public ColumnHeader(final String name,
                       final Class<?> theClass,
                       final boolean readonly) {
@@ -52,18 +52,22 @@ public class ColumnHeader extends DefaultNamed {
   }
 
   /**
-     get the class for this column.
-     @return the class
-  **/
+   * get the class for this column.
+   * 
+   * @return the class
+   **/
   public Class<?> getClassName() {
     return _className;
   }
 
   private Class<?> _className = null;
+
   /**
-     set the class for this column.
-     @param theClass the new class
-  **/
+   * set the class for this column.
+   * 
+   * @param theClass
+   *          the new class
+   **/
   public void setClass(final Class<?> theClass) {
     _className = theClass;
   }
@@ -72,17 +76,20 @@ public class ColumnHeader extends DefaultNamed {
   private boolean _readOnly = true;
 
   /**
-     set the read only flag on this column.
-     @param readonly the flag
-  **/
+   * set the read only flag on this column.
+   * 
+   * @param readonly
+   *          the flag
+   **/
   public void setReadOnly(final boolean readonly) {
     _readOnly = readonly;
   }
 
   /**
-     get the read only flag for this column
-     @return the flag
-  **/
+   * get the read only flag for this column
+   * 
+   * @return the flag
+   **/
   public boolean getReadOnly() {
     return _readOnly;
   }

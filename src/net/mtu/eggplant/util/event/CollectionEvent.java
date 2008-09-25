@@ -35,16 +35,17 @@ import java.util.EventObject;
  */
 public class CollectionEvent extends EventObject {
 
-  public CollectionEvent(final Object source, final Collection<?> data) {
+  public CollectionEvent(final Object source,
+                         final Collection<?> data) {
     super(source);
     _data = data;
   }
 
   private Collection<?> _data;
-  
+
   /**
-     Get the Collection of objects that were added/removed.
-  **/
+   * Get the Collection of objects that were added/removed.
+   **/
   public Collection<?> getData() {
     return _data;
   }

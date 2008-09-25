@@ -34,25 +34,28 @@ package net.mtu.eggplant.util;
  */
 public final class StringUtils {
 
-  private StringUtils() {}
+  private StringUtils() {
+  }
 
   /**
-     Replace all instances of <tt>search</tt> in <tt>source</tt> with
-     <tt>replace</tt>.
-     
-     @return new String
-
-     @pre (source != null)
-     @pre (search != null)
-     @pre (replace != null)
-  **/
-  public static String searchAndReplace(final String source, final String search, final String replace) {
+   * Replace all instances of <tt>search</tt> in <tt>source</tt> with
+   * <tt>replace</tt>.
+   * 
+   * @return new String
+   * @pre (source != null)
+   * @pre (search != null)
+   * @pre (replace != null)
+   **/
+  public static String searchAndReplace(final String source,
+                                        final String search,
+                                        final String replace) {
     final String newString;
     final int index = source.indexOf(search);
-    if(index != -1) {
+    if (index != -1) {
       final String front = source.substring(0, index);
-      final String end = source.substring(index+search.length());
-      newString = new StringBuffer().append(front).append(replace).append(searchAndReplace(end, search, replace)).toString();
+      final String end = source.substring(index + search.length());
+      newString = new StringBuffer().append(front).append(replace).append(
+          searchAndReplace(end, search, replace)).toString();
     } else {
       newString = source;
     }

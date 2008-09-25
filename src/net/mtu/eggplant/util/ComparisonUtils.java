@@ -34,29 +34,17 @@ package net.mtu.eggplant.util;
  */
 public final class ComparisonUtils {
 
-  private ComparisonUtils() {}
-
-
-  /**
-     true is always greater than false.
-  **/
-  public static int compareBooleans(final boolean one, final boolean two) {
-    if(one == two) {
-      return 0;
-    } else if(one) {
-      return -1;
-    } else {
-      return 1;
-    }
+  private ComparisonUtils() {
   }
-  
+
   /**
-     Compare two non-floating point numbers.
-  **/
-  public static int compareIntegers(final long one, final long two) {
-    if(one == two) {
+   * true is always greater than false.
+   **/
+  public static int compareBooleans(final boolean one,
+                                    final boolean two) {
+    if (one == two) {
       return 0;
-    } else if(one < two) {
+    } else if (one) {
       return -1;
     } else {
       return 1;
@@ -64,13 +52,13 @@ public final class ComparisonUtils {
   }
 
   /**
-     Compare two doubles.  Comparisions exist for double and float because
-     casting a float to a double and vice versa can cause loss of precision.
-  **/
-  public static int compareDoubles(final double one, final double two) {
-    if(one == two) {
+   * Compare two non-floating point numbers.
+   **/
+  public static int compareIntegers(final long one,
+                                    final long two) {
+    if (one == two) {
       return 0;
-    } else if(one < two) {
+    } else if (one < two) {
       return -1;
     } else {
       return 1;
@@ -78,28 +66,46 @@ public final class ComparisonUtils {
   }
 
   /**
-     Compare two floats.  Comparisions exist for double and float because
-     casting a float to a double and vice versa can cause loss of precision.
-  **/
-  public static int compareFloats(final float one, final float two) {
-    if(one == two) {
+   * Compare two doubles. Comparisions exist for double and float because
+   * casting a float to a double and vice versa can cause loss of precision.
+   **/
+  public static int compareDoubles(final double one,
+                                   final double two) {
+    if (one == two) {
       return 0;
-    } else if(one < two) {
+    } else if (one < two) {
       return -1;
     } else {
       return 1;
     }
   }
-  
+
   /**
-     Compare two Strings, null is allowed and is greater than every non-null String.
-  **/
-  public static int compareStrings(final String one, final String two) {
-    if(one == null && two != null) {
-      return 1;
-    } else if(one != null && two == null) {
+   * Compare two floats. Comparisions exist for double and float because casting
+   * a float to a double and vice versa can cause loss of precision.
+   **/
+  public static int compareFloats(final float one,
+                                  final float two) {
+    if (one == two) {
+      return 0;
+    } else if (one < two) {
       return -1;
-    } else if(one == null && two == null) {
+    } else {
+      return 1;
+    }
+  }
+
+  /**
+   * Compare two Strings, null is allowed and is greater than every non-null
+   * String.
+   **/
+  public static int compareStrings(final String one,
+                                   final String two) {
+    if (one == null && two != null) {
+      return 1;
+    } else if (one != null && two == null) {
+      return -1;
+    } else if (one == null && two == null) {
       return 0;
     } else {
       return one.compareTo(two);
