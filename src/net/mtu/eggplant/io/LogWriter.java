@@ -30,25 +30,37 @@ package net.mtu.eggplant.io;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 
 /**
- * Writer that outputs to log4j.
+ * Writer that outputs to the current logging facility (SLF4J).
  */
-public class Log4jWriter extends Writer {
+public class LogWriter extends Writer {
 
   private final Logger _logger;
 
-  private final Level _level;
+  private final LogLevel _level;
 
   private final StringBuilder _text = new StringBuilder();
 
   /**
+   * Log levels that {@link LogWriter} can output to.
+   */
+  public enum LogLevel {
+    TRACE, DEUBG, INFO, WARN, ERROR
+  }
+
+  /**
    * @param logger the logger to log to
    * @param level the level to log at
+   * @throws NullPointerException if logger or level is null
    */
-  public Log4jWriter(final Logger logger, final Level level) {
+  public LogWriter(final Logger logger, final LogLevel level) {
+    if (null == logger
+        || null == level) {
+      throw new NullPointerException();
+    }
+
     this._logger = logger;
     this._level = level;
   }
@@ -57,9 +69,14 @@ public class Log4jWriter extends Writer {
    * @param lock the lock
    * @param logger the logger to log to
    * @param level the level to log at
+   * @throws NullPointerException if logger or level is null
    */
-  public Log4jWriter(final Object lock, final Logger logger, final Level level) {
+  public LogWriter(final Object lock, final Logger logger, final LogLevel level) {
     super(lock);
+    if (null == logger
+        || null == level) {
+      throw new NullPointerException();
+    }
     this._logger = logger;
     this._level = level;
   }
@@ -77,10 +94,10 @@ public class Log4jWriter extends Writer {
    */
   @Override
   public void flush() throws IOException {
-    if (this._logger.isEnabledFor(this._level)) {
+    if (isLogLevelEnabled()) {
       final String s = _text.toString();
       if (s.length() > 0) {
-        this._logger.log(this._level, s);
+        log(s);
       }
     }
     _text.setLength(0);
@@ -91,8 +108,50 @@ public class Log4jWriter extends Writer {
    */
   @Override
   public void write(final char[] cbuf, final int off, final int len) throws IOException {
-    if (this._logger.isEnabledFor(this._level)) {
+    if (isLogLevelEnabled()) {
       _text.append(cbuf, off, len);
+    }
+  }
+
+  /**
+   * Is the logging level that was specified in the constructor enabled?
+   */
+  private boolean isLogLevelEnabled() {
+    switch (_level) {
+    case TRACE:
+      return _logger.isTraceEnabled();
+    case DEUBG:
+      return _logger.isDebugEnabled();
+    case INFO:
+      return _logger.isInfoEnabled();
+    case WARN:
+      return _logger.isWarnEnabled();
+    case ERROR:
+      return _logger.isErrorEnabled();
+    default:
+      throw new RuntimeException("Unknown log level: "
+          + _level);
+    }
+  }
+
+  /**
+   * Do the logging.
+   */
+  private void log(final String s) {
+    switch (_level) {
+    case TRACE:
+      _logger.trace(s);
+    case DEUBG:
+      _logger.debug(s);
+    case INFO:
+      _logger.info(s);
+    case WARN:
+      _logger.warn(s);
+    case ERROR:
+      _logger.error(s);
+    default:
+      throw new RuntimeException("Unknown log level: "
+          + _level);
     }
   }
 

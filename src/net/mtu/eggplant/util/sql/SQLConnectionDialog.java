@@ -29,7 +29,6 @@ package net.mtu.eggplant.util.sql;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -42,19 +41,19 @@ import javax.swing.JTextField;
 
 import net.mtu.eggplant.util.StringPair;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This dialog allows the user to fill in the parameters needed for a
  * connection.  It is hardcoded to use either the standard jdbc to odbc driver
  * or to use the rmi driver.
  * 
- * @version $Revision: 1.8 $
+ * @version $Revision$
  */
 public class SQLConnectionDialog extends JDialog {
 
-  private static final Log LOG = LogFactory.getLog(SQLConnectionDialog.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(SQLConnectionDialog.class);
   
   public SQLConnectionDialog(final java.awt.Frame parent,
                              final StringPair[] drivers) {
@@ -192,7 +191,7 @@ public class SQLConnectionDialog extends JDialog {
     try {
       Class.forName("RmiJdbc.RJDriver").newInstance();
     } catch(final Exception e) {
-      LOG.debug("Couldn't find the driver");
+      LOGGER.debug("Couldn't find the driver");
       _connection = null;
       return;
     } 
@@ -214,7 +213,7 @@ public class SQLConnectionDialog extends JDialog {
     try {
       _connection = DriverManager.getConnection(connectString, user, pass);
     } catch(final SQLException sqle) {
-      LOG.debug("caught sql error opening connection: " + sqle);
+      LOGGER.debug("caught sql error opening connection: " + sqle);
       _connection = null;
     }
   }

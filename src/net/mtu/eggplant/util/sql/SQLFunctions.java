@@ -27,14 +27,24 @@
  */
 package net.mtu.eggplant.util.sql;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Types;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Handy functions for SQL
  * 
- * @version $Revision: 1.6 $
+ * @version $Revision$
  */
 public final class SQLFunctions {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(SQLFunctions.class);
 
   private SQLFunctions() {
   }
@@ -82,7 +92,76 @@ public final class SQLFunctions {
         return Class.forName("java.lang.Object");
       }
     } catch (final ClassNotFoundException cnfe) {
-      throw new RuntimeException("Can't find standard class type " + cnfe);
+      throw new RuntimeException("Can't find standard class type "
+          + cnfe);
+    }
+  }
+
+  /**
+   * Close stmt and ignore SQLExceptions. This is useful in a finally so that
+   * all of the finally block gets executed. Handles null.
+   */
+  public static void closeStatement(final Statement stmt) {
+    try {
+      if (null != stmt) {
+        stmt.close();
+      }
+    } catch (final SQLException sqle) {
+      // ignore
+      if (LOGGER.isDebugEnabled()) {
+        LOGGER.debug("exception closing statement", sqle);
+      }
+    }
+  }
+
+  /**
+   * Close prep and ignore SQLExceptions. This is useful in a finally so that
+   * all of the finally block gets executed. Handles null.
+   */
+  public static void closePreparedStatement(final PreparedStatement prep) {
+    try {
+      if (null != prep) {
+        prep.close();
+      }
+    } catch (final SQLException sqle) {
+      // ignore
+      if (LOGGER.isDebugEnabled()) {
+        LOGGER.debug("exception closing prepared statement", sqle);
+      }
+    }
+  }
+
+  /**
+   * Close rs and ignore SQLExceptions. This is useful in a finally so that all
+   * of the finally block gets executed. Handles null.
+   */
+  public static void closeResultSet(final ResultSet rs) {
+    try {
+      if (null != rs) {
+        rs.close();
+      }
+    } catch (final SQLException sqle) {
+      // ignore
+      if (LOGGER.isDebugEnabled()) {
+        LOGGER.debug("exception closing result set", sqle);
+      }
+    }
+  }
+
+  /**
+   * Close connection and ignore SQLExceptions. This is useful in a finally so
+   * that all of the finally block gets executed. Handles null.
+   */
+  public static void closeConnection(final Connection connection) {
+    try {
+      if (null != connection) {
+        connection.close();
+      }
+    } catch (final SQLException sqle) {
+      // ignore
+      if (LOGGER.isDebugEnabled()) {
+        LOGGER.debug("exception closing connection", sqle);
+      }
     }
   }
 

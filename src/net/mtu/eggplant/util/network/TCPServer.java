@@ -31,88 +31,91 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-
 import java.net.ServerSocket;
 import java.net.Socket;
 
 import net.mtu.eggplant.util.Functions;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Simple TCP server class
  * 
- * @version $Revision: 1.8 $
+ * @version $Revision$
  */
 public class TCPServer extends Object implements Runnable, Cloneable {
 
-  private static final Log LOG = LogFactory.getLog(TCPServer.class);
-  
+  private static final Logger LOG = LoggerFactory.getLogger(TCPServer.class);
+
   public static final int DEFAULT_PORT = 6789;
-  
+
   private int _port;
+
   private ServerSocket _listenSocket;
-  
+
   private Socket _clientSocket = null;
+
   private BufferedReader _input = null;
+
   private PrintWriter _output = null;
 
   /**
-     default constructor.  Uses port 6789 as the port to listen on.
-  **/
+   * default constructor. Uses port 6789 as the port to listen on.
+   **/
   public TCPServer() {
     this(DEFAULT_PORT);
   }
-                 
+
   /**
-     Create a ServerSocket to listen for connections on
-     If port < 0 or port > 65535 port defaults to DEFAULT_PORT.
-     @param port the port to listen on
-  **/
+   * Create a ServerSocket to listen for connections on If port < 0 or port >
+   * 65535 port defaults to DEFAULT_PORT.
+   * 
+   * @param port the port to listen on
+   **/
   public TCPServer(final int port) {
-    if (port < 0 || port > 65535) {
+    if (port < 0
+        || port > 65535) {
       _port = DEFAULT_PORT;
     } else {
       _port = port;
     }
-    
+
     try {
       _listenSocket = new ServerSocket(_port);
     } catch (final IOException e) {
       Functions.fail(e, "Exception creating server socket");
     }
-    System.out.println("Server: listening on port " + _port);
-    
+    System.out.println("Server: listening on port "
+        + _port);
+
   }
 
   /**
-     The body of the server thread.  Loop forever, listening for and
-     accepting connections from clients.  For each connection, 
-     create a Connection object to handle communication through the
-     new Socket.
-  **/
+   * The body of the server thread. Loop forever, listening for and accepting
+   * connections from clients. For each connection, create a Connection object
+   * to handle communication through the new Socket.
+   **/
   public void run() {
     // check if we're starting fresh or already have a connection
-    if(_clientSocket != null) {
+    if (_clientSocket != null) {
       initializeConnection();
     }
-    
+
     try {
-      while(true) {
+      while (true) {
         Socket clientSocket = _listenSocket.accept();
         try {
-          TCPServer clone = (TCPServer)this.clone();
+          TCPServer clone = (TCPServer) this.clone();
           clone.setSocket(clientSocket);
-          ThreadGroup tg = new
-            ThreadGroup(clientSocket.getInetAddress().getHostName());
+          ThreadGroup tg = new ThreadGroup(clientSocket.getInetAddress().getHostName());
           Thread t = new Thread(tg, clone);
           t.start();
-        } catch(final CloneNotSupportedException cnse) {
+        } catch (final CloneNotSupportedException cnse) {
           System.err.println("Clone Not supported?!");
         }
       }
-    } catch (final IOException e) { 
+    } catch (final IOException e) {
       Functions.fail(e, "Exception while listening for connections");
     }
   }
@@ -121,55 +124,58 @@ public class TCPServer extends Object implements Runnable, Cloneable {
    * actually make the connection and wait for data.
    */
   public void initializeConnection() {
-    try { 
-      _input = new BufferedReader(new
-                                  InputStreamReader(getSocket().getInputStream())); 
-      
+    try {
+      _input = new BufferedReader(new InputStreamReader(getSocket().getInputStream()));
+
       _output = new PrintWriter(getSocket().getOutputStream(), true);
     } catch (final IOException e) {
       try {
         getSocket().close();
       } catch (final IOException e2) {
-        /* nothing */
-        LOG.debug(e2);
+        if (LOG.isDebugEnabled()) {
+          LOG.debug(e2.getMessage(), e2);
+        }
       }
-      System.err.println("Exception while getting socket streams: " + e);
+      System.err.println("Exception while getting socket streams: "
+          + e);
       return;
     }
 
     // wait for data
     String line;
     try {
-      while(true) {
+      while (true) {
         // read in a line
         line = readLine();
-        if(processData(line)) {
+        if (processData(line)) {
           break;
         }
       }
     } catch (final IOException e) {
-      /* nothing */
-      LOG.debug(e);
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(e.getMessage(), e);
+      }
     } finally {
       try {
         getSocket().close();
       } catch (final IOException e2) {
-        /* nothing */
-        LOG.debug(e2);
+        if (LOG.isDebugEnabled()) {
+          LOG.debug(e2.getMessage(), e2);
+        }
       }
     }
-    
+
   }
 
   /**
-     do something with a line of input.  Just print the line back out on the
-     socket.
-     Override this to do more with the data.
-     @param line the input
-     @return true if we should quit, false otherwise
-  **/
+   * do something with a line of input. Just print the line back out on the
+   * socket. Override this to do more with the data.
+   * 
+   * @param line the input
+   * @return true if we should quit, false otherwise
+   **/
   protected boolean processData(final String line) {
-    if(line.equals("Quit")) {
+    if (line.equals("Quit")) {
       return true;
     } else {
       print(line);
@@ -178,21 +184,24 @@ public class TCPServer extends Object implements Runnable, Cloneable {
   }
 
   /**
-     print something to the socket.
-     @param message the message, if not connected nothing happens
-  **/
+   * print something to the socket.
+   * 
+   * @param message the message, if not connected nothing happens
+   **/
   public void print(final String message) {
-    if(_output != null) {
-      _output.println(getClass().getName() + ": " + message);
+    if (_output != null) {
+      _output.println(getClass().getName()
+          + ": " + message);
     }
   }
 
   /**
-     read a line from the socket
-     @return the line, null if not connected
-  **/
+   * read a line from the socket
+   * 
+   * @return the line, null if not connected
+   **/
   public String readLine() throws IOException {
-    if(_input != null) {
+    if (_input != null) {
       return _input.readLine();
     } else {
       return null;
@@ -200,21 +209,23 @@ public class TCPServer extends Object implements Runnable, Cloneable {
   }
 
   /**
-     get the actual socket
-     @return the socket, null if not connected
-  **/
+   * get the actual socket
+   * 
+   * @return the socket, null if not connected
+   **/
   protected Socket getSocket() {
     return _clientSocket;
   }
 
   /**
-     set the actual socket.
-     @param s the socket
-  **/
+   * set the actual socket.
+   * 
+   * @param s the socket
+   **/
   protected void setSocket(final Socket s) {
     _clientSocket = s;
   }
-    
+
   public static void main(final String[] args) {
     TCPServer server;
     if (args.length == 1) {
@@ -230,6 +241,3 @@ public class TCPServer extends Object implements Runnable, Cloneable {
     t.start();
   }
 }
-
-  
-  
