@@ -41,14 +41,14 @@ public class StringUtilsTest {
 
 
   @Before
-  protected void setUp()
+  public void setUp()
     throws Exception {
     _assertProperty = System.getProperty("ASSERT_BEHAVIOR");
     System.setProperty("ASSERT_BEHAVIOR", "EXCEPTION");
   }
 
   @After
-  protected void tearDown()
+  public void tearDown()
     throws Exception {
     if(null != _assertProperty) {
       System.setProperty("ASSERT_BEHAVIOR", _assertProperty);
