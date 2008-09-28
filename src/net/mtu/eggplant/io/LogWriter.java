@@ -47,7 +47,7 @@ public class LogWriter extends Writer {
    * Log levels that {@link LogWriter} can output to.
    */
   public enum LogLevel {
-    TRACE, DEUBG, INFO, WARN, ERROR
+    TRACE, DEBUG, INFO, WARN, ERROR
   }
 
   /**
@@ -120,7 +120,7 @@ public class LogWriter extends Writer {
     switch (_level) {
     case TRACE:
       return _logger.isTraceEnabled();
-    case DEUBG:
+    case DEBUG:
       return _logger.isDebugEnabled();
     case INFO:
       return _logger.isInfoEnabled();
@@ -141,14 +141,19 @@ public class LogWriter extends Writer {
     switch (_level) {
     case TRACE:
       _logger.trace(s);
-    case DEUBG:
+      break;
+    case DEBUG:
       _logger.debug(s);
+      break;
     case INFO:
       _logger.info(s);
+      break;
     case WARN:
       _logger.warn(s);
+      break;
     case ERROR:
       _logger.error(s);
+      break;
     default:
       throw new RuntimeException("Unknown log level: "
           + _level);
