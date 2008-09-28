@@ -11,11 +11,11 @@
 	<property name="dir.inst" value="${dir.build}/instrumented" />
 	<property name="dir.classes" value="${dir.build}/classes/main" />
 	<property name="dir.classes.test" value="${dir.build}/classes/test" />
-	<property name="dir.api" value="${dir.build}/api" />
+	<property name="dir.api" value="${dir.build}/docs/api" />
 	<property name="dir.test" value="test" />
 	<property name="dir.bin" value="${dir.build}/bin" />
 	<property name="dir.dist" value="${dir.build}/dist" />
-	<property name="dir.reports" value="${dir.build}/reports" />
+	<property name="dir.reports" value="${dir.build}/docs/reports" />
 	<property name="dir.coverage" value="${dir.build}/coverage" />
 
 	<!-- here in case a version is required as well -->
@@ -41,7 +41,7 @@
 	<!-- file for emacs tags tables -->
 	<property name="tagstable" value="${dir.src}/TAGS" />
 
-	<property name="release.html.dir" value="/home/jpschewe/public_html/mtu.net/public_html" />
+	<property name="release.html.dir" value="/home/jpschewe/public_html" />
 
 	<path id="emma.lib">
 		<pathelement location="${dir.lib}/emma/emma.jar" />
@@ -207,7 +207,7 @@
 			<classpath refid="classpath.test" />
 			<formatter type="brief" usefile="false" />
 			<sysproperty key="java.awt.headless" value="true" />
-			<batchtest todir="${dir.build}/test-results" unless="junit.test.class">
+			<batchtest todir="${dir.build}/test-results">
 				<fileset dir="${dir.test}">
 					<include name="**/*.java" />
 				</fileset>
@@ -241,7 +241,29 @@
 	</target>
 
 	<!-- ==================== Distribution ==================== -->
-	<target name="dist" description="Create complete distribution file(s)" depends="clean">
+	<target name="dist" description="Create complete distribution file(s)">
+		<!-- ensure things are clean before testing -->
+		<antcall target="clean" />
+		<!-- make sure the tests pass -->
+		<antcall target="test" />
+		
+		<!-- create & copy the coverage report to the side so that the clean doesn't remove it-->
+		<antcall target="emma.report"/>
+		<mkdir dir="dist-save" />
+    <copy todir="dist-save">
+    	<fileset dir="${dir.reports}"/>
+    </copy>
+		
+		<!-- clean everything out before a distribution is made -->
+		<antcall target="clean" />
+		
+		<!-- copy the coverage report back -->
+		<mkdir dir="${dir.reports}"/>
+		<copy todir="${dir.reports}">
+			<fileset dir="dist-save"/>
+		</copy>
+		<delete dir="dist-save"/>
+		
 		<!-- ensure a few things are set properly for a distribution -->
 		<antcall target="-dist.real">
 			<param name="javadoc.access" value="protected" />
@@ -263,7 +285,7 @@
 			</fileset>
 		</jar>
 
-		<!-- copy index.html, ChangeLog, lib to web directory -->
+		<!-- copy index.html, ChangeLog, lib to docs directory -->
 		<mkdir dir="${dir.build}/docs" />
 		<copy todir="${dir.build}/docs" flatten="true">
 			<fileset dir="${basedir}">
@@ -290,9 +312,8 @@
 		<zip destfile="${dir.build}/${app.name}-${app.version}.zip">
 			<zipfileset dir="${dir.dist}" />
 			<zipfileset file="${dir.build}/${dist.jar}" />
-			<zipfileset dir="lib" prefix="lib" excludes="ant/**" />
-			<zipfileset dir="docs" prefix="docs" />
-			<zipfileset dir="${dir.api}" prefix="docs/api" />
+			<zipfileset dir="lib" prefix="lib" excludes="ant/**,emma/**,test/**" />
+			<zipfileset dir="${dir.build}/docs" prefix="docs" />
 		</zip>
 		<zip destfile="${dir.build}/${app.name}-${app.version}-src.zip">
 			<zipfileset dir="${dir.src}" excludes="${tagstable}" />
@@ -300,17 +321,18 @@
 	</target>
 
 
-	<target name="release" description="Make a release based on the working directory" depends="clean">
-		<delete dir="${release.html.dir}/${app.name}/${app.version}" />
+	<target name="release" description="Make a release based on the working directory" depends="dist">
+	  <delete dir="${release.html.dir}/${app.name}/${app.version}" />
 		<mkdir dir="${release.html.dir}/${app.name}/${app.version}" />
-
-		<!-- ensure a few things are set properly for a distribution -->
-		<antcall target="-release.real">
-			<param name="javadoc.access" value="protected" />
-			<param name="compile.debug" value="false" />
-			<param name="compile.optimize" value="true" />
-			<param name="dir.api" value="${release.html.dir}/${app.name}/${app.version}/api" />
-		</antcall>
+    
+		<copy todir="${release.html.dir}/${app.name}/${app.version}">
+		  <fileset dir="${dir.build}">
+			<include name="*.zip"/>
+		  	<include name="docs/**"/>
+		  </fileset>
+	  </copy>
+	<copy file="${dir.build}/docs/index.html" todir="${release.html.dir}/${app.name}/${app.version}"/>
+                
 	</target>
 
 	<target name="-release.real" depends="compile,javadoc">
@@ -337,12 +359,7 @@
 		<!-- zip source to web directory -->
 		<zip destfile="${release.html.dir}/${app.name}/${app.version}/${app.name}-${app.version}-src.zip">
 			<zipfileset dir="${basedir}" prefix="${app.name}-${app.version}">
-				<include name="src/**" />
-				<include name="docs/**" />
-				<include name="lib/**" />
-				<include name="prj.el" />
-				<include name="build.xml" />
-				<include name="ChangeLog" />
+				<exclude name="build/**" />
 			</zipfileset>
 		</zip>
 
@@ -371,10 +388,14 @@
 		<javadoc sourcepath="${dir.src}" destdir="${dir.api}" packagenames="*" excludepackagenames="**/test" windowtitle="${app.name}" overview="${dir.src}/overview.html" access="${javadoc.access}" splitindex="true" additionalparam="-tag pre:cm:PreConditions -tag post:cm:PostConditions -tag invariant:tc:Invariants -breakiterator">
 			<classpath refid="classpath.base" />
 			<!-- core java -->
-			<link href="http://java.sun.com/j2se/1.4/docs/api/" />
+			<link href="http://java.sun.com/j2se/1.5.0/docs/api/" />
 
 			<!-- junit -->
-			<link href="http://www.junit.org/junit/javadoc/3.8.1" />
+			<link href="http://www.junit.org/junit/javadoc/4.5/" />
+			
+			<!-- SLF4J -->
+			<link href="http://www.slf4j.org/apidocs/"/>
+			
 		</javadoc>
 	</target>
 
