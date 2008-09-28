@@ -31,6 +31,8 @@ package net.mtu.eggplant.util;
  * class to put multiple objects in one.
  * 
  * @version $Revision$
+ * @param <TYPE_ONE> the type of the first object 
+ * @param <TYPE_TWO> the type of the second object
  */
 public class Pair<TYPE_ONE, TYPE_TWO> extends Object {
 
