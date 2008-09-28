@@ -27,24 +27,25 @@
  */
 package net.mtu.eggplant.util.gui;
 
-
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.Window;
 
 /**
- *  basic window adapter for use in mains for testing.
- *
+ * basic window adapter for use in mains for testing.
+ * 
  * @author Jon Schewe
- * @since schedinfra 1.2
- * @version $Revision: 1.5 $
+ * @version $Revision$
  */
 public class BasicWindowMonitor extends WindowAdapter {
 
   /**
-     dispose of the window and exit the application
-     @param e the event
-  **/
+   * dispose of the window and exit the application
+   * 
+   * @param e
+   *          the event
+   **/
+  @Override
   public void windowClosing(final WindowEvent e) {
     final Window w = e.getWindow();
     w.setVisible(false);

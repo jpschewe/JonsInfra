@@ -30,7 +30,7 @@ package net.mtu.eggplant.util;
 /**
  * generic class that allows objects to have names and listeners
  * 
- * @version $Revision: 1.7 $
+ * @version $Revision$
  */
 public class DefaultNamed extends DefaultBean implements Named {
 

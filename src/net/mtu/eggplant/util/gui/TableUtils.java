@@ -35,7 +35,7 @@ import javax.swing.table.TableColumnModel;
 /**
  * utilities for working with tables
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision$
  */
 public final class TableUtils {
 

@@ -34,7 +34,7 @@ import javax.swing.event.EventListenerList;
 /**
  * Adds support for Collection events.
  * 
- * @version $Revision: 1.4 $
+ * @version $Revision$
  */
 public class CollectionSupport {
 

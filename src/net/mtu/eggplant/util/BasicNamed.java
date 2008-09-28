@@ -31,7 +31,7 @@ package net.mtu.eggplant.util;
 /**
  * generic class that allows objects to have names
  * 
- * @version $Revision: 1.3 $
+ * @version $Revision$
  */
 public class BasicNamed extends DefaultBean implements Named {
 

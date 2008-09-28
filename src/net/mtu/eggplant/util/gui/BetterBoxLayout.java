@@ -37,7 +37,7 @@ import java.awt.LayoutManager2;
  * Lets box be it's preferred size and lays out components inside accordingly.
  * Currently only veritcal layout is supported.
  * 
- * @version $Revision: 1.6 $
+ * @version $Revision$
  */
 public class BetterBoxLayout implements
                             LayoutManager2 {

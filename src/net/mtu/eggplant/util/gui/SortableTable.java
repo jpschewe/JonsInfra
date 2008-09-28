@@ -42,7 +42,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.Enumeration;
 
 /**
- * @version $Revision: 1.6 $
+ * @version $Revision$
  */
 public class SortableTable extends JTable {
 

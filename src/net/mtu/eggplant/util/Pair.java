@@ -30,28 +30,29 @@ package net.mtu.eggplant.util;
 /**
  * class to put multiple objects in one.
  * 
- * @version $Revision: 1.6 $
+ * @version $Revision$
  */
-public class Pair extends Object {
+public class Pair<TYPE_ONE, TYPE_TWO> extends Object {
 
-  public Pair(final Object one,
-              final Object two) {
+  public Pair(final TYPE_ONE one,
+              final TYPE_TWO two) {
     _one = one;
     _two = two;
   }
 
-  private Object _one = null;
+  private TYPE_ONE _one = null;
 
-  public Object getOne() {
+  public TYPE_ONE getOne() {
     return _one;
   }
 
-  private Object _two = null;
+  private TYPE_TWO _two = null;
 
-  public Object getTwo() {
+  public TYPE_TWO getTwo() {
     return _two;
   }
 
+  @Override
   public String toString() {
     return "[Pair one:" + getOne() + " two: " + getTwo() + "]";
   }
@@ -59,17 +60,19 @@ public class Pair extends Object {
   /**
    * Equality is defined by the equality of the objects in the Pair.
    **/
+  @Override
   public boolean equals(final Object o) {
-    if (o instanceof Pair) {
-      final Pair other = (Pair) o;
-      return ((other.getOne() == null && getOne() == null) || (other.getOne() != null
-          && getOne() != null && other.getOne().equals(getOne())))
-          && ((other.getTwo() == null && getTwo() == null) || (other.getTwo() != null
-              && getTwo() != null && other.getTwo().equals(getTwo())));
+    if (o == this) {
+      return true;
+    } else if (o instanceof Pair) {
+      final Pair<?, ?> other = (Pair<?, ?>) o;
+      return Functions.safeEquals(other.getOne(), getOne())
+      && Functions.safeEquals(other.getTwo(), getTwo());
     }
     return false;
   }
 
+  @Override
   public int hashCode() {
     if (getOne() == null) {
       return -1;

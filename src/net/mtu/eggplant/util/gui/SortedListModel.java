@@ -42,7 +42,7 @@ import java.util.Collections;
  * list.
  *
  * @param <E> type of elements in the table model
- * @version $Revision: 1.4 $
+ * @version $Revision$
  */
 public class SortedListModel<E> extends AbstractListModel {
 

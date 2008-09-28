@@ -30,7 +30,7 @@ package net.mtu.eggplant.util;
 /**
  * Some handy utilities for working with strings.
  * 
- * @version $Revision: 1.6 $
+ * @version $Revision$
  */
 public final class StringUtils {
 

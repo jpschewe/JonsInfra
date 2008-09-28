@@ -27,35 +27,27 @@
  */
 package net.mtu.eggplant.util;
 
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import junit.textui.TestRunner;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Test class for StringUtils.
  * 
- * @version $Revision: 1.7 $
+ * @version $Revision$
  */
-public class StringUtilsTest extends TestCase {
+public class StringUtilsTest {
 
-  public static void main(final String[] args) {
-    //Make sure exceptions are thrown for assertions
-    System.setProperty("ASSERT_BEHAVIOR", "EXCEPTION");
 
-    final TestSuite suite = new TestSuite();
-    //suite.addTest(new StringUtilsTest("testSearchAndReplace2"));
-    suite.addTestSuite(StringUtilsTest.class);
-    TestRunner.run(suite);
-    
-  }
-
+  @Before
   protected void setUp()
     throws Exception {
     _assertProperty = System.getProperty("ASSERT_BEHAVIOR");
     System.setProperty("ASSERT_BEHAVIOR", "EXCEPTION");
   }
 
+  @After
   protected void tearDown()
     throws Exception {
     if(null != _assertProperty) {
@@ -64,6 +56,7 @@ public class StringUtilsTest extends TestCase {
   }
   private String _assertProperty;
   
+  @Test
   public void testSearchAndReplace() {
     final String source = "Fred & Barney & Wilma";
     final String search = "Barney";
@@ -71,10 +64,11 @@ public class StringUtilsTest extends TestCase {
     final String expectedResult = "Fred & Jon & Wilma";
     final String result = StringUtils.searchAndReplace(source, search, replace);
 
-    assertEquals("a1", expectedResult, result);
+    Assert.assertEquals("a1", expectedResult, result);
 
   }
 
+  @Test
   public void testSearchAndReplace1() {
     final String source = "($return < 10)";
     final String search = "$return";
@@ -82,16 +76,18 @@ public class StringUtilsTest extends TestCase {
     final String expectedResult = "(__retVal < 10)";
     final String result = StringUtils.searchAndReplace(source, search, replace);
 
-    assertEquals("a1", expectedResult, result);
+    Assert.assertEquals("a1", expectedResult, result);
 
   }  
 
+  @Test
   public void testSearchAndReplace2() {
     final String source = "(!dateStr.equals(\"\"))";
     final String search = "\"";
     final String replace = "\\\"";
     final String expectedResult = "(!dateStr.equals(\\\"\\\"))";
     final String result = StringUtils.searchAndReplace(source, search, replace);    
-    assertEquals("a1", expectedResult, result);
+    Assert.assertEquals("a1", expectedResult, result);
   }
+  
 }

@@ -32,7 +32,7 @@ import java.beans.PropertyChangeListener;
 /**
  * Basic interface to add property change support.
  * 
- * @version $Revision: 1.9 $
+ * @version $Revision$
  */
 public interface Bean {
   void addPropertyChangeListener(final PropertyChangeListener listener);

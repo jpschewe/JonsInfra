@@ -30,7 +30,7 @@ package net.mtu.eggplant.util;
 /**
  * Handy comparision routines.
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision$
  */
 public final class ComparisonUtils {
 

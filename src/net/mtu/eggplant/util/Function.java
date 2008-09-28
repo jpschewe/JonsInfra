@@ -30,7 +30,7 @@ package net.mtu.eggplant.util;
 /**
  * Generic function that takes a single argument and operates on it.
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision$
  */
 public interface Function {
 

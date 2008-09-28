@@ -30,9 +30,10 @@ package net.mtu.eggplant.util;
 /**
  * Pair of {@link java.lang.String Strings}.
  * 
- * @version $Revision: 1.6 $
+ * @deprecated Use Pair<String, String>
+ * @version $Revision$
  */
-public class StringPair extends Pair {
+public class StringPair extends Pair<String, String> {
   public StringPair(final String one,
                     final String two) {
     super(one, two);

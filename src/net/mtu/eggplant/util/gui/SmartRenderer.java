@@ -57,7 +57,7 @@ import net.mtu.eggplant.util.Named;
  *   <li>Icon</li>
  * </ul>
  * 
- * @version $Revision: 1.7 $
+ * @version $Revision$
  */
 public class SmartRenderer implements ListCellRenderer, TableCellRenderer, TreeCellRenderer {
 

@@ -53,7 +53,7 @@ import javax.swing.JOptionPane;
  * 
  * @author Jon Schewe
  * 
- * @version $Revision: 1.12 $
+ * @version $Revision$
  */
 public final class GraphicsUtils {
 

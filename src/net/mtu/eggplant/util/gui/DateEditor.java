@@ -49,6 +49,9 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicArrowButton;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * <pre>
  * TODO:
@@ -58,9 +61,12 @@ import javax.swing.plaf.basic.BasicArrowButton;
  * test removing odd fields
  * </pre>
  * 
- * @version $Revision: 1.7 $
+ * @version $Revision$
  */
 public class DateEditor extends JPanel {
+
+  private static final Logger LOGGER = LoggerFactory
+      .getLogger(DateEditor.class);
 
   public static void main(final String[] args) {
     DateEditor de = new DateEditor(Locale.getDefault(), Calendar.getInstance(),
@@ -422,7 +428,9 @@ public class DateEditor extends JPanel {
       _yearText.setText(_twoFormat.format(value));
     } else {
       offset = value * 12; // to months
-      System.out.println("months offset " + offset);
+      if (LOGGER.isDebugEnabled()) {
+        LOGGER.debug("months offset " + offset);
+      }
       _monthText.setColumns(8);
     }
     value = _currentCalendar.get(Calendar.MONTH) + offset;
@@ -434,7 +442,9 @@ public class DateEditor extends JPanel {
       foo.set(Calendar.DATE, 1);
       // convert to days
       offset = Math.round(offset * 365.25) + foo.get(Calendar.DAY_OF_YEAR) - 1;
-      System.out.println("days offset " + offset);
+      if (LOGGER.isDebugEnabled()) {
+        LOGGER.debug("days offset " + offset);
+      }
       _dayText.setColumns(8);
     }
     value = offset + _currentCalendar.get(Calendar.DATE);
@@ -443,7 +453,9 @@ public class DateEditor extends JPanel {
       offset = 0;
     } else {
       offset *= 24;
-      System.out.println("hours offset " + offset);
+      if (LOGGER.isDebugEnabled()) {
+        LOGGER.debug("hours offset " + offset);
+      }
       // offset = (offset + _currentCalendar.get(Calendar.DATE)) * 24; // to
       // hours
       _hourText.setColumns(8);

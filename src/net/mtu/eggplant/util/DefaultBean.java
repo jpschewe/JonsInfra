@@ -35,7 +35,7 @@ import java.io.Serializable;
 /**
  * Basic class to add property change support.
  * 
- * @version $Revision: 1.9 $
+ * @version $Revision$
  */
 public class DefaultBean implements Bean, Serializable {
   public DefaultBean() {

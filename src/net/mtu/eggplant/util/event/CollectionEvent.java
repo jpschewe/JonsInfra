@@ -31,7 +31,7 @@ import java.util.Collection;
 import java.util.EventObject;
 
 /**
- * @version $Revision: 1.4 $
+ * @version $Revision$
  */
 public class CollectionEvent extends EventObject {
 

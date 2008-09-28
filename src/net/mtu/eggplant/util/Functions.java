@@ -30,7 +30,7 @@ package net.mtu.eggplant.util;
 /**
  * general functions that can be used in most any class
  * 
- * @version $Revision: 1.7 $
+ * @version $Revision$
  */
 public final class Functions {
 
@@ -38,36 +38,16 @@ public final class Functions {
   }
 
   /**
-   * Exit with an error message, when an exception occurs.
-   * 
-   * @param e
-   *          the exception
-   * @param msg
-   *          the message
-   **/
-  public static void fail(final Exception e,
-                          final String msg) {
-    System.err.println(msg + ": " + e);
-    System.exit(1);
-  }
-
-  /**
-   * Convert an array to a string.
-   **/
-  public static String printArray(final Object[] array) {
-    if (array == null) {
-      return "NULL";
+   * Equals call that handles null without a NullPointerException.
+   */
+  public static boolean safeEquals(final Object o1, final Object o2) {
+    if(o1 == o2) {
+      return true;
+    } else if(null == o1 && null != o2) {
+      return false;
+    } else {
+      return o1.equals(o2);
     }
-    StringBuffer sb = new StringBuffer();
-    sb.append(array.getClass());
-    sb.append(" [");
-    for (int i = 0; i < array.length; i++) {
-      if (i > 0) {
-        sb.append(", ");
-      }
-      sb.append(array[i]);
-    }
-    sb.append(" ]");
-    return sb.toString();
   }
+  
 }

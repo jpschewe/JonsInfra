@@ -30,7 +30,7 @@ package net.mtu.eggplant.util.gui;
 import javax.swing.table.TableModel;
 
 /**
- * @version $Revision: 1.7 $
+ * @version $Revision$
  */
 public interface SortableTableModel extends TableModel {
 

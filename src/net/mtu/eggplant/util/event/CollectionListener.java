@@ -32,7 +32,7 @@ import java.util.EventListener;
 /**
  * Listener for events fired on collections that change.
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision$
  */
 public interface CollectionListener extends EventListener {
 

@@ -35,7 +35,7 @@ import java.awt.dnd.DragSourceEvent;
 /**
  * Empty implementation of DragSourceListener.
  * 
- * @version $Revision: 1.4 $
+ * @version $Revision$
  */
 public class DragSourceAdapter implements DragSourceListener {
   public void dragDropEnd(final DragSourceDropEvent dsde) { }
