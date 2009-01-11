@@ -35,17 +35,16 @@ import java.awt.LayoutManager2;
 
 /**
  * Lets box be it's preferred size and lays out components inside accordingly.
- * Currently only veritcal layout is supported.
  * 
  * @version $Revision$
  */
-public class BetterBoxLayout implements
-                            LayoutManager2 {
+public class BetterBoxLayout implements LayoutManager2 {
 
   /**
    * Layout components along the Y axis.
    **/
   public static final BetterBoxLayoutOrientation VERTICAL = new BetterBoxLayoutOrientation();
+
   /**
    * Layout components along the X axis.
    **/
@@ -68,13 +67,11 @@ public class BetterBoxLayout implements
 
   private BetterBoxLayoutOrientation _orientation;
 
-  public void addLayoutComponent(final String name,
-                                 final Component comp) {
+  public void addLayoutComponent(final String name, final Component comp) {
 
   }
 
-  public void addLayoutComponent(final Component comp,
-                                 final Object constraints) {
+  public void addLayoutComponent(final Component comp, final Object constraints) {
 
   }
 
@@ -84,7 +81,8 @@ public class BetterBoxLayout implements
     final Component[] components = target.getComponents();
 
     if (_orientation == VERTICAL) {
-      final int componentWidth = targetSize.width - insets.left - insets.right;
+      final int componentWidth = targetSize.width
+          - insets.left - insets.right;
       final int x = insets.left;
       int y = insets.top;
       for (int i = 0; i < components.length; i++) {
@@ -93,8 +91,8 @@ public class BetterBoxLayout implements
         y += height;
       }
     } else {
-      final int componentHeight = targetSize.height - insets.top
-          - insets.bottom;
+      final int componentHeight = targetSize.height
+          - insets.top - insets.bottom;
       int x = insets.left;
       final int y = insets.top;
       for (int i = 0; i < components.length; i++) {
@@ -124,8 +122,10 @@ public class BetterBoxLayout implements
       }
     }
 
-    dim.height += insets.top + insets.bottom;
-    dim.width += insets.left + insets.right;
+    dim.height += insets.top
+        + insets.bottom;
+    dim.width += insets.left
+        + insets.right;
     return dim;
   }
 
