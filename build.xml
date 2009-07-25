@@ -170,6 +170,9 @@
 	</target>
 
 	<!-- ==================== Tests using JUnit ==================== -->
+	<target name="test.all" depends="test"
+		description="Run all tests" />
+
 	<target name="test" depends="checkstyle,compile.test,coverage.instr" description="Run the unit tests and format the results">
 		<mkdir dir="${dir.build}/test-results" />
 
@@ -285,7 +288,7 @@
 		<!-- copy reports -->
 		<mkdir dir="${dir.dist}/docs" />
 		<copy todir="${dir.dist}/docs">
-			<fileset dir="${dir.reports}" />
+			<fileset dir="${dir.build}/docs" />
 		</copy>
 
 		<!-- build distribution-friendly scripts -->
@@ -309,6 +312,8 @@
 		<zip destfile="${dir.build}/${app.name}-${app.version}-src.zip">
 			<zipfileset dir="${dir.src}" />
 		</zip>
+		<move file="${dir.build}/${app.name}-${app.version}.zip" todir="${dir.dist}"/>
+		<move file="${dir.build}/${app.name}-${app.version}-src.zip" todir="${dir.dist}"/>
 	</target>
 
 
@@ -317,47 +322,8 @@
 		<mkdir dir="${release.html.dir}/${app.name}/${app.version}" />
 
 		<copy todir="${release.html.dir}/${app.name}/${app.version}">
-			<fileset dir="${dir.build}">
-				<include name="*.zip" />
-				<include name="docs/**" />
-			</fileset>
+			<fileset dir="${dir.dist}"/>
 		</copy>
-		<copy file="${dir.build}/docs/index.html" todir="${release.html.dir}/${app.name}/${app.version}" />
-
-	</target>
-
-	<target name="-release.real" depends="compile,javadoc">
-
-		<!-- copy index.html, ChangeLog, lib to web directory -->
-		<copy todir="${release.html.dir}/${app.name}/${app.version}" flatten="true">
-			<fileset dir="${basedir}">
-				<include name="ChangeLog" />
-				<include name="docs/*" />
-			</fileset>
-			<filterset>
-				<filter token="APP-VERSION" value="${app.version}" />
-			</filterset>
-		</copy>
-
-		<copy todir="${release.html.dir}/${app.name}/${app.version}" flatten="true">
-			<fileset dir="${basedir}">
-				<include name="lib/*" />
-				<exclude name="lib/ant" />
-			</fileset>
-		</copy>
-
-
-		<!-- zip source to web directory -->
-		<zip destfile="${release.html.dir}/${app.name}/${app.version}/${app.name}-${app.version}-src.zip">
-			<zipfileset dir="${basedir}" prefix="${app.name}-${app.version}">
-				<exclude name="build/**" />
-			</zipfileset>
-		</zip>
-
-		<!-- build the jar -->
-		<jar jarfile="${release.html.dir}/${app.name}/${app.version}/${app.name}-${app.version}.jar" basedir="${basedir}/build/classes" index="true" />
-
-		<echo message="Remember to sync out to mtu.net" />
 	</target>
 
 	<!-- ==================== JavaDoc ==================== -->
@@ -438,7 +404,13 @@
 	</target>
 
 	<!-- ============ Nightly Build/Check/Test/Build/Report/Etc ============ -->
-	<target name="nightly.build" description="Tasks to run during nightly build" depends="clean,javadoc,checkstyle,test" />
+	<target name="continuous" description="Runs the continuous integration build">
+		<antcall target="clean" />
+		<antcall target="javadoc" />
+		<antcall target="test.all" />
+		<antcall target="coverage.report" />
+		<antcall target="checkstyle.full" />
+	</target>
 
 	<!-- ==================== SECONDARY TARGETS ==================== -->
 	<!-- build scripts to run the application -->
