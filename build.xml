@@ -201,6 +201,19 @@
 			<test name="${junit.test.class}" if="junit.test.class" todir="${dir.build}/test-results" />
 		</junit>
 	</target>
+	
+	<target name="test.report" description="Generate the test report">
+		<mkdir dir="${dir.reports}/junit" />
+		<junitreport todir="${dir.reports}">
+			<fileset dir="${dir.build}/test-results">
+				<include name="**/*.xml" />
+			</fileset>
+			<report format="frames" todir="${dir.reports}/junit" />
+		</junitreport>
+		<echo
+			message="See ${dir.reports}/junit/index.html to see the unit test results" />
+	</target>
+
 
 	<!-- ==================== Run ! ==================== -->
 	<target name="run" depends="compile" description="Run the application">
@@ -224,8 +237,9 @@
 		<!-- make sure the tests pass -->
 		<antcall target="test" />
 
-		<!-- create & copy the coverage report to the side so that the clean doesn't remove it-->
+		<!-- create & copy the reports to the side so that the clean doesn't remove it-->
 		<antcall target="coverage.report" />
+		<antcall target="test.report" />
 		<mkdir dir="dist-save" />
 		<copy todir="dist-save">
 			<fileset dir="${dir.reports}" />
@@ -234,7 +248,7 @@
 		<!-- clean everything out before a distribution is made -->
 		<antcall target="clean" />
 
-		<!-- copy the coverage report back -->
+		<!-- copy the reports back -->
 		<mkdir dir="${dir.reports}" />
 		<copy todir="${dir.reports}">
 			<fileset dir="dist-save" />
