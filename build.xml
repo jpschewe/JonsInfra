@@ -5,14 +5,13 @@
 	<property file="build.properties" />
 
 	<!-- basic properties for directories and the like -->
-	<property name="dir.src" value="src" />
-	<property name="dir.lib" value="lib" />
+	<property name="dir.src" value="${basedir}/src" />
+	<property name="dir.lib" value="${basedir}/lib" />
 	<property name="dir.build" value="${basedir}/build" />
 	<property name="dir.inst" value="${dir.build}/instrumented" />
 	<property name="dir.classes" value="${dir.build}/classes/main" />
 	<property name="dir.classes.test" value="${dir.build}/classes/test" />
-	<property name="dir.api" value="${dir.build}/docs/api" />
-	<property name="dir.test" value="test" />
+	<property name="dir.test" value="${basedir}/test" />
 	<property name="dir.bin" value="${dir.build}/bin" />
 	<property name="dir.dist" value="${dir.build}/dist" />
 	<property name="dir.reports" value="${dir.build}/docs/reports" />
@@ -28,10 +27,6 @@
 
 	<!-- what level of javadoc should be generated -->
 	<property name="javadoc.access" value="protected" />
-
-	<!-- file for checkstyle -->
-	<property name="checkstyle" value="checkstyle.xml" />
-	<property name="checkstyle.strict" value="checkstyle-strict.xml" />
 
 	<!-- compile options, may be overriden in other targets -->
 	<property name="compile.debug" value="true" />
@@ -128,7 +123,7 @@
 	</target>
 
 	<!-- ==================== DEFAULT ==================== -->
-	<target name="default" description="Default target" depends="init,compile,checkstyle,jtags" />
+	<target name="default" description="Default target" depends="init,compile,checkstyle" />
 
 	<!-- ==================== Compile ==================== -->
 	<target name="compile" description="Compile java to class files" depends="init">
@@ -175,12 +170,11 @@
 	</target>
 
 	<!-- ==================== Tests using JUnit ==================== -->
-	<target name="test" depends="checkstyle.strict,compile.test,coverage.instr" description="Run the unit tests and format the results">
+	<target name="test" depends="checkstyle,compile.test,coverage.instr" description="Run the unit tests and format the results">
 		<mkdir dir="${dir.build}/test-results" />
 
 		<junit dir="${dir.build}" haltonfailure="false" fork="true" showoutput="true">
-			<sysproperty key="net.sourceforge.cobertura.datafile"
-				value="${dir.coverage}/cobertura.ser" />
+			<sysproperty key="net.sourceforge.cobertura.datafile" value="${dir.coverage}/cobertura.ser" />
 			<classpath refid="classpath.test" />
 			<formatter type="brief" usefile="false" />
 			<formatter type="xml" />
@@ -192,7 +186,7 @@
 		</junit>
 	</target>
 
-	<target name="test.single" depends="compile.test,checkstyle.strict" description="Run a single unit test specified by junit.test.class property.">
+	<target name="test.single" depends="compile.test,checkstyle" description="Run a single unit test specified by junit.test.class property.">
 		<junit fork="yes" haltonfailure="false" dir="${dir.build}">
 			<classpath>
 				<path refid="classpath.test" />
@@ -201,7 +195,7 @@
 			<test name="${junit.test.class}" if="junit.test.class" todir="${dir.build}/test-results" />
 		</junit>
 	</target>
-	
+
 	<target name="test.report" description="Generate the test report">
 		<mkdir dir="${dir.reports}/junit" />
 		<junitreport todir="${dir.reports}">
@@ -210,8 +204,7 @@
 			</fileset>
 			<report format="frames" todir="${dir.reports}/junit" />
 		</junitreport>
-		<echo
-			message="See ${dir.reports}/junit/index.html to see the unit test results" />
+		<echo message="See ${dir.reports}/junit/index.html to see the unit test results" />
 	</target>
 
 
@@ -265,20 +258,21 @@
 
 	<!-- do real work of dist target -->
 	<target name="-dist.real" depends="javadoc,compile">
+		<mkdir dir="${dir.dist}/lib" />
 
 		<!-- eventually should set or generate this, perhaps from BuildNumber task -->
 		<property name="dist.jar" value="${app.name}-${app.version}.jar" />
 
 		<!-- JAR-up all of our compiled classes -->
-		<jar jarfile="${dir.build}/${dist.jar}" index="true">
+		<jar jarfile="${dir.dist}/lib/${dist.jar}" index="true">
 			<fileset dir="${dir.classes}">
 				<exclude name="**/test/*" />
 			</fileset>
 		</jar>
 
 		<!-- copy index.html, ChangeLog, lib to docs directory -->
-		<mkdir dir="${dir.build}/docs" />
-		<copy todir="${dir.build}/docs" flatten="true">
+		<mkdir dir="${dir.dist}/docs" />
+		<copy todir="${dir.dist}" flatten="true">
 			<fileset dir="${basedir}">
 				<include name="ChangeLog" />
 				<include name="docs/*" />
@@ -286,6 +280,12 @@
 			<filterset>
 				<filter token="APP-VERSION" value="${app.version}" />
 			</filterset>
+		</copy>
+
+		<!-- copy reports -->
+		<mkdir dir="${dir.dist}/docs" />
+		<copy todir="${dir.dist}/docs">
+			<fileset dir="${dir.reports}" />
 		</copy>
 
 		<!-- build distribution-friendly scripts -->
@@ -307,7 +307,7 @@
 			<zipfileset dir="${dir.build}/docs" prefix="docs" />
 		</zip>
 		<zip destfile="${dir.build}/${app.name}-${app.version}-src.zip">
-			<zipfileset dir="${dir.src}" excludes="${tagstable}" />
+			<zipfileset dir="${dir.src}" />
 		</zip>
 	</target>
 
@@ -366,8 +366,8 @@
     change level of javadoc created (e.g. private, etc) -->
 		<condition property="javadoc.uptodate">
 			<and>
-				<available file="${dir.api}/index.html" />
-				<uptodate targetfile="${dir.api}/index.html">
+				<available file="${dir.build}/docs/api/index.html" />
+				<uptodate targetfile="${dir.build}/docs/api/index.html">
 					<srcfiles dir="${dir.src}" includes="**/*.java" />
 				</uptodate>
 			</and>
@@ -375,8 +375,8 @@
 	</target>
 
 	<target name="javadoc" description="Create Javadoc API documentation" depends="-javadoc.check" unless="javadoc.uptodate">
-		<mkdir dir="${dir.api}" />
-		<javadoc sourcepath="${dir.src}" destdir="${dir.api}" packagenames="*" excludepackagenames="**/test" windowtitle="${app.name}" overview="${dir.src}/overview.html" access="${javadoc.access}" splitindex="true" additionalparam="-tag pre:cm:PreConditions -tag post:cm:PostConditions -tag invariant:tc:Invariants -breakiterator">
+		<mkdir dir="${dir.build}/docs/api" />
+		<javadoc sourcepath="${dir.src}" destdir="${dir.build}/docs/api" packagenames="*" excludepackagenames="**/test" windowtitle="${app.name}" overview="${dir.src}/overview.html" access="${javadoc.access}" splitindex="true" additionalparam="-tag pre:cm:PreConditions -tag post:cm:PostConditions -tag invariant:tc:Invariants -breakiterator">
 			<classpath refid="classpath.base" />
 			<!-- core java -->
 			<link href="http://java.sun.com/j2se/1.5.0/docs/api/" />
@@ -388,28 +388,6 @@
 			<link href="http://www.slf4j.org/apidocs/" />
 
 		</javadoc>
-	</target>
-
-	<!-- ==================== Emacs Tags ==================== -->
-	<!-- set jtags.executable and jtags.arguments in your 
-     - build.properties something like this:
-     -    jtags.executable=bash
-     -    jtags.arguments=-c jtags
-     - Note that ANT is somewhat too smart wrt quotes.
-    -->
-	<condition property="jtags.uptodate">
-		<and>
-			<available file="${tagstable}" />
-			<uptodate targetfile="${tagstable}">
-				<srcfiles dir="${dir.src}" includes="**/*.java" />
-			</uptodate>
-		</and>
-	</condition>
-
-	<target name="jtags" description="Build an Emacs tags table file" if="jtags.executable" unless="jtags.uptodate">
-		<exec taskname="jtags" dir="${dir.src}" executable="${jtags.executable}">
-			<arg line="${jtags.arguments}" />
-		</exec>
 	</target>
 
 	<!-- ==================== Design By Contract (DBC) ==================== -->
@@ -440,34 +418,27 @@
 	<!-- ==================== Checkstyle ==================== -->
 	<taskdef resource="checkstyletask.properties">
 		<classpath>
-			<pathelement location="${dir.lib}/ant/antlr-2.7.6.jar" />
-			<pathelement location="${dir.lib}/ant/checkstyle-4.2.jar" />
-			<pathelement location="${dir.lib}/ant/commons-beanutils-core.jar" />
-			<pathelement location="${dir.lib}/ant/commons-cli-1.0.jar" />
-			<pathelement location="${dir.lib}/ant/commons-collections.jar" />
-			<pathelement location="${dir.lib}/ant/commons-logging.jar" />
+			<pathelement location="${dir.lib}/ant/checkstyle-all-5.0.jar" />
 		</classpath>
 	</taskdef>
 
 	<!-- "normal" checkstyle -->
 	<target name="checkstyle" description="Check for code convention violations" depends="init">
-		<echo level="info" taskname="checkstyle" message="Checking code style with config: '${checkstyle}'" />
-		<checkstyle config="${checkstyle}" failOnViolation="false">
+		<checkstyle config="${basedir}/checkstyle.xml" failOnViolation="false">
 			<fileset dir="${dir.src}">
 				<include name="**/*.java" />
 			</fileset>
+			<fileset dir="${dir.test}">
+				<include name="**/*.java" />
+			</fileset>
+			<formatter type="plain" />
+			<formatter type="xml" toFile="${dir.build}/checkstyle_report.xml" />
 		</checkstyle>
-	</target>
-
-	<!-- strict checkstyle -->
-	<target name="checkstyle.strict">
-		<antcall target="checkstyle">
-			<param name="checkstyle" value="${checkstyle.strict}" />
-		</antcall>
+		<mkdir dir="${dir.reports}/checkstyle" />
 	</target>
 
 	<!-- ============ Nightly Build/Check/Test/Build/Report/Etc ============ -->
-	<target name="nightly.build" description="Tasks to run during nightly build" depends="clean,javadoc,checkstyle.strict,test" />
+	<target name="nightly.build" description="Tasks to run during nightly build" depends="clean,javadoc,checkstyle,test" />
 
 	<!-- ==================== SECONDARY TARGETS ==================== -->
 	<!-- build scripts to run the application -->
