@@ -80,7 +80,7 @@ public class BasicFileFilter extends FileFilter {
   private String[] _extensions;
 
   public boolean accept(final File f) {
-    // accept directories
+    // accept directories, otherwise can't browse into directories
     if (f.isDirectory()) {
       return true;
     }
