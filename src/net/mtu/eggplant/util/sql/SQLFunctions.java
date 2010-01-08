@@ -101,7 +101,7 @@ public final class SQLFunctions {
    * Close stmt and ignore SQLExceptions. This is useful in a finally so that
    * all of the finally block gets executed. Handles null.
    */
-  public static void closeStatement(final Statement stmt) {
+  public static void close(final Statement stmt) {
     try {
       if (null != stmt) {
         stmt.close();
@@ -118,7 +118,7 @@ public final class SQLFunctions {
    * Close prep and ignore SQLExceptions. This is useful in a finally so that
    * all of the finally block gets executed. Handles null.
    */
-  public static void closePreparedStatement(final PreparedStatement prep) {
+  public static void close(final PreparedStatement prep) {
     try {
       if (null != prep) {
         prep.close();
@@ -135,7 +135,7 @@ public final class SQLFunctions {
    * Close rs and ignore SQLExceptions. This is useful in a finally so that all
    * of the finally block gets executed. Handles null.
    */
-  public static void closeResultSet(final ResultSet rs) {
+  public static void close(final ResultSet rs) {
     try {
       if (null != rs) {
         rs.close();
@@ -152,7 +152,7 @@ public final class SQLFunctions {
    * Close connection and ignore SQLExceptions. This is useful in a finally so
    * that all of the finally block gets executed. Handles null.
    */
-  public static void closeConnection(final Connection connection) {
+  public static void close(final Connection connection) {
     try {
       if (null != connection) {
         connection.close();
