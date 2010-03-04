@@ -33,11 +33,23 @@
 	<property name="compile.optimize" value="false" />
 	<property name="compile.deprecation" value="true" />
 
+	<property environment="env"/>
+	<property name="tools.jar" value="${env.JAVA_HOME}/lib/tools.jar" />
+
 	<property name="release.html.dir" value="/home/jpschewe/public_html" />
+
+	<property name="findbugs.home" value="${dir.lib}/findbugs-1.3.9" />
+	<property name="dir.lib.findbugs" value="${findbugs.home}/lib" />
+
+	<import file="${basedir}/buildscript-imports.xml" />
+
+	<taskdef name="findbugs" classpath="${findbugs.home}/lib/findbugs-ant.jar" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" />
 
 	<!-- Base/default classpath; if you don't run inside ant, copy this -->
 	<path id="classpath.base">
 		<pathelement location="${basedir}/lib/slf4j-api-1.5.3.jar" />
+
+		<pathelement location="${tools.jar}"/>
 
 		<path refid="cobertura.classpath" />
 	</path>
@@ -144,13 +156,6 @@
 				<exclude name="**/*.html" />
 			</fileset>
 		</copy>
-
-		<!-- build scripts -->
-		<antcall target="-buildscripts">
-			<param name="-scripts.dir" value="${dir.bin}" />
-			<param name="-scripts.root" value=".." />
-			<reference torefid="-scripts.path" refid="classpath.build" />
-		</antcall>
 	</target>
 
 	<target name="compile.test" depends="init,compile" description="Compile Java test sources">
@@ -170,8 +175,7 @@
 	</target>
 
 	<!-- ==================== Tests using JUnit ==================== -->
-	<target name="test.all" depends="test"
-		description="Run all tests" />
+	<target name="test.all" depends="test" description="Run all tests" />
 
 	<target name="test" depends="checkstyle,compile.test,coverage.instr" description="Run the unit tests and format the results">
 		<mkdir dir="${dir.build}/test-results" />
@@ -291,17 +295,6 @@
 			<fileset dir="${dir.build}/docs" />
 		</copy>
 
-		<!-- build distribution-friendly scripts -->
-		<path id="dist.classpath">
-			<path refid="classpath.base" />
-			<pathelement location="${dist.jar}" />
-		</path>
-		<antcall target="-buildscripts">
-			<param name="-scripts.dir" value="${dir.dist}/bin" />
-			<param name="-scripts.root" value="." />
-			<reference torefid="-scripts.path" refid="dist.classpath" />
-		</antcall>
-
 		<!-- create zip files of the source and distribution directories -->
 		<zip destfile="${dir.build}/${app.name}-${app.version}.zip">
 			<zipfileset dir="${dir.dist}" />
@@ -312,8 +305,8 @@
 		<zip destfile="${dir.build}/${app.name}-${app.version}-src.zip">
 			<zipfileset dir="${dir.src}" />
 		</zip>
-		<move file="${dir.build}/${app.name}-${app.version}.zip" todir="${dir.dist}"/>
-		<move file="${dir.build}/${app.name}-${app.version}-src.zip" todir="${dir.dist}"/>
+		<move file="${dir.build}/${app.name}-${app.version}.zip" todir="${dir.dist}" />
+		<move file="${dir.build}/${app.name}-${app.version}-src.zip" todir="${dir.dist}" />
 	</target>
 
 
@@ -322,7 +315,7 @@
 		<mkdir dir="${release.html.dir}/${app.name}/${app.version}" />
 
 		<copy todir="${release.html.dir}/${app.name}/${app.version}">
-			<fileset dir="${dir.dist}"/>
+			<fileset dir="${dir.dist}" />
 		</copy>
 	</target>
 
@@ -407,48 +400,29 @@
 	<target name="continuous" description="Runs the continuous integration build">
 		<antcall target="clean" />
 		<antcall target="javadoc" />
+		<antcall target="findbugs" />
 		<antcall target="test.all" />
 		<antcall target="coverage.report" />
 		<antcall target="checkstyle" />
 	</target>
 
-	<!-- ==================== SECONDARY TARGETS ==================== -->
-	<!-- build scripts to run the application -->
-	<target name="-buildscripts.check">
-		<!-- somewhat hokey, in that we only look at one of the scripts generated -->
-		<uptodate property="-scripts.uptodate" targetfile="${-scripts.dir}/${app.name}.sh">
-			<srcfiles dir="${basedir}" includes="run*.t,${ant.file}" />
-		</uptodate>
+
+	<target name="findbugs" depends="compile" description="Executes findbugs to look for problems in the source.">
+		<mkdir dir="${dir.build}/findbugs" />
+		<findbugs home="${findbugs.home}" output="xml" outputFile="${dir.build}/findbugs/report.xml" effort="max" jvmargs="-Xmx1024m" reportLevel="low" excludeFilter="${basedir}/findbugs-filters.xml">
+			<auxClasspath refid="classpath.build" />
+			<sourcePath path="${dir.src}" />
+			<class location="${dir.classes}" />
+		</findbugs>
 	</target>
 
-	<target name="-buildscripts" depends="-buildscripts.check" unless="-scripts.uptodate">
-		<!-- JavaDOME  -->
-		<mkdir dir="${-scripts.dir}" />
-
-		<pathconvert targetos="unix" property="classpath.unix" refid="-scripts.path">
-			<map from="${basedir}" to="${-scripts.root}" />
-		</pathconvert>
-		<pathconvert targetos="windows" property="classpath.windows" refid="-scripts.path">
-			<map from="${basedir}" to="${-scripts.root}" />
-		</pathconvert>
-
-		<!--
-    <copy file="run.sh.t" tofile="${-scripts.dir}/${app.name}.sh" overwrite="true">
-      <filterset>
-        <filter token="CLASSPATH" value="${classpath.unix}" />
-        <filter token="CLASSNAME" value="${class.main}" />
-        <filter token="JAVA_ARGS" value="" />
-      </filterset>
-    </copy>
-    <copy file="run.bat.t" tofile="${-scripts.dir}/${app.name}.bat" overwrite="true">
-      <filterset>
-        <filter token="CLASSPATH" value="${classpath.windows}" />
-        <filter token="CLASSNAME" value="${class.main}" />
-        <filter token="JAVA_ARGS" value="" />
-      </filterset>
-    </copy>
-    -->
-
+	<target name="findbugs.html" depends="compile" description="Executes findbugs to look for problems in the source.">
+		<mkdir dir="${dir.build}/findbugs" />
+		<findbugs home="${findbugs.home}" output="html" outputFile="${dir.build}/findbugs/report.html" effort="max" jvmargs="-Xmx1024m" reportLevel="low" excludeFilter="${basedir}/findbugs-filters.xml">
+			<auxClasspath refid="classpath.build" />
+			<sourcePath path="${dir.src}" />
+			<class location="${dir.classes}" />
+		</findbugs>
 	</target>
 
 </project>
