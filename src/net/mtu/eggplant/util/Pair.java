@@ -66,7 +66,7 @@ public class Pair<TYPE_ONE, TYPE_TWO> extends Object {
   public boolean equals(final Object o) {
     if (o == this) {
       return true;
-    } else if (o instanceof Pair) {
+    } else if (o instanceof Pair<?, ?>) {
       final Pair<?, ?> other = (Pair<?, ?>) o;
       return Functions.safeEquals(other.getOne(), getOne())
       && Functions.safeEquals(other.getTwo(), getTwo());
