@@ -40,7 +40,8 @@ ${fll_lib}/findbugs-1.3.9/lib/annotations.jar:\
 ${fll_lib}/findbugs-1.3.9/lib/jsr305.jar:\
 ${fll_sw}/build/tomcat/webapps/fll-sw/WEB-INF/classes
 
-apt -factorypath ${mypath}/build/classes/main:${mypath}/lib/slf4j-api-1.5.3.jar:${mypath}/lib/findbugs-1.3.9/lib/annotations.jar:${mypath}/lib/findbugs-1.3.9/lib/jsr305.jar \
+apt -nocompile \
+  -factorypath ${mypath}/build/classes/main:${mypath}/lib/slf4j-api-1.5.3.jar:${mypath}/lib/findbugs-1.3.9/lib/annotations.jar:${mypath}/lib/findbugs-1.3.9/lib/jsr305.jar \
   -classpath ${fll_classpath} \
   -factory net.mtu.eggplant.annotation.FindBugsAnnotationProcessorFactory \
   `find ${fll_sw}/src -type f -name '*.java'`
