@@ -45,9 +45,15 @@
 
 	<taskdef name="findbugs" classpath="${findbugs.home}/lib/findbugs-ant.jar" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" />
 
+	<taskdef name="one-jar" classname="com.simontuffs.onejar.ant.OneJarTask">
+		<classpath>
+			<pathelement location="${dir.lib}/ant/one-jar-ant-task-0.96-jps.jar" />
+		</classpath>
+	</taskdef>
+	
 	<!-- Base/default classpath; if you don't run inside ant, copy this -->
 	<path id="classpath.base">
-		<pathelement location="${basedir}/lib/slf4j-api-1.5.3.jar" />
+		<pathelement location="${basedir}/lib/slf4j-api-1.5.11.jar" />
 
 		<pathelement location="${tools.jar}"/>
 
@@ -66,20 +72,14 @@
 		<pathelement location="${dir.classes}" />
 
 		<!-- logging jars for running applications -->
-		<pathelement location="${dir.lib}/test/log4j-1.2.14.jar" />
-		<pathelement location="${dir.lib}/test/slf4j-log4j12-1.5.3.jar" />
+		<pathelement location="${dir.lib}/test/slf4j-simple-1.5.11.jar" />
 	</path>
 	<path id="classpath.test">
-		<path refid="classpath.base" />
+		<path refid="classpath.run" />
 
-		<pathelement location="${dir.classes}" />
 		<pathelement location="${dir.classes.test}" />
 
 		<pathelement location="${dir.lib}/test/junit-4.5.jar" />
-
-		<!-- logging jars for running applications -->
-		<pathelement location="${dir.lib}/test/log4j-1.2.14.jar" />
-		<pathelement location="${dir.lib}/test/slf4j-log4j12-1.5.3.jar" />
 	</path>
 
 	<!-- ==================== Code coverage ==================== -->
@@ -156,6 +156,9 @@
 				<exclude name="**/*.html" />
 			</fileset>
 		</copy>
+		
+ 		<buildscript-one-jar scripts.dir="${dir.bin}" src.dir="${dir.classes}" scripts.path="classpath.run" script.name="check-schema" class.main="net.mtu.eggplant.xml.SchemaValidator" />
+		
 	</target>
 
 	<target name="compile.test" depends="init,compile" description="Compile Java test sources">
