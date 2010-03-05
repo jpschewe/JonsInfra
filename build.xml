@@ -139,7 +139,8 @@
 
 	<!-- ==================== Compile ==================== -->
 	<target name="compile" description="Compile java to class files" depends="init">
-
+	  <echo level="info" message="java home: ${java.home}"/>
+	  
 		<!-- compile - into the build directory -->
 		<echo level="info" taskname="compile" message="Compiling sources from: '${dir.src}'" />
 		<javac srcdir="${dir.src}" excludes="**/scratch/*.java" destdir="${dir.classes}" debug="${compile.debug}" optimize="${compile.optimize}" deprecation="${compile.deprecation}">
