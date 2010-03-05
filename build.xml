@@ -34,8 +34,6 @@
 	<property name="compile.deprecation" value="true" />
 
 	<property environment="env"/>
-	<property name="tools.jar" value="${env.JAVA_HOME}/lib/tools.jar" />
-
 	<property name="release.html.dir" value="/home/jpschewe/public_html" />
 
 	<property name="findbugs.home" value="${dir.lib}/findbugs-1.3.9" />
@@ -55,7 +53,8 @@
 	<path id="classpath.base">
 		<pathelement location="${basedir}/lib/slf4j-api-1.5.11.jar" />
 
-		<pathelement location="${tools.jar}"/>
+		<pathelement location="${java.home}/lib/tools.jar"/>
+		<pathelement location="${java.home}/../lib/tools.jar"/>
 
 		<path refid="cobertura.classpath" />
 	</path>
