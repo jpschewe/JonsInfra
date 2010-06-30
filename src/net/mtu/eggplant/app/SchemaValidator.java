@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.mtu.eggplant.xml;
+package net.mtu.eggplant.app;
 
 import java.io.File;
 import java.io.FileInputStream;
