@@ -158,6 +158,8 @@
 		</copy>
 		
  		<buildscript-one-jar scripts.dir="${dir.bin}" src.dir="${dir.classes}" scripts.path="classpath.run" script.name="check-schema" class.main="net.mtu.eggplant.app.SchemaValidator" />
+
+ 		<buildscript-one-jar scripts.dir="${dir.bin}" src.dir="${dir.classes}" scripts.path="classpath.run" script.name="timeconvert" class.main="net.mtu.eggplant.app.TimeConvert" />
     
 	</target>
 
