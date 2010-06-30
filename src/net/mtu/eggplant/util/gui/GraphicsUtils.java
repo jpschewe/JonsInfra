@@ -52,7 +52,6 @@ import javax.swing.JOptionPane;
  * graphics functions that should exist in java, but don't
  * 
  * @author Jon Schewe
- * 
  * @version $Revision$
  */
 public final class GraphicsUtils {
@@ -62,32 +61,41 @@ public final class GraphicsUtils {
   }
 
   /**
+   * Defaults title to null.
+   * 
+   * @see #basicGUIMain(Component, boolean, String)
+   */
+  public static Window basicGUIMain(final Component c, final boolean dialog) {
+    return basicGUIMain(c, dialog, null);
+  }
+
+  /**
    * a basic main for testing a graphical class. Takes the component and puts in
    * in a JFrame or JDialog and shows the window.
    * 
-   * @param c
-   *          the component to display
-   * @param dialog
-   *          if <code>true</code> put in a JDialog, otherwise put in a JFrame
+   * @param c the component to display
+   * @param dialog if <code>true</code> put in a JDialog, otherwise put in a
+   *          JFrame
+   * @param title the title for the window
    **/
-  public static Window basicGUIMain(final Component c,
-                                    final boolean dialog) {
+  public static Window basicGUIMain(final Component c, final boolean dialog, final String title) {
     final Container container;
     final Window window;
     if (dialog) {
-      window = new JDialog();
+      window = new JDialog((Window)null, title);
       container = ((JDialog) window).getContentPane();
     } else {
-      window = new JFrame();
+      window = new JFrame(title);
       container = ((JFrame) window).getContentPane();
     }
-
+    
     window.setSize(c.getPreferredSize());
     window.addWindowListener(new BasicWindowMonitor());
     container.setLayout(new BorderLayout());
     container.add(c, BorderLayout.CENTER);
     centerWindow(window);
     window.pack();
+    centerWindow(window);
     window.setVisible(true);
 
     return window;
@@ -97,10 +105,8 @@ public final class GraphicsUtils {
    * Centers the window on the screen.
    */
   public static void centerWindow(final Window window) {
-    final Rectangle2D screenSize = window.getGraphicsConfiguration()
-        .getBounds();
-    final Point2D screenCenter = new Point2D.Double(screenSize.getWidth() / 2,
-        screenSize.getHeight() / 2);
+    final Rectangle2D screenSize = window.getGraphicsConfiguration().getBounds();
+    final Point2D screenCenter = new Point2D.Double(screenSize.getWidth() / 2, screenSize.getHeight() / 2);
     final Dimension2D windowSize = window.getSize();
     final Point location = new Point();
     location.setLocation(new Point2D.Double(screenCenter.getX()
@@ -112,14 +118,11 @@ public final class GraphicsUtils {
   /**
    * draw the points on the Graphics Context. Uses Graphics.drawPolyLine.
    * 
-   * @param g
-   *          the graphics context
-   * @param points
-   *          a collection of points, anything other than a point in this vector
-   *          is simply skipped
+   * @param g the graphics context
+   * @param points a collection of points, anything other than a point in this
+   *          vector is simply skipped
    **/
-  public static void drawPolyLine(final Graphics g,
-                                  final Collection<?> points) {
+  public static void drawPolyLine(final Graphics g, final Collection<?> points) {
     final int[] xpoints = new int[points.size()];
     final int[] ypoints = new int[points.size()];
     int npoints = 0;
@@ -140,26 +143,20 @@ public final class GraphicsUtils {
   /**
    * draw a bunch of polygons
    * 
-   * @param g
-   *          the graphics context
-   * @param v
-   *          a Container of polygons, other classes are ignored
+   * @param g the graphics context
+   * @param v a Container of polygons, other classes are ignored
    **/
-  public static void drawPolygons(final Graphics g,
-                                  final Collection<?> v) {
+  public static void drawPolygons(final Graphics g, final Collection<?> v) {
     drawPolygons(g, v.iterator());
   }
 
   /**
    * draw a bunch of polygons
    * 
-   * @param g
-   *          the graphics context
-   * @param iter
-   *          an Enumeration of polygons, other classes are ignored
+   * @param g the graphics context
+   * @param iter an Enumeration of polygons, other classes are ignored
    **/
-  public static void drawPolygons(final Graphics g,
-                                  final Iterator<?> iter) {
+  public static void drawPolygons(final Graphics g, final Iterator<?> iter) {
     while (iter.hasNext()) {
       final Object obj = iter.next();
       if (obj instanceof Polygon) {
@@ -171,26 +168,20 @@ public final class GraphicsUtils {
   /**
    * fill a bunch of polygons
    * 
-   * @param g
-   *          the graphics context
-   * @param v
-   *          a Container of polygons, other classes are ignored
+   * @param g the graphics context
+   * @param v a Container of polygons, other classes are ignored
    **/
-  public static void fillPolygons(final Graphics g,
-                                  final Collection<?> v) {
+  public static void fillPolygons(final Graphics g, final Collection<?> v) {
     fillPolygons(g, v.iterator());
   }
 
   /**
    * fill a bunch of polygons
    * 
-   * @param g
-   *          the graphics context
-   * @param iter
-   *          an Enumeration of polygons, other classes are ignored
+   * @param g the graphics context
+   * @param iter an Enumeration of polygons, other classes are ignored
    **/
-  public static void fillPolygons(final Graphics g,
-                                  final Iterator<?> iter) {
+  public static void fillPolygons(final Graphics g, final Iterator<?> iter) {
     while (iter.hasNext()) {
       final Object obj = iter.next();
       if (obj instanceof Polygon) {
@@ -199,8 +190,7 @@ public final class GraphicsUtils {
     }
   }
 
-  public static int getMaxWidth(final JComboBox combo,
-                                final FontMetrics fm) {
+  public static int getMaxWidth(final JComboBox combo, final FontMetrics fm) {
     int maxLen = 0;
     for (int i = 0; i < combo.getItemCount(); i++) {
       String str = combo.getItemAt(i).toString();
@@ -218,24 +208,21 @@ public final class GraphicsUtils {
    * @pre (path != null)
    **/
   public static ImageIcon getIcon(final String path) {
-    return new ImageIcon(Thread.currentThread().getContextClassLoader()
-        .getResource(path));
+    return new ImageIcon(Thread.currentThread().getContextClassLoader().getResource(path));
   }
 
   /**
    * Popup a warning dialog displaying <tt>message</tt>.
    **/
   public static void notImplemented(final String message) {
-    JOptionPane.showMessageDialog(null, message, "Not Implemented",
-        JOptionPane.WARNING_MESSAGE);
+    JOptionPane.showMessageDialog(null, message, "Not Implemented", JOptionPane.WARNING_MESSAGE);
   }
 
   /**
    * Popup an error dialog with <tt>message</tt> in it.
    **/
   public static void error(final String message) {
-    JOptionPane.showMessageDialog(null, message, "Error",
-        JOptionPane.WARNING_MESSAGE);
+    JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.WARNING_MESSAGE);
   }
 
 }
