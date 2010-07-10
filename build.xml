@@ -57,6 +57,10 @@
 		<pathelement location="${java.home}/../lib/tools.jar"/>
 
 		<path refid="cobertura.classpath" />
+		
+		<!-- findbugs annotations -->
+		<pathelement location="${dir.lib.findbugs}/annotations.jar" />
+		<pathelement location="${dir.lib.findbugs}/jsr305.jar" />
 	</path>
 
 
