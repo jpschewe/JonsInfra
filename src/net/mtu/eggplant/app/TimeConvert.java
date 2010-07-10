@@ -20,7 +20,7 @@ public class TimeConvert extends JPanel {
   /**
      args is ignored
   **/
-  static public void main(String[] args) {
+  public static void main(final String[] args) {
     TimeConvert tc = new TimeConvert();
     GraphicsUtils.basicGUIMain(tc, false, "Time Convert");
   }
