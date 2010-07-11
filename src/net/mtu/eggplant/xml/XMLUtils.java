@@ -33,7 +33,6 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -137,15 +136,6 @@ public class XMLUtils {
   }
 
   /**
-   * Iterate over Elements only. This is like
-   * {@link #filterToElements(NodeList)}, except that it doesn't incur hte
-   * overhead of creating the list.
-   */
-  public static Iterator<Element> getElementIterator(final NodeList nodelist) {
-    return new ElementIterator(nodelist);
-  }
-
-  /**
    * @see #getDoubleAttributeValue(Element, String)
    */
   public static String getStringAttributeValue(final Element element,
@@ -213,51 +203,6 @@ public class XMLUtils {
       transformer.transform(source, result);
     } catch (final TransformerException e) {
       throw new RuntimeException(e);
-    }
-  }
-
-  /**
-   * Iterate over the Elements in the node list.
-   */
-  private static final class ElementIterator implements Iterator<Element> {
-    private final NodeList nodelist;
-
-    private int currentIndex;
-
-    private int nextIndex;
-
-    public ElementIterator(final NodeList nodelist) {
-      this.nodelist = nodelist;
-      this.currentIndex = 0;
-      this.nextIndex = 0;
-    }
-
-    public boolean hasNext() {
-      advanceToNextElement();
-      return nextIndex < nodelist.getLength();
-    }
-
-    public Element next() {
-      if (hasNext()) {
-        return (Element) nodelist.item(nextIndex);
-      } else {
-        throw new NoSuchElementException();
-      }
-    }
-
-    public void remove() {
-      throw new UnsupportedOperationException();
-    }
-
-    private void advanceToNextElement() {
-      if (currentIndex >= nextIndex) {
-        do {
-          ++nextIndex;
-        } while (nextIndex < nodelist.getLength()
-            && !(nodelist.item(nextIndex) instanceof Element));
-
-        // nothing to do if next is already past current
-      }
     }
   }
 }
