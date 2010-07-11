@@ -30,9 +30,6 @@ package net.mtu.eggplant.xml;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -45,8 +42,6 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -116,23 +111,6 @@ public class XMLUtils {
     } catch (final IOException ioe) {
       throw new RuntimeException(ioe.getMessage());
     }
-  }
-
-  /**
-   * Filter the {@link NodeList} to only Elements.
-   * 
-   * @param nodelist cannot be null
-   * @return the list of {@link Element}s
-   */
-  public static List<Element> filterToElements(final NodeList nodelist) {
-    final List<Element> retval = new ArrayList<Element>(nodelist.getLength());
-    for (int i = 0; i < nodelist.getLength(); ++i) {
-      final Node node = nodelist.item(i);
-      if (node instanceof Element) {
-        retval.add((Element) node);
-      }
-    }
-    return retval;
   }
 
   /**
