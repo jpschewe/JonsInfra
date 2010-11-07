@@ -28,11 +28,14 @@
 package net.mtu.eggplant.util.sql;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
+import java.util.Collection;
+import java.util.LinkedList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -163,6 +166,35 @@ public final class SQLFunctions {
         LOGGER.debug("exception closing connection", sqle);
       }
     }
+  }
+
+  /**
+   * Get the tables in the database.
+   * 
+   * @param connection the connection to the database
+   * @return the names of the tables that are of type "TABLE", the names will be
+   *         all lowercase
+   * @see DatabaseMetaData#getTables(String, String, String, String[])
+   */
+  public static Collection<String> getTablesInDB(final Connection connection) throws SQLException {
+    final Collection<String> tables = new LinkedList<String>();
+    ResultSet rs = null;
+    try {
+      // get list of tables that already exist
+      final DatabaseMetaData metadata = connection.getMetaData();
+      rs = metadata.getTables(null, null, "%", new String[] { "TABLE" });
+      while (rs.next()) {
+        final String tableName = rs.getString("TABLE_NAME").toLowerCase();
+        tables.add(tableName);
+      }
+      if (LOGGER.isDebugEnabled()) {
+        LOGGER.debug("Tables:"
+            + tables);
+      }
+    } finally {
+      SQLFunctions.close(rs);
+    }
+    return tables;
   }
 
 }
