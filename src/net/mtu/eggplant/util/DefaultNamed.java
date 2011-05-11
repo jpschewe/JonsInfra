@@ -50,7 +50,7 @@ public class DefaultNamed extends DefaultBean implements Named {
      @param n the new name
   **/
   public final void setName(final String n) {
-    final String old = new String(n);
+    final String old = n;
     _name = n;
     fireNameChange(old, new String(_name));
   }

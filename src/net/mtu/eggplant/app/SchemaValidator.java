@@ -98,50 +98,56 @@ public class SchemaValidator {
 
   public static Schema parseSchema(final File xsdFile) throws SAXException, ClassCastException, ClassNotFoundException,
       InstantiationException, IllegalAccessException, IOException {
-    final FileInputStream stream = new FileInputStream(xsdFile);
+    FileInputStream stream = null;
+    try {
+      stream = new FileInputStream(xsdFile);
 
-    // get an instance of the DOMImplementation registry
-    final DOMImplementationRegistry registry = DOMImplementationRegistry.newInstance();
-    final DOMImplementationLS domImplementationLS = (DOMImplementationLS) registry.getDOMImplementation("LS");
+      // get an instance of the DOMImplementation registry
+      final DOMImplementationRegistry registry = DOMImplementationRegistry.newInstance();
+      final DOMImplementationLS domImplementationLS = (DOMImplementationLS) registry.getDOMImplementation("LS");
 
-    final SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+      final SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
-    factory.setResourceResolver(new LSResourceResolver() {
-      public LSInput resolveResource(final String type,
-                                     final String namespaceURI,
-                                     final String publicId,
-                                     final String systemId,
-                                     final String baseURI) {
+      factory.setResourceResolver(new LSResourceResolver() {
+        public LSInput resolveResource(final String type,
+                                       final String namespaceURI,
+                                       final String publicId,
+                                       final String systemId,
+                                       final String baseURI) {
 
-        if (null == systemId) {
-          return null;
-        }
-        final LSInput input = domImplementationLS.createLSInput();
-        input.setBaseURI(baseURI);
-        input.setPublicId(publicId);
-        input.setSystemId(systemId);
-
-        try {
-          final Reader inputStream;
-          if (systemId.startsWith("/")) {
-            inputStream = new FileReader(systemId);
-          } else {
-            final File resource = new File(xsdFile.getParent(), systemId);
-            inputStream = new FileReader(resource);
+          if (null == systemId) {
+            return null;
           }
-          input.setCharacterStream(inputStream);
+          final LSInput input = domImplementationLS.createLSInput();
+          input.setBaseURI(baseURI);
+          input.setPublicId(publicId);
+          input.setSystemId(systemId);
 
-          return input;
-        } catch (final FileNotFoundException e) {
-          throw new RuntimeException(e);
+          try {
+            final Reader inputStream;
+            if (systemId.startsWith("/")) {
+              inputStream = new FileReader(systemId);
+            } else {
+              final File resource = new File(xsdFile.getParent(), systemId);
+              inputStream = new FileReader(resource);
+            }
+            input.setCharacterStream(inputStream);
+
+            return input;
+          } catch (final FileNotFoundException e) {
+            throw new RuntimeException(e);
+          }
         }
-      }
-    });
+      });
 
-    final Source schemaFile = new StreamSource(xsdFile);
-    final Schema schema = factory.newSchema(schemaFile);
-    stream.close();
-    return schema;
+      final Source schemaFile = new StreamSource(xsdFile);
+      final Schema schema = factory.newSchema(schemaFile);
+      return schema;
+    } finally {
+      if (null != stream) {
+        stream.close();
+      }
+    }
   }
 
   /**

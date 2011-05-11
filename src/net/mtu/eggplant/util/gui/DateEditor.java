@@ -469,7 +469,7 @@ public class DateEditor extends JPanel {
       _hourText.setText(_twoFormat.format(value));
       offset = 0;
     } else {
-      offset += _currentCalendar.get(Calendar.HOUR_OF_DAY) * 60; // to minutes
+      offset += _currentCalendar.get(Calendar.HOUR_OF_DAY) * 60L; // to minutes
       _minuteText.setColumns(8);
     }
     value = _currentCalendar.get(Calendar.MINUTE) + offset;
@@ -477,7 +477,7 @@ public class DateEditor extends JPanel {
       _minuteText.setText(_twoFormat.format(value));
       offset = 0;
     } else {
-      offset += _currentCalendar.get(Calendar.MINUTE) * 60; // to seconds
+      offset += _currentCalendar.get(Calendar.MINUTE) * 60L; // to seconds
       _secondText.setColumns(8);
     }
     value = _currentCalendar.get(Calendar.SECOND) + offset;

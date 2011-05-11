@@ -28,6 +28,7 @@
 package net.mtu.eggplant.util;
 
 import java.io.File;
+import java.util.Arrays;
 
 import javax.swing.filechooser.FileFilter;
 
@@ -53,7 +54,7 @@ public class BasicFileFilter extends FileFilter {
   public BasicFileFilter(final String description,
                          final String[] extensions) {
     _description = description;
-    _extensions = extensions;
+    _extensions = Arrays.copyOf(extensions, extensions.length);
   }
 
   /**
