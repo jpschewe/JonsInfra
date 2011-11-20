@@ -174,10 +174,26 @@ public class XMLUtils {
    */
   public static void writeXML(final Document doc,
                               final Writer writer) {
+    writeXML(doc, writer, null);
+  }
+
+  /**
+   * Write the document to a writer.
+   * 
+   * @param doc the document to write
+   * @param writer where to write the document
+   * @param encodeing if non-null use this as the encoding for the text
+   */
+  public static void writeXML(final Document doc,
+                              final Writer writer,
+                              final String encoding) {
     try {
       final TransformerFactory transformerFactory = TransformerFactory.newInstance();
       final Transformer transformer = transformerFactory.newTransformer();
       transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+      if (null != encoding) {
+        transformer.setOutputProperty(OutputKeys.ENCODING, encoding);
+      }
       final DOMSource source = new DOMSource(doc);
       final StreamResult result = new StreamResult(writer);
       transformer.transform(source, result);
