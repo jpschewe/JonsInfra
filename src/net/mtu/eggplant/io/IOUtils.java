@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000
+ * Copyright (c) 2010
  *      Jon Schewe.  All rights reserved
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,29 +25,34 @@
  *
  * I'd appreciate comments/suggestions on the code jpschewe@mtu.net
  */
-package net.mtu.eggplant.util;
+package net.mtu.eggplant.io;
+
+import java.io.IOException;
+import java.nio.CharBuffer;
 
 /**
- * general functions that can be used in most any class
- * 
- * @version $Revision$
+ * Handy functions for doing IO.
  */
-public final class Functions {
-
-  private Functions() {
-  }
+public final class IOUtils {
 
   /**
-   * Equals call that handles null without a NullPointerException.
+   * Read all data from src into a string and return it
+   * 
+   * @param src the source
+   * @return the string from source
+   * @throws IOException
    */
-  public static boolean safeEquals(final Object o1, final Object o2) {
-    if(o1 == o2) {
-      return true;
-    } else if(null == o1 && null != o2) {
-      return false;
-    } else {
-      return o1.equals(o2);
+  public static String readIntoString(final Readable src) throws IOException {
+    final Appendable dest = new StringBuilder();
+    // allocate 16KB buffer
+    final CharBuffer buffer = CharBuffer.allocate(16 * 1024);
+    while (src.read(buffer) != -1) {
+      buffer.flip();
+      dest.append(buffer);
+      buffer.clear();
     }
+
+    return dest.toString();
   }
-  
+
 }

@@ -68,8 +68,8 @@ public class Pair<TYPE_ONE, TYPE_TWO> extends Object {
       return true;
     } else if (o instanceof Pair<?, ?>) {
       final Pair<?, ?> other = (Pair<?, ?>) o;
-      return Functions.safeEquals(other.getOne(), getOne())
-      && Functions.safeEquals(other.getTwo(), getTwo());
+      return ComparisonUtils.safeEquals(other.getOne(), getOne())
+      && ComparisonUtils.safeEquals(other.getTwo(), getTwo());
     }
     return false;
   }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000
+ * Copyright (c) 2010
  *      Jon Schewe.  All rights reserved
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,32 +25,21 @@
  *
  * I'd appreciate comments/suggestions on the code jpschewe@mtu.net
  */
-package net.mtu.eggplant.util.gui;
+package net.mtu.eggplant.io;
 
-import javax.swing.table.TableModel;
+import java.io.IOException;
+import java.io.StringReader;
 
-/**
- * @version $Revision$
- */
-public interface SortableTableModel extends TableModel {
+import org.junit.Assert;
+import org.junit.Test;
 
-  /**
-     Sort the table model on this column.  If this is the currently sorted
-     column, reverse the sort.  Needs to fire a
-     {@link javax.swing.event.TableModelEvent TableModelEvent} signaling that the table data
-     has changed.
+public class IOUtilsTest {
 
-     @pre (column >= 0)
-  **/
-  void sort(final int column);
-
-  /**
-     @return the index of the currently sorted column.
-  **/
-  int getSortedColumn();
-
-  /**
-     @return if the current column is sorted in ascending or descending order.
-  **/
-  boolean isAscending();
+  @Test
+  public void testReadToString() throws IOException {
+    final String test = "This is a test";
+    final Readable src = new StringReader(test);
+    final String result = IOUtils.readIntoString(src);
+    Assert.assertEquals(test, result);
+  }
 }
