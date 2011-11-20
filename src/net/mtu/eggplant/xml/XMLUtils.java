@@ -74,7 +74,7 @@ public class XMLUtils {
         }
       });
     } catch (final ParserConfigurationException pce) {
-      throw new RuntimeException(pce.getMessage());
+      throw new RuntimeException(pce.getMessage(), pce);
     }
   }
 
@@ -106,11 +106,11 @@ public class XMLUtils {
       final Document document = parser.parse(xmlDocStream);
       return document;
     } catch (final ParserConfigurationException pce) {
-      throw new RuntimeException(pce.getMessage());
+      throw new RuntimeException(pce.getMessage(), pce);
     } catch (final SAXException se) {
-      throw new RuntimeException(se.getMessage());
+      throw new RuntimeException(se.getMessage(), se);
     } catch (final IOException ioe) {
-      throw new RuntimeException(ioe.getMessage());
+      throw new RuntimeException(ioe.getMessage(), ioe);
     }
   }
 
