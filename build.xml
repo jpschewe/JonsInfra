@@ -36,7 +36,7 @@
 	<property environment="env"/>
 	<property name="release.html.dir" value="/home/jpschewe/public_html" />
 
-	<property name="findbugs.home" value="${dir.lib}/findbugs-1.3.9" />
+	<property name="findbugs.home" value="${dir.lib}/findbugs-2.0.0" />
 	<property name="dir.lib.findbugs" value="${findbugs.home}/lib" />
 
 	<import file="${basedir}/buildscript-imports.xml" />
