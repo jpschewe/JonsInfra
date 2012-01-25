@@ -27,6 +27,8 @@
  */
 package net.mtu.eggplant.util;
 
+import java.io.Serializable;
+
 /**
  * class to put multiple objects in one.
  * 
@@ -34,7 +36,7 @@ package net.mtu.eggplant.util;
  * @param <TYPE_ONE> the type of the first object 
  * @param <TYPE_TWO> the type of the second object
  */
-public class Pair<TYPE_ONE, TYPE_TWO> extends Object {
+public class Pair<TYPE_ONE, TYPE_TWO> extends Object implements Serializable {
 
   public Pair(final TYPE_ONE one,
               final TYPE_TWO two) {

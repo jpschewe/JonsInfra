@@ -101,24 +101,29 @@ public final class ComparisonUtils {
    **/
   public static int compareStrings(final String one,
                                    final String two) {
-    if (one == null && two != null) {
-      return 1;
-    } else if (one != null && two == null) {
-      return -1;
-    } else if (one == null && two == null) {
-      return 0;
+    if (one == null) {
+      if (two == null) {
+        return 0;
+      } else {
+        return 1;
+      }
     } else {
-      return one.compareTo(two);
+      if (two == null) {
+        return -1;
+      } else {
+        return one.compareTo(two);
+      }
     }
   }
 
   /**
    * Equals call that handles null without a NullPointerException.
    */
-  public static boolean safeEquals(final Object o1, final Object o2) {
-    if(o1 == o2) {
+  public static boolean safeEquals(final Object o1,
+                                   final Object o2) {
+    if (o1 == o2) {
       return true;
-    } else if(null == o1 && null != o2) {
+    } else if (null == o1) {
       return false;
     } else {
       return o1.equals(o2);

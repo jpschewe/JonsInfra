@@ -109,6 +109,7 @@ public class SchemaValidator {
       final SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
       factory.setResourceResolver(new LSResourceResolver() {
+        @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = { "OBL_UNSATISFIED_OBLIGATION" }, justification = "Input must be cleaned up by caller")
         public LSInput resolveResource(final String type,
                                        final String namespaceURI,
                                        final String publicId,

@@ -52,7 +52,7 @@ public class DefaultNamed extends DefaultBean implements Named {
   public final void setName(final String n) {
     final String old = n;
     _name = n;
-    fireNameChange(old, new String(_name));
+    fireNameChange(old, _name);
   }
 
   /**

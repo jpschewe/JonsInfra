@@ -32,14 +32,14 @@ import java.awt.GridBagLayout;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-
-import net.mtu.eggplant.util.Pair;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,22 +53,18 @@ import org.slf4j.LoggerFactory;
  */
 public class SQLConnectionDialog extends JDialog {
 
-  private static final Logger LOGGER = LoggerFactory
-      .getLogger(SQLConnectionDialog.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(SQLConnectionDialog.class);
 
   /**
    * Create a dialog for making an SQL connection.
    * 
-   * @param parent
-   *          the parent frame
-   * @param drivers
-   *          an array for String pairs where string 1 is the name of the driver
-   *          and string 2 is the classname of the driver
+   * @param parent the parent frame
+   * @param drivers key is name of driver, value is classname of the driver
    */
   public SQLConnectionDialog(final java.awt.Frame parent,
-                             final Pair<String, String>[] drivers) {
+                             final Map<String, String> drivers) {
     super(parent, "Open JDBC Connection", true);
-    _drivers = drivers;
+    _drivers = new HashMap<String, String>(drivers);
 
     getContentPane().setLayout(new GridBagLayout());
     GridBagConstraints gbc;
@@ -84,8 +80,8 @@ public class SQLConnectionDialog extends JDialog {
     _driverCombo = new JComboBox();
     // waiting for jdk1.2!
     // _driverModel = new DefaultComboBoxModel();
-    for (int i = 0; i < _drivers.length; i++) {
-      _driverCombo.addItem(_drivers[i].getOne());
+    for (final String name : _drivers.keySet()) {
+      _driverCombo.addItem(name);
     }
     /*
      * _driverCombo.addItem("Standard JDBC driver");
@@ -157,11 +153,8 @@ public class SQLConnectionDialog extends JDialog {
   }
 
   /*
-   * public void applyButtonClicked(ActionEvent ae) { depopulate(); }
-   * 
-   * public void okButtonClicked(ActionEvent ae) { depopulate();
-   * setVisible(false); }
-   * 
+   * public void applyButtonClicked(ActionEvent ae) { depopulate(); } public
+   * void okButtonClicked(ActionEvent ae) { depopulate(); setVisible(false); }
    * public void cancelButtonClicked(ActionEvent ae) { _connection = null;
    * setVisible(false); }
    */
@@ -174,35 +167,44 @@ public class SQLConnectionDialog extends JDialog {
     // add the driver to the driver manager.
 
     String dataSource = _dataSourceText.getText();
-    String url = "jdbc:odbc:" + dataSource;
+    String url = "jdbc:odbc:"
+        + dataSource;
     String pass = new String(_passText.getPassword());
     String user = _userText.getText();
     String connectString = null;
-    // can't type the data coming out of the combobox
-    @SuppressWarnings("unchecked")
-    Pair<String, String> sp = (Pair<String, String>) _driverCombo
-        .getSelectedItem();
+    final String driverName = (String) _driverCombo.getSelectedItem();
 
     try {
-      Class.forName(sp.getTwo()).newInstance();
-    } catch (final Exception e) {
-      LOGGER.error("Couldn't find driver: " + sp.getTwo());
+      Class.forName(_drivers.get(driverName)).newInstance();
+    } catch (final ClassNotFoundException e) {
+      LOGGER.error("Couldn't find driver: "
+          + _drivers.get(driverName));
+      _connection = null;
+      return;
+    } catch (final InstantiationException e) {
+      LOGGER.error("Couldn't find driver: "
+          + _drivers.get(driverName));
+      _connection = null;
+      return;
+    } catch (final IllegalAccessException e) {
+      LOGGER.error("Couldn't find driver: "
+          + _drivers.get(driverName));
       _connection = null;
       return;
     }
     connectString = url;
 
-    try {
-      Class.forName("RmiJdbc.RJDriver").newInstance();
-    } catch (final Exception e) {
-      LOGGER.debug("Couldn't find the driver");
-      _connection = null;
-      return;
-    }
-
-    // get this from the dialog box
-    String rmiHost = "//129.235.65.128";
-    connectString = "jdbc:rmi:" + rmiHost + "/" + url;
+    // try {
+    // Class.forName("RmiJdbc.RJDriver").newInstance();
+    // } catch (final Exception e) {
+    // LOGGER.debug("Couldn't find the driver");
+    // _connection = null;
+    // return;
+    // }
+    //
+    // // get this from the dialog box
+    // String rmiHost = "//129.235.65.128";
+    // connectString = "jdbc:rmi:" + rmiHost + "/" + url;
     /*
      * generic connectString = jdbc:subprotocol:subname jdbc:???://host/db
      * examples subprotocol subname jdbc:rst://host/db postgre rst //host/db
@@ -214,7 +216,8 @@ public class SQLConnectionDialog extends JDialog {
     try {
       _connection = DriverManager.getConnection(connectString, user, pass);
     } catch (final SQLException sqle) {
-      LOGGER.debug("caught sql error opening connection: " + sqle);
+      LOGGER.debug("caught sql error opening connection: "
+          + sqle);
       _connection = null;
     }
   }
@@ -228,10 +231,15 @@ public class SQLConnectionDialog extends JDialog {
     return _connection;
   }
 
-  private Pair<String, String>[] _drivers = null;
+  private final Map<String, String> _drivers;
+
   private Connection _connection = null;
+
   private JTextField _userText;
+
   private JComboBox _driverCombo;
+
   private JPasswordField _passText;
+
   private JTextField _dataSourceText;
 }
