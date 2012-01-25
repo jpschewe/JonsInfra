@@ -33,7 +33,7 @@
 	<property name="compile.optimize" value="false" />
 	<property name="compile.deprecation" value="true" />
 
-	<property environment="env"/>
+	<property environment="env" />
 	<property name="release.html.dir" value="/home/jpschewe/public_html" />
 
 	<property name="findbugs.home" value="${dir.lib}/findbugs-2.0.0" />
@@ -48,16 +48,20 @@
 			<pathelement location="${dir.lib}/ant/one-jar-ant-task-0.96-jps.jar" />
 		</classpath>
 	</taskdef>
-	
+
+	<condition property="tools.jar" value="/System/Library/Frameworks/JavaVM.framework/Versions/${ant.java.version}/Classes/classes.jar" else="${java.home}/../lib/tools.jar">
+		<os family="mac" />
+	</condition>
+
 	<!-- Base/default classpath; if you don't run inside ant, copy this -->
 	<path id="classpath.base">
 		<pathelement location="${basedir}/lib/slf4j-api-1.5.11.jar" />
 
-		<pathelement location="${java.home}/lib/tools.jar"/>
-		<pathelement location="${java.home}/../lib/tools.jar"/>
+
+		<pathelement location="${tools.jar}" />
 
 		<path refid="cobertura.classpath" />
-		
+
 		<!-- findbugs annotations -->
 		<pathelement location="${dir.lib.findbugs}/annotations.jar" />
 		<pathelement location="${dir.lib.findbugs}/jsr305.jar" />
@@ -124,8 +128,10 @@
 
 	<!-- Basic target for preparing to build / compile / run / test / etc -->
 	<target name="init">
-	  <echo level="info" message="java home: ${java.home}"/>
-	  
+		<echo level="info" message="java home: ${java.home}" />
+		<echo level="info" message="java version: ${ant.java.version}" />
+		<echo level="info" message="tools jar is in ${tools.jar}"/>
+
 		<tstamp />
 		<mkdir dir="${dir.build}" />
 		<mkdir dir="${dir.classes}" />
@@ -160,11 +166,11 @@
 				<exclude name="**/*.html" />
 			</fileset>
 		</copy>
-		
- 		<buildscript-one-jar scripts.dir="${dir.bin}" src.dir="${dir.classes}" scripts.path="classpath.run" script.name="check-schema" class.main="net.mtu.eggplant.app.SchemaValidator" />
 
- 		<buildscript-one-jar scripts.dir="${dir.bin}" src.dir="${dir.classes}" scripts.path="classpath.run" script.name="timeconvert" class.main="net.mtu.eggplant.app.TimeConvert" />
-    
+		<buildscript-one-jar scripts.dir="${dir.bin}" src.dir="${dir.classes}" scripts.path="classpath.run" script.name="check-schema" class.main="net.mtu.eggplant.app.SchemaValidator" />
+
+		<buildscript-one-jar scripts.dir="${dir.bin}" src.dir="${dir.classes}" scripts.path="classpath.run" script.name="timeconvert" class.main="net.mtu.eggplant.app.TimeConvert" />
+
 	</target>
 
 	<target name="compile.test" depends="init,compile" description="Compile Java test sources">
