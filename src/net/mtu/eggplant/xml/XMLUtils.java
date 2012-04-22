@@ -182,7 +182,7 @@ public class XMLUtils {
    * 
    * @param doc the document to write
    * @param writer where to write the document
-   * @param encodeing if non-null use this as the encoding for the text
+   * @param encoding if non-null use this as the encoding for the text
    */
   public static void writeXML(final Document doc,
                               final Writer writer,
