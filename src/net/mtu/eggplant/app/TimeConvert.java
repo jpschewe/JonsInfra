@@ -3,6 +3,7 @@ package net.mtu.eggplant.app;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,13 +14,13 @@ import javax.swing.JTextField;
 import net.mtu.eggplant.util.gui.GraphicsUtils;
 
 /**
-   Nifty little class that converts a date as a long to a human readable string
-**/
+ * Nifty little class that converts a date as a long to a human readable string
+ **/
 public class TimeConvert extends JPanel {
 
   /**
-     args is ignored
-  **/
+   * args is ignored
+   **/
   public static void main(final String[] args) {
     TimeConvert tc = new TimeConvert();
     GraphicsUtils.basicGUIMain(tc, false, "Time Convert");
@@ -30,27 +31,59 @@ public class TimeConvert extends JPanel {
 
     final SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.SSS zzz");
     final JTextField time = new JTextField("MM/dd/yyyy HH:mm:ss.SSS zzz");
-    
-    final JTextField number = new JTextField();
-    number.addActionListener(new ActionListener() {
-        public void actionPerformed(final ActionEvent ae) {
-          final Date d = new Date(Long.parseLong(number.getText()));
-          time.setText(format.format(d));
-        }
-    });
 
-    time.addActionListener(new ActionListener() {
-        public void actionPerformed(final ActionEvent ae) {
-          try {
-            number.setText(String.valueOf(format.parse(time.getText()).getTime()));
-          } catch(final ParseException pe) {
-            number.setText("-1");
-          }
-        }
-    });
-    
+    final JTextField number = new JTextField();
+    number.addActionListener(new NumberListener(time, number, format));
+
+    time.addActionListener(new TimeListener(time, number, format));
+
     add(number, BorderLayout.NORTH);
     add(time, BorderLayout.CENTER);
+  }
+
+  private static class BaseListener {
+    protected final JTextField mTime;
+
+    protected final JTextField mNumber;
+
+    protected final DateFormat mFormat;
+
+    public BaseListener(final JTextField time,
+                        final JTextField number,
+                        final DateFormat format) {
+      mTime = time;
+      mNumber = number;
+      mFormat = format;
+    }
+  }
+
+  private static class NumberListener extends BaseListener implements ActionListener {
+    public NumberListener(final JTextField time,
+                          final JTextField number,
+                          final DateFormat format) {
+      super(time, number, format);
+    }
+
+    public void actionPerformed(final ActionEvent ae) {
+      final Date d = new Date(Long.parseLong(mNumber.getText()));
+      mTime.setText(mFormat.format(d));
+    }
+  }
+
+  private static class TimeListener extends BaseListener implements ActionListener {
+    public TimeListener(final JTextField time,
+                        final JTextField number,
+                        final DateFormat format) {
+      super(time, number, format);
+    }
+
+    public void actionPerformed(final ActionEvent ae) {
+      try {
+        mNumber.setText(String.valueOf(mFormat.parse(mTime.getText()).getTime()));
+      } catch (final ParseException pe) {
+        mNumber.setText("-1");
+      }
+    }
   }
 
 }
