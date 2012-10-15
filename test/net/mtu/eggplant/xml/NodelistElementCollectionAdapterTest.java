@@ -49,12 +49,12 @@ public class NodelistElementCollectionAdapterTest {
   @Test
   public void testNext() {
     final Document doc = XMLUtils.DOCUMENT_BUILDER.newDocument();
-    final Element top = doc.createElement("top");
+    final Element top = doc.createElementNS(null, "top");
     doc.appendChild(top);
     
-    final Element expectedFirst = doc.createElement("foo");
+    final Element expectedFirst = doc.createElementNS(null, "foo");
     top.appendChild(expectedFirst);
-    final Element expectedSecond = doc.createElement("foo");
+    final Element expectedSecond = doc.createElementNS(null, "foo");
     top.appendChild(expectedSecond);
     final NodeList nodelist = top.getChildNodes();
     final NodelistElementCollectionAdapter adapter = new NodelistElementCollectionAdapter(nodelist);
