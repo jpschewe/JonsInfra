@@ -297,6 +297,7 @@
 		<copy todir="${dir.dist}" flatten="true">
 			<fileset dir="${basedir}">
 				<include name="ChangeLog" />
+				<include name="LICENSE" />
 				<include name="docs/*" />
 			</fileset>
 			<filterset>
