@@ -43,15 +43,16 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import net.mtu.eggplant.util.BasicFileFilter;
-import net.mtu.eggplant.util.gui.GraphicsUtils;
-
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSInput;
 import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import net.mtu.eggplant.util.BasicFileFilter;
+import net.mtu.eggplant.util.gui.GraphicsUtils;
 
 /**
  * Validate a schema.
@@ -109,7 +110,7 @@ public class SchemaValidator {
       final SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
       factory.setResourceResolver(new LSResourceResolver() {
-        @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = { "OBL_UNSATISFIED_OBLIGATION" }, justification = "Input must be cleaned up by caller")
+        @SuppressFBWarnings(value = { "OBL_UNSATISFIED_OBLIGATION" }, justification = "Input must be cleaned up by caller")
         public LSInput resolveResource(final String type,
                                        final String namespaceURI,
                                        final String publicId,

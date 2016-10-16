@@ -159,7 +159,7 @@
 	<target name="compile" description="Compile java to class files" depends="init">
 		<!-- compile - into the build directory -->
 		<echo level="info" taskname="compile" message="Compiling sources from: '${dir.src}'" />
-		<javac srcdir="${dir.src}" excludes="**/scratch/*.java" destdir="${dir.classes}" debug="${compile.debug}" optimize="${compile.optimize}" deprecation="${compile.deprecation}">
+		<javac includeantruntime="false" srcdir="${dir.src}" excludes="**/scratch/*.java" destdir="${dir.classes}" debug="${compile.debug}" optimize="${compile.optimize}" deprecation="${compile.deprecation}">
 			<classpath refid="classpath.base" />
 			<compilerarg value="-Xlint:unchecked" />
 		</javac>
@@ -190,7 +190,7 @@
 		</copy>
 
 		<!-- Compile Java classes as necessary -->
-		<javac srcdir="test" destdir="${dir.classes.test}" debug="${compile.debug}" deprecation="${compile.deprecation}" optimize="${compile.optimize}">
+		<javac includeantruntime="false" srcdir="test" destdir="${dir.classes.test}" debug="${compile.debug}" deprecation="${compile.deprecation}" optimize="${compile.optimize}">
 			<classpath refid="classpath.test" />
 			<compilerarg value="-Xlint:unchecked" />
 		</javac>

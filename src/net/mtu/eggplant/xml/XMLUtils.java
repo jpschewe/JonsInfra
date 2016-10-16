@@ -55,6 +55,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import net.mtu.eggplant.io.IOUtils;
 
 /**
@@ -256,7 +257,7 @@ public class XMLUtils {
   /**
    * @see #getDoubleAttributeValue(Element, String)
    */
-  @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = { "NP_BOOLEAN_RETURN_NULL" }, justification = "Need to return Null so that we can determine when there is no score")
+  @SuppressFBWarnings(value = { "NP_BOOLEAN_RETURN_NULL" }, justification = "Need to return Null so that we can determine when there is no score")
   public static Boolean getBooleanAttributeValue(final Element element,
                                                  final String attributeName) {
     if (null == element) {
