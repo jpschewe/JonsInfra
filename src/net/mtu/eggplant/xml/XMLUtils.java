@@ -46,8 +46,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.validation.Schema;
 
-import net.mtu.eggplant.io.IOUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -56,6 +54,8 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+
+import net.mtu.eggplant.io.IOUtils;
 
 /**
  * Some utilities for working with XML.
@@ -73,7 +73,7 @@ public class XMLUtils {
       return new SimpleDateFormat("HH:mm:ss");
     }
   };
-  
+
   public static final DocumentBuilder DOCUMENT_BUILDER;
 
   // create basic document builder
@@ -114,7 +114,8 @@ public class XMLUtils {
    *           this shouldn't happen
    */
   public static Document parse(final Reader stream,
-                               final Schema schema) throws IOException, SAXException {
+                               final Schema schema)
+      throws IOException, SAXException {
     try {
       final DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
       builderFactory.setNamespaceAware(true);
@@ -158,6 +159,60 @@ public class XMLUtils {
    *           this shouldn't happen
    */
   public static Document parseXMLDocument(final InputStream xmlDocStream) throws SAXException, IOException {
+    try {
+      final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+      factory.setNamespaceAware(true);
+      factory.setIgnoringComments(true);
+      factory.setIgnoringElementContentWhitespace(true);
+
+      final DocumentBuilder parser = factory.newDocumentBuilder();
+      parser.setErrorHandler(new ErrorHandler() {
+        public void error(final SAXParseException spe) throws SAXParseException {
+          throw spe;
+        }
+
+        public void fatalError(final SAXParseException spe) throws SAXParseException {
+          throw spe;
+        }
+
+        public void warning(final SAXParseException spe) throws SAXParseException {
+          LOGGER.error(spe.getMessage());
+        }
+      });
+
+      final Document document = parser.parse(xmlDocStream);
+      return document;
+    } catch (final ParserConfigurationException pce) {
+      throw new RuntimeException("Error configuring the XML parser", pce);
+    }
+  }
+
+  /**
+   * Parse xmlDoc an XML document. Just does basic parsing, no validity checks.
+   * Does not close the stream after parsing. Warnings are output to the logger
+   * for this class.
+   * 
+   * @throws IOException if there is an error reading the stream
+   * @throws SAXException if the document is found to be invalid
+   * @throws RuntimeException if there is an error configuring the XML parser,
+   *           this shouldn't happen
+   */
+  public static Document parseXMLDocument(final Reader xmlDocStream) throws SAXException, IOException {
+    final String content = IOUtils.readIntoString(xmlDocStream);
+    return parseXMLDocument(new InputSource(new StringReader(content)));
+  }
+
+  /**
+   * Parse xmlDoc an XML document. Just does basic parsing, no validity checks.
+   * Does not close the stream after parsing. Warnings are output to the logger
+   * for this class.
+   * 
+   * @throws IOException if there is an error reading the stream
+   * @throws SAXException if the document is found to be invalid
+   * @throws RuntimeException if there is an error configuring the XML parser,
+   *           this shouldn't happen
+   */
+  public static Document parseXMLDocument(final InputSource xmlDocStream) throws SAXException, IOException {
     try {
       final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
       factory.setNamespaceAware(true);
