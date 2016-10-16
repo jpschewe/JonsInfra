@@ -18,7 +18,7 @@
 	<property name="dir.coverage" value="${dir.build}/coverage" />
 
 	<!-- here in case a version is required as well -->
-	<property name="app.version" value="1.5" />
+	<property name="app.version" value="1.6" />
 	<property name="app.name" value="${ant.project.name}" />
 
 	<!-- name of main class for run -->
