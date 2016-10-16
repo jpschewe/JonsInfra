@@ -15,8 +15,7 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/test/log4j-1.2.14.jar"/>
 	<classpathentry kind="lib" path="lib/test/slf4j-log4j12-1.5.3.jar"/>
-	<classpathentry kind="var" path="JAVA_TOOLS"/>
-	<classpathentry kind="lib" path="lib/findbugs-2.0.0/lib/annotations.jar"/>
-	<classpathentry kind="lib" path="lib/findbugs-2.0.0/lib/jsr305.jar"/>
+	<classpathentry kind="lib" path="lib/findbugs-3.0.1/lib/annotations.jar"/>
+	<classpathentry kind="lib" path="lib/findbugs-3.0.1/lib/jsr305.jar"/>
 	<classpathentry kind="output" path="build/classes/main"/>
 </classpath>
