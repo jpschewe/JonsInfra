@@ -59,7 +59,7 @@ import net.mtu.eggplant.util.Named;
  * 
  * @version $Revision$
  */
-public class SmartRenderer implements ListCellRenderer, TableCellRenderer, TreeCellRenderer {
+public class SmartRenderer implements ListCellRenderer<Object>, TableCellRenderer, TreeCellRenderer {
 
   public SmartRenderer() {
     _treeRenderer = new DefaultTreeCellRenderer();
@@ -71,7 +71,8 @@ public class SmartRenderer implements ListCellRenderer, TableCellRenderer, TreeC
   private DefaultListCellRenderer _listRenderer;
   private DefaultTableCellRenderer _tableRenderer;
   
-  public final Component getListCellRendererComponent(final JList list,
+  @Override
+  public final Component getListCellRendererComponent(final JList<?> list,
                                                       final Object value,
                                                       final int index,
                                                       final boolean isSelected,

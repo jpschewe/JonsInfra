@@ -77,7 +77,7 @@ public class SQLConnectionDialog extends JDialog {
     gbc.weighty = 0.0;
     getContentPane().add(driverLabel, gbc);
 
-    _driverCombo = new JComboBox();
+    _driverCombo = new JComboBox<>();
     // waiting for jdk1.2!
     // _driverModel = new DefaultComboBoxModel();
     for (final String name : _drivers.keySet()) {
@@ -237,7 +237,7 @@ public class SQLConnectionDialog extends JDialog {
 
   private JTextField _userText;
 
-  private JComboBox _driverCombo;
+  private JComboBox<String> _driverCombo;
 
   private JPasswordField _passText;
 

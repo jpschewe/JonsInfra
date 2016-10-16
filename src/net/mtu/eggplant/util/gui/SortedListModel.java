@@ -44,7 +44,7 @@ import java.util.Collections;
  * @param <E> type of elements in the table model
  * @version $Revision$
  */
-public class SortedListModel<E> extends AbstractListModel {
+public class SortedListModel<E> extends AbstractListModel<E> {
 
   /**
      Create a SortedListModel with comparator.

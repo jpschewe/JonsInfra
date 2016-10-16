@@ -199,11 +199,11 @@ public final class GraphicsUtils {
     }
   }
 
-  public static int getMaxWidth(final JComboBox combo,
+  public static int getMaxWidth(final JComboBox<String> combo,
                                 final FontMetrics fm) {
     int maxLen = 0;
     for (int i = 0; i < combo.getItemCount(); i++) {
-      String str = combo.getItemAt(i).toString();
+      String str = combo.getItemAt(i);
       int wi = fm.stringWidth(str);
       if (wi > maxLen) {
         maxLen = wi;
