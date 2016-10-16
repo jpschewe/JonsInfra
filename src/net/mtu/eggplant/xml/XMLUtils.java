@@ -106,7 +106,7 @@ public class XMLUtils {
    * output to the logger for this class.
    * 
    * @param stream a stream containing document
-   * @return the challengeDocument, null on an error
+   * @return the document
    * @throws IOException if there is an error reading the stream
    * @throws SAXException if there is an error parsing the document or it
    *           doesn't match the schema
