@@ -4,6 +4,9 @@ buildscript {
     repositories {
         jcenter()
     }
+    dependencies {
+	    classpath group: 'com.cinnober.gradle', name: 'semver-git', version: '2.4.0'
+    }
 }    
 
 plugins {
@@ -13,9 +16,17 @@ plugins {
 	id 'eclipse'
 	id 'findbugs'
   	id "de.aaschmid.cpd" version "1.2"
-    id 'com.palantir.git-version' version '0.11.0'
+	id "com.gorylenko.gradle-git-properties" version "2.0.0"
 	id 'net.saliman.cobertura' version '2.6.0'
 }
+
+
+// needs to use old plugin mechanism otherwise I can't set the extra properties
+ext.nextVersion = "patch"
+ext.snapshotSuffix = "beta.<count>+g<sha><dirty>"
+// optionally: ext.dirtyMarker = "-dirty" (default) replaces <dirty> in snapshotSuffix
+// optionally: ext.gitDescribeArgs = '--match *[0-9].[0-9]*.[0-9]*' (default) or other arguments for git describe.
+apply plugin: 'com.cinnober.gradle.semver-git'
 
 test {
 	ignoreFailures Boolean.getBoolean("test.ignoreFailures") 
@@ -26,12 +37,10 @@ repositories {
 
 ext {
     slf4j_version = "1.7.5"
-        
-    versionDetails = versionDetails()
 }
 
 group = 'net.mtu.eggplant'
-version = project.versionDetails.lastTag + "." + project.versionDetails.commitDistance
+//version = project.versionDetails.lastTag + (0 == project.versionDetails.commitDistance ? "" : "-beta." + project.versionDetails.commitDistance + "+" + project.versionDetails.gitHash)
 
 mainClassName = 'net.mtu.eggplant.app.SchemaValidator'
 
@@ -119,19 +128,9 @@ task findbugsTestHtml(type: FindBugs, dependsOn: [testClasses]) {
 distZip.dependsOn findbugsTestHtml
 distTar.dependsOn findbugsTestHtml
 
-/*
-task writeVersionProperties(type: WriteProperties) {
-	outputFile = new File(project.buildDir, "resources/main/fll/resources/version.properties")
-	property("version", project.version)
-	property("lastTag", String.valueOf(project.versionDetails.lastTag))
-	property("commitDistance", String.valueOf(project.versionDetails.commitDistance))
-	property("gitHash", String.valueOf(project.versionDetails.gitHash))
-	property("gitHashFull", String.valueOf(project.versionDetails.gitHashFull))
-	property("branchName", String.valueOf(project.versionDetails.branchName))
-	property("isCleanTag", String.valueOf(project.versionDetails.isCleanTag))
+gitProperties {
+    gitPropertiesDir = "${buildDir}/resources/main/net/mtu/eggplant/util"
 }
-classes.dependsOn writeVersionProperties
-*/
 
 cobertura {
 	coverageFormats = [ 'html', 'xml' ]
