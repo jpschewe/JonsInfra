@@ -68,6 +68,8 @@ distributions {
             from("$buildDir/reports/cobertura/") {
             	into 'docs/reports/coverage'
         	}
+        	from('LICENSE') {
+        	}
         }
     }
 }
