@@ -7,7 +7,7 @@
 	<!-- basic properties for directories and the like -->
 	<property name="dir.src" value="${basedir}/src" />
 	<property name="dir.lib" value="${basedir}/lib" />
-	<property name="dir.build" value="${basedir}/build" />
+	<property name="dir.build" value="${basedir}/build.ant" />
 	<property name="dir.inst" value="${dir.build}/instrumented" />
 	<property name="dir.classes" value="${dir.build}/classes/main" />
 	<property name="dir.classes.test" value="${dir.build}/classes/test" />

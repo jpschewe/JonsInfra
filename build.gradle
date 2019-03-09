@@ -1,0 +1,136 @@
+// -*- java -*-
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+}    
+
+plugins {
+	id 'java'
+	id 'application'
+	id "com.dorongold.task-tree" version "1.3.1"
+	id 'eclipse'
+	id 'findbugs'
+  	id "de.aaschmid.cpd" version "1.2"
+    id 'com.palantir.git-version' version '0.11.0'
+	id 'net.saliman.cobertura' version '2.6.0'
+}
+
+test {
+	ignoreFailures Boolean.getBoolean("test.ignoreFailures") 
+}
+repositories {
+    jcenter()
+}
+
+ext {
+    slf4j_version = "1.7.5"
+        
+    versionDetails = versionDetails()
+}
+
+group = 'net.mtu.eggplant'
+version = project.versionDetails.lastTag + "." + project.versionDetails.commitDistance
+
+mainClassName = 'net.mtu.eggplant.app.SchemaValidator'
+
+dependencies {
+	compile group: "log4j", name: "log4j", version: "1.2.17"
+	
+	compile group: "org.slf4j", name: "slf4j-api", version: project.slf4j_version
+	compile group: "org.slf4j", name: "slf4j-log4j12", version: project.slf4j_version
+	
+	compile group: "com.google.code.findbugs", name: "annotations", version: "3.0.1"
+	compile group: "com.google.code.findbugs", name: "jsr305", version: "3.0.1"
+	
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+
+javadoc {
+	// TODO: Need to fix the errors eventually
+	failOnError = false
+}
+
+distributions {
+    main {
+    	contents {           	
+            from(javadoc) {
+                into 'docs/api'
+            }
+            from("$buildDir/reports/tests/") {
+            	into 'docs/reports'
+        	}
+            from("$buildDir/reports/findbugs/") {
+            	into 'docs/reports/findbugs'
+        	}
+            from("$buildDir/reports/cobertura/") {
+            	into 'docs/reports/coverage'
+        	}
+        }
+    }
+}
+distZip.dependsOn test
+distTar.dependsOn test
+
+
+cpdCheck {
+	// allow the build to continue, catch this in CI as warnings
+	ignoreFailures = true
+}
+
+task sloccount(type: Exec) {
+	commandLine 'cloc', '--by-file', '--xml', '--out', "$buildDir/reports/sloccount/cloc.xml", 'src'
+}
+
+findbugs {
+	// allow the build to continue, catch this in CI as warnings
+	ignoreFailures = true
+	effort = "max"
+	reportLevel = "low"
+	excludeFilter = file("findbugs-filters.xml")
+}
+
+// some extra tasks so that we can generate html AND xml
+task findbugsMainHtml(type: FindBugs, dependsOn: [classes]) {
+	classes = project.sourceSets.main.output.classesDirs
+	source = project.sourceSets.main.java.srcDirs
+	classpath = sourceSets.main.runtimeClasspath
+	reports {
+	    html.enabled = true
+	    xml.enabled = false
+	}
+}
+distZip.dependsOn findbugsMainHtml
+distTar.dependsOn findbugsMainHtml
+
+task findbugsTestHtml(type: FindBugs, dependsOn: [testClasses]) {
+	classes = project.sourceSets.test.output.classesDirs
+	source = project.sourceSets.test.java.srcDirs
+	classpath = sourceSets.test.runtimeClasspath
+	reports {
+	    html.enabled = true
+	    xml.enabled = false
+	}
+}
+distZip.dependsOn findbugsTestHtml
+distTar.dependsOn findbugsTestHtml
+
+/*
+task writeVersionProperties(type: WriteProperties) {
+	outputFile = new File(project.buildDir, "resources/main/fll/resources/version.properties")
+	property("version", project.version)
+	property("lastTag", String.valueOf(project.versionDetails.lastTag))
+	property("commitDistance", String.valueOf(project.versionDetails.commitDistance))
+	property("gitHash", String.valueOf(project.versionDetails.gitHash))
+	property("gitHashFull", String.valueOf(project.versionDetails.gitHashFull))
+	property("branchName", String.valueOf(project.versionDetails.branchName))
+	property("isCleanTag", String.valueOf(project.versionDetails.isCleanTag))
+}
+classes.dependsOn writeVersionProperties
+*/
+
+cobertura {
+	coverageFormats = [ 'html', 'xml' ]
+}
