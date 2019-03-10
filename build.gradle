@@ -59,29 +59,6 @@ javadoc {
 	failOnError = false
 }
 
-distributions {
-    main {
-    	contents {           	
-            from(javadoc) {
-                into 'docs/api'
-            }
-            from("$buildDir/reports/tests/") {
-            	into 'docs/reports'
-        	}
-            from("$buildDir/reports/findbugs/") {
-            	into 'docs/reports/findbugs'
-        	}
-            from("$buildDir/reports/cobertura/") {
-            	into 'docs/reports/coverage'
-        	}
-        	from('LICENSE') {
-        	}
-        }
-    }
-}
-distZip.dependsOn test
-distTar.dependsOn test
-
 
 cpdCheck {
 	// allow the build to continue, catch this in CI as warnings
@@ -137,11 +114,15 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
     from sourceSets.main.allSource
 }
+distZip.dependsOn sourcesJar
+distTar.dependsOn sourcesJar
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
     from javadoc.destinationDir
 }
+distZip.dependsOn javadocJar
+distTar.dependsOn javadocJar
 
 artifacts {
     archives sourcesJar
@@ -202,3 +183,53 @@ bintray {
 		vcsUrl = 'https://github.com/jpschewe/JonsInfra'
 	}
 }
+
+task renderIndex(type: Copy) {
+    from 'docs'
+    into "$buildDir/rendered-docs"
+    // Substitute property tokens in files
+    //expand(VERSION: project.version)
+    expand(project.properties)
+    filteringCharset = 'UTF-8'
+}
+distTar.dependsOn renderIndex
+distZip.dependsOn renderIndex
+
+distributions {
+    main {
+    	contents {
+			from(jar) {
+				into 'lib'
+			}
+    		from(javadocJar) {
+    			into 'lib'
+			}
+    		from(sourcesJar) {
+    			into 'lib'
+			}
+            from(configurations.runtime) {
+            	into 'lib'
+           	}
+    	    
+    	    from(renderIndex) {
+    	    	into 'docs'
+    	    }	
+            from(javadoc) {
+                into 'docs/api'
+            }
+            from("$buildDir/reports/tests/") {
+            	into 'docs/reports'
+        	}
+            from("$buildDir/reports/findbugs/") {
+            	into 'docs/reports/findbugs'
+        	}
+            from("$buildDir/reports/cobertura/") {
+            	into 'docs/reports/coverage'
+        	}
+        	from('LICENSE') {
+        	}
+        }
+    }
+}
+distZip.dependsOn test
+distTar.dependsOn test

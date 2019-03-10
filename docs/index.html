@@ -18,20 +18,29 @@
 		<li><a href="docs/reports/test/index.html">JUnit report</a></li>
 		<li><a href="docs/reports/coverage/index.html">Test coverage
 				report</a></li>
+		<li><a href="docs/reports/findbugs/mainHtml.html">Findbugs on
+				Main code</a></li>
+		<li><a href="docs/reports/findbugs/testHtml.html">Findbugs on
+				test code</a></li>
 	</ul>
 
 	<p>Downloads</p>
 	<ul>
+		<li><a href="JonsInfra-${project.version}.zip">Distribution</a></li>
+		<li>See <a href="https://github.com/jpschewe/JonsInfra/">GitHub</a>
+			for the source
+		</li>
 	</ul>
 
 	<p>
 		JonsInfra uses <a href="http://www.slf4j.org/">Simple Logging
-			Facade for Java</a>.
+			Facade for Java</a>. So to use the logging you just need an SLF4J bridge
+		to your favorite logging framework.
 	</p>
 
 	<p>Build dependency for gradle:</p>
 	<pre>
-compile(group: 'net.mtu.eggplant', name: 'JonsInfra', version: '1.6.1-beta.16+g8a8eff5-dirty')
+compile(group: 'net.mtu.eggplant', name: 'JonsInfra', version: '${project.version}')
 </pre>
 
 	<hr />
