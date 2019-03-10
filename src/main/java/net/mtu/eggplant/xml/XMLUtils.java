@@ -155,20 +155,7 @@ public class XMLUtils {
    *           this shouldn't happen
    */
   public static Document parseXMLDocument(final InputStream xmlDocStream) throws SAXException, IOException {
-    try {
-      final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-      factory.setNamespaceAware(true);
-      factory.setIgnoringComments(true);
-      factory.setIgnoringElementContentWhitespace(true);
-
-      final DocumentBuilder parser = factory.newDocumentBuilder();
-      parser.setErrorHandler(STANDARD_ERROR_HANDLER);
-
-      final Document document = parser.parse(xmlDocStream);
-      return document;
-    } catch (final ParserConfigurationException pce) {
-      throw new RuntimeException("Error configuring the XML parser", pce);
-    }
+    return parseXMLDocument(new InputSource(xmlDocStream));
   }
 
   /**
