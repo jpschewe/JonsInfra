@@ -78,25 +78,31 @@ public class XMLUtils {
 
   public static final DocumentBuilder DOCUMENT_BUILDER;
 
+  /**
+   * Standard error handler that throws exceptions on error and fatalError and
+   * logs a warning on warning.
+   */
+  public static final ErrorHandler STANDARD_ERROR_HANDLER = new ErrorHandler() {
+    public void error(final SAXParseException spe) throws SAXParseException {
+      throw spe;
+    }
+
+    public void fatalError(final SAXParseException spe) throws SAXParseException {
+      throw spe;
+    }
+
+    public void warning(final SAXParseException spe) throws SAXParseException {
+      LOGGER.warn(spe.getMessage(), spe);
+    }
+  };
+
   // create basic document builder
   static {
     try {
       final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
       factory.setNamespaceAware(true);
       DOCUMENT_BUILDER = factory.newDocumentBuilder();
-      DOCUMENT_BUILDER.setErrorHandler(new ErrorHandler() {
-        public void error(final SAXParseException spe) throws SAXParseException {
-          throw spe;
-        }
-
-        public void fatalError(final SAXParseException spe) throws SAXParseException {
-          throw spe;
-        }
-
-        public void warning(final SAXParseException spe) throws SAXParseException {
-          System.err.println(spe.getMessage());
-        }
-      });
+      DOCUMENT_BUILDER.setErrorHandler(STANDARD_ERROR_HANDLER);
     } catch (final ParserConfigurationException pce) {
       throw new RuntimeException(pce.getMessage(), pce);
     }
@@ -126,19 +132,7 @@ public class XMLUtils {
       builderFactory.setIgnoringElementContentWhitespace(true);
       final DocumentBuilder parser = builderFactory.newDocumentBuilder();
 
-      parser.setErrorHandler(new ErrorHandler() {
-        public void error(final SAXParseException spe) throws SAXParseException {
-          throw spe;
-        }
-
-        public void fatalError(final SAXParseException spe) throws SAXParseException {
-          throw spe;
-        }
-
-        public void warning(final SAXParseException spe) throws SAXParseException {
-          LOGGER.error(spe.getMessage(), spe);
-        }
-      });
+      parser.setErrorHandler(STANDARD_ERROR_HANDLER);
 
       // parse
       final String content = IOUtils.readIntoString(stream);
@@ -161,32 +155,7 @@ public class XMLUtils {
    *           this shouldn't happen
    */
   public static Document parseXMLDocument(final InputStream xmlDocStream) throws SAXException, IOException {
-    try {
-      final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-      factory.setNamespaceAware(true);
-      factory.setIgnoringComments(true);
-      factory.setIgnoringElementContentWhitespace(true);
-
-      final DocumentBuilder parser = factory.newDocumentBuilder();
-      parser.setErrorHandler(new ErrorHandler() {
-        public void error(final SAXParseException spe) throws SAXParseException {
-          throw spe;
-        }
-
-        public void fatalError(final SAXParseException spe) throws SAXParseException {
-          throw spe;
-        }
-
-        public void warning(final SAXParseException spe) throws SAXParseException {
-          LOGGER.error(spe.getMessage());
-        }
-      });
-
-      final Document document = parser.parse(xmlDocStream);
-      return document;
-    } catch (final ParserConfigurationException pce) {
-      throw new RuntimeException("Error configuring the XML parser", pce);
-    }
+    return parseXMLDocument(new InputSource(xmlDocStream));
   }
 
   /**
@@ -222,19 +191,7 @@ public class XMLUtils {
       factory.setIgnoringElementContentWhitespace(true);
 
       final DocumentBuilder parser = factory.newDocumentBuilder();
-      parser.setErrorHandler(new ErrorHandler() {
-        public void error(final SAXParseException spe) throws SAXParseException {
-          throw spe;
-        }
-
-        public void fatalError(final SAXParseException spe) throws SAXParseException {
-          throw spe;
-        }
-
-        public void warning(final SAXParseException spe) throws SAXParseException {
-          LOGGER.error(spe.getMessage());
-        }
-      });
+      parser.setErrorHandler(STANDARD_ERROR_HANDLER);
 
       final Document document = parser.parse(xmlDocStream);
       return document;

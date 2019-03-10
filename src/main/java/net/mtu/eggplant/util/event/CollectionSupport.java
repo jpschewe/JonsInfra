@@ -28,6 +28,7 @@
 package net.mtu.eggplant.util.event;
 
 import java.util.Collection;
+import java.util.function.BiConsumer;
 
 import javax.swing.event.EventListenerList;
 
@@ -39,8 +40,7 @@ import javax.swing.event.EventListenerList;
 public class CollectionSupport {
 
   /**
-   * @param source
-   *          the object that is to be the source of the events
+   * @param source the object that is to be the source of the events
    * @pre (source != null)
    **/
   public CollectionSupport(final Object source) {
@@ -51,31 +51,33 @@ public class CollectionSupport {
   private Object _source;
 
   /**
-   * @param data
-   *          the objects that were added
+   * @param data the objects that were added
    * @pre (data != null)
    **/
   public void fireObjectsAdded(final Collection<?> data) {
-    final CollectionEvent ce = new CollectionEvent(_source, data);
-    final Object[] listeners = _listeners.getListenerList();
-    for (int i = listeners.length - 2; i >= 0; i -= 2) {
-      if (listeners[i] == CollectionListener.class) {
-        ((CollectionListener) listeners[i + 1]).objectsAdded(ce);
-      }
-    }
+    fireObjectsEvent(data, (listener,
+                            event) -> listener.objectsAdded(event));
+
   }
 
   /**
-   * @param data
-   *          the objects that were removed
+   * @param data the objects that were removed
    * @pre (data != null)
    **/
   public void fireObjectsRemoved(final Collection<?> data) {
+    fireObjectsEvent(data, (listener,
+                            event) -> listener.objectsRemoved(event));
+  }
+
+  private void fireObjectsEvent(final Collection<?> data,
+                                BiConsumer<CollectionListener, CollectionEvent> eventCallback) {
     final CollectionEvent ce = new CollectionEvent(_source, data);
     final Object[] listeners = _listeners.getListenerList();
-    for (int i = listeners.length - 2; i >= 0; i -= 2) {
+    for (int i = listeners.length
+        - 2; i >= 0; i -= 2) {
       if (listeners[i] == CollectionListener.class) {
-        ((CollectionListener) listeners[i + 1]).objectsRemoved(ce);
+        eventCallback.accept(((CollectionListener) listeners[i
+            + 1]), ce);
       }
     }
   }
