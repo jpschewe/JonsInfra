@@ -27,8 +27,12 @@
  */
 package net.mtu.eggplant.xml;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -40,34 +44,34 @@ public class NodelistElementCollectionAdapterTest {
 
   @Test
   public void testEmptyNodelist() {
-    final Document doc = XMLUtils.DOCUMENT_BUILDER.newDocument();    
+    final Document doc = XMLUtils.DOCUMENT_BUILDER.newDocument();
     final NodeList nodelist = doc.getChildNodes();
     final NodelistElementCollectionAdapter adapter = new NodelistElementCollectionAdapter(nodelist);
-    Assert.assertFalse(adapter.hasNext());
+    assertFalse(adapter.hasNext());
   }
-  
+
   @Test
   public void testNext() {
     final Document doc = XMLUtils.DOCUMENT_BUILDER.newDocument();
     final Element top = doc.createElementNS(null, "top");
     doc.appendChild(top);
-    
+
     final Element expectedFirst = doc.createElementNS(null, "foo");
     top.appendChild(expectedFirst);
     final Element expectedSecond = doc.createElementNS(null, "foo");
     top.appendChild(expectedSecond);
     final NodeList nodelist = top.getChildNodes();
     final NodelistElementCollectionAdapter adapter = new NodelistElementCollectionAdapter(nodelist);
-    
-    Assert.assertTrue(adapter.hasNext());
+
+    assertTrue(adapter.hasNext());
     final Element actualFirst = adapter.next();
-    Assert.assertEquals(expectedFirst, actualFirst);
-    
-    Assert.assertTrue(adapter.hasNext());
+    assertEquals(expectedFirst, actualFirst);
+
+    assertTrue(adapter.hasNext());
     final Element actualSecond = adapter.next();
-    Assert.assertEquals(expectedSecond, actualSecond);
-    
-    Assert.assertNotSame(actualFirst, actualSecond);    
+    assertEquals(expectedSecond, actualSecond);
+
+    assertNotSame(actualFirst, actualSecond);
   }
-  
+
 }
