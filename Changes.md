@@ -1,3 +1,6 @@
+Release 2.0.0
+=============
+
 * upgrade dependent libraries
 * Remove IOUtils in favor of the IOUtils class in commons-io - API breaking change 
 
