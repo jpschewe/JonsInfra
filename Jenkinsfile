@@ -114,7 +114,7 @@ def callGradle(task) {
   def args='--no-daemon -Dtest.ignoreFailures=true'
 
   if (isUnix()) {
-    sh script: "gradlew ${args} ${task}"
+    sh script: "./gradlew ${args} ${task}"
   } else {
     bat script: "gradlew.bat ${args} ${task}"
   }
