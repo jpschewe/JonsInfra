@@ -46,6 +46,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.validation.Schema;
 
+import org.custommonkey.xmlunit.Diff;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -264,8 +265,7 @@ public class XMLUtils {
       return null;
     }
     final String str = element.getAttribute(attributeName);
-    if (null == str
-        || "".equals(str)) {
+    if (str.isEmpty()) {
       return null;
     } else {
       return Boolean.valueOf(str);
@@ -286,8 +286,7 @@ public class XMLUtils {
       return null;
     }
     final String str = element.getAttribute(attributeName);
-    if (null == str
-        || "".equals(str)) {
+    if (str.isEmpty()) {
       return null;
     } else {
       return Double.valueOf(str);
@@ -331,4 +330,19 @@ public class XMLUtils {
       throw new RuntimeException("Internal error writing xml", e);
     }
   }
+
+  /**
+   * Compare two documents and check if they are the same or not.
+   * 
+   * @param controlDoc
+   * @param testDoc
+   * @return true if the documents have the same elements and attributes,
+   *         reguardless of order
+   */
+  public static boolean compareDocuments(final Document controlDoc,
+                                         final Document testDoc) {
+    final Diff xmldiff = new Diff(controlDoc, testDoc);
+    return xmldiff.similar();
+  }
+
 }
