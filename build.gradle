@@ -39,6 +39,7 @@ repositories {
 
 ext {
     slf4j_version = "1.7.26"
+    junit_version = "5.4.0"
 }
 
 group = 'net.mtu.eggplant'
@@ -53,9 +54,13 @@ dependencies {
 	
 	compile group: "xmlunit", name: "xmlunit", version: "1.6"
 	
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.4.0'
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: project.junit_version
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: project.junit_version
 }
 
+test {
+    useJUnitPlatform()
+}
 
 javadoc {
 	failOnError = false

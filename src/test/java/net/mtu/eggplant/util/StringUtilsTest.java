@@ -40,23 +40,21 @@ import org.junit.jupiter.api.Test;
  */
 public class StringUtilsTest {
 
-
   @BeforeEach
-  public void setUp()
-    throws Exception {
+  public void setUp() throws Exception {
     _assertProperty = System.getProperty("ASSERT_BEHAVIOR");
     System.setProperty("ASSERT_BEHAVIOR", "EXCEPTION");
   }
 
   @AfterEach
-  public void tearDown()
-    throws Exception {
-    if(null != _assertProperty) {
+  public void tearDown() throws Exception {
+    if (null != _assertProperty) {
       System.setProperty("ASSERT_BEHAVIOR", _assertProperty);
     }
   }
+
   private String _assertProperty;
-  
+
   @Test
   public void testSearchAndReplace() {
     final String source = "Fred & Barney & Wilma";
@@ -65,7 +63,7 @@ public class StringUtilsTest {
     final String expectedResult = "Fred & Jon & Wilma";
     final String result = StringUtils.searchAndReplace(source, search, replace);
 
-    assertEquals("a1", expectedResult, result);
+    assertEquals(expectedResult, result, "a1");
 
   }
 
@@ -77,9 +75,9 @@ public class StringUtilsTest {
     final String expectedResult = "(__retVal < 10)";
     final String result = StringUtils.searchAndReplace(source, search, replace);
 
-    assertEquals("a1", expectedResult, result);
+    assertEquals(expectedResult, result, "a1");
 
-  }  
+  }
 
   @Test
   public void testSearchAndReplace2() {
@@ -87,8 +85,8 @@ public class StringUtilsTest {
     final String search = "\"";
     final String replace = "\\\"";
     final String expectedResult = "(!dateStr.equals(\\\"\\\"))";
-    final String result = StringUtils.searchAndReplace(source, search, replace);    
-    assertEquals("a1", expectedResult, result);
+    final String result = StringUtils.searchAndReplace(source, search, replace);
+    assertEquals(expectedResult, result, "a1");
   }
-  
+
 }
