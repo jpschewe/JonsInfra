@@ -18,6 +18,8 @@ plugins {
   	id "de.aaschmid.cpd" version "1.2"
 	id "com.gorylenko.gradle-git-properties" version "2.0.0"
 	id 'net.saliman.cobertura' version '2.6.0'
+	id "com.jfrog.bintray" version "1.8.4"
+  	id "maven-publish"
 }
 
 
@@ -60,7 +62,6 @@ dependencies {
 
 
 javadoc {
-	// TODO: Need to fix the errors eventually
 	failOnError = false
 }
 
@@ -136,4 +137,74 @@ gitProperties {
 
 cobertura {
 	coverageFormats = [ 'html', 'xml' ]
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+def pomConfig = {
+    licenses {
+        license {
+            name "2-Clause BSD License"
+            url "https://opensource.org/licenses/BSD-2-Clause"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "jspchewe"
+            name "Jon Schewe"
+            email "jpschewe@mtu.net"
+        }
+    }
+
+    scm {
+        url "https://github.com/jpschewe/JonsInfra"
+    }
+}
+
+publishing {
+    publications {
+        mavenPublication(MavenPublication) {
+            from components.java
+            artifact sourcesJar {
+                classifier "sources"
+            }
+            artifact javadocJar {
+                classifier "javadoc"
+            }
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', 'Useful utilities')
+                root.appendNode('name', 'JonsInfra')
+                root.appendNode('url', 'https://github.com/jpschewe/JonsInfra')
+                root.children().last() + pomConfig
+            }
+        }
+    }
+}
+
+bintray {
+	user = System.getProperty('bintray.user')
+	key = System.getProperty('bintray.key')
+	publications = ['mavenPublication']
+
+	pkg {
+		repo = 'maven'
+		name = 'JonsInfra'
+		licenses = ['BSD-2-Clause']
+		vcsUrl = 'https://github.com/jpschewe/JonsInfra'
+	}
 }
