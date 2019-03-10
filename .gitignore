@@ -2,3 +2,4 @@ build
 build.ant
 .gradle
 bin/
+.classpath
