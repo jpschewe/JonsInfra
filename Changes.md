@@ -1,3 +1,7 @@
+Release 1.7.0
+=============
+
+* #4 - setup publishing to jcenter
 * #3 - build with gradle
 * #2 - fix issue with indentation in XML output
 * switched to a markdown changelog format
