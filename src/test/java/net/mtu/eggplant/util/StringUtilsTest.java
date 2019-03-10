@@ -27,10 +27,11 @@
  */
 package net.mtu.eggplant.util;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test class for StringUtils.
@@ -40,14 +41,14 @@ import org.junit.Test;
 public class StringUtilsTest {
 
 
-  @Before
+  @BeforeEach
   public void setUp()
     throws Exception {
     _assertProperty = System.getProperty("ASSERT_BEHAVIOR");
     System.setProperty("ASSERT_BEHAVIOR", "EXCEPTION");
   }
 
-  @After
+  @AfterEach
   public void tearDown()
     throws Exception {
     if(null != _assertProperty) {
@@ -64,7 +65,7 @@ public class StringUtilsTest {
     final String expectedResult = "Fred & Jon & Wilma";
     final String result = StringUtils.searchAndReplace(source, search, replace);
 
-    Assert.assertEquals("a1", expectedResult, result);
+    assertEquals("a1", expectedResult, result);
 
   }
 
@@ -76,7 +77,7 @@ public class StringUtilsTest {
     final String expectedResult = "(__retVal < 10)";
     final String result = StringUtils.searchAndReplace(source, search, replace);
 
-    Assert.assertEquals("a1", expectedResult, result);
+    assertEquals("a1", expectedResult, result);
 
   }  
 
@@ -87,7 +88,7 @@ public class StringUtilsTest {
     final String replace = "\\\"";
     final String expectedResult = "(!dateStr.equals(\\\"\\\"))";
     final String result = StringUtils.searchAndReplace(source, search, replace);    
-    Assert.assertEquals("a1", expectedResult, result);
+    assertEquals("a1", expectedResult, result);
   }
   
 }
