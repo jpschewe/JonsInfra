@@ -1,3 +1,10 @@
+* #3 - build with gradle
+* #2 - fix issue with indentation in XML output
+* switched to a markdown changelog format
+
+Old changelog below here
+-------------------------
+
 2004-11-23  Jon Schewe  <jpschewe@mtu.net>
 
 	* src/net/mtu/eggplant/util/gui/GraphicsUtils.java
