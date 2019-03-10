@@ -191,6 +191,8 @@ task renderIndex(type: Copy) {
     //expand(VERSION: project.version)
     expand(project.properties)
     filteringCharset = 'UTF-8'
+    
+    outputs.upToDateWhen { false }
 }
 distTar.dependsOn renderIndex
 distZip.dependsOn renderIndex
