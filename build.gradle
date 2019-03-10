@@ -212,7 +212,6 @@ distributions {
            	}
     	    
     	    from(renderIndex) {
-    	    	into 'docs'
     	    }	
             from(javadoc) {
                 into 'docs/api'
