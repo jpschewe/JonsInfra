@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -46,6 +47,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.validation.Schema;
 
+import org.apache.commons.io.IOUtils;
 import org.custommonkey.xmlunit.Diff;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +59,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import net.mtu.eggplant.io.IOUtils;
 
 /**
  * Some utilities for working with XML.
@@ -135,7 +136,9 @@ public class XMLUtils {
       parser.setErrorHandler(STANDARD_ERROR_HANDLER);
 
       // parse
-      final String content = IOUtils.readIntoString(stream);
+      final StringWriter writer = new StringWriter();
+      IOUtils.copy(stream, writer);
+      final String content = writer.toString();
       final Document document = parser.parse(new InputSource(new StringReader(content)));
 
       return document;
@@ -169,8 +172,7 @@ public class XMLUtils {
    *           this shouldn't happen
    */
   public static Document parseXMLDocument(final Reader xmlDocStream) throws SAXException, IOException {
-    final String content = IOUtils.readIntoString(xmlDocStream);
-    return parseXMLDocument(new InputSource(new StringReader(content)));
+    return parseXMLDocument(new InputSource(xmlDocStream));
   }
 
   /**
