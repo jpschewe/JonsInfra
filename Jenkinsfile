@@ -6,9 +6,7 @@ pipeline {
     buildDiscarder(logRotator(numToKeepStr: '10')) 
   }
 
-  agent {
-      
-  }
+  agent any
   
   stages {
     stage('Init') {
