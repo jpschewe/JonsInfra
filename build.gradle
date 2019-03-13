@@ -185,9 +185,15 @@ publishing {
     }
 }
 
+def bintrayProps = new Properties()
+File bintrayPropertiesFile = project.file('../bintray.properties')
+if(bintrayPropertiesFile.exists()) {
+    bintrayPropertiesFile.withInputStream { bintrayProps.load(it) }
+}
+
 bintray {
-	user = System.getProperty('bintray.user')
-	key = System.getProperty('bintray.key')
+	user = bintrayProps.getProperty('bintray.user')
+	key = bintrayProps.getProperty('bintray.key')
 	publications = ['mavenPublication']
 
 	pkg {
