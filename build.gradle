@@ -31,6 +31,7 @@ ext.snapshotSuffix = "beta.<count>+g<sha><dirty>"
 apply plugin: 'com.cinnober.gradle.semver-git'
 
 repositories {
+    mavenLocal()
     jcenter()
 }
 
@@ -173,6 +174,15 @@ publishing {
                 root.children().last() + pomConfig
             }
         }
+    }
+ 
+   publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+   }
+   repositories {
+        mavenLocal()
     }
 }
 
