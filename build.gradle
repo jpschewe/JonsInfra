@@ -224,7 +224,7 @@ distributions {
     		from(sourcesJar) {
     			into 'lib'
 			}
-            from(configurations.runtime) {
+            from(configurations.compileClasspath) {
             	into 'lib'
            	}
     	    
