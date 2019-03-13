@@ -174,14 +174,13 @@ publishing {
                 root.children().last() + pomConfig
             }
         }
-    }
- 
-   publications {
+        
         mavenJava(MavenPublication) {
             from components.java
-        }
-   }
-   repositories {
+        }        
+    }
+ 
+    repositories {
         mavenLocal()
     }
 }
