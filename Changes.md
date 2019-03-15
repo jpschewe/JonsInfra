@@ -1,3 +1,6 @@
+Release 2.0.1
+=============
+
 * use java-library plugin for gradle, this reduces the libraries needed to compile in projects that depend on us
 
 Release 2.0.0
