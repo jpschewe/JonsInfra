@@ -20,6 +20,7 @@ plugins {
 	id 'net.saliman.cobertura' version '2.6.0'
 	id "com.jfrog.bintray" version "1.8.4"
   	id "maven-publish"
+        id "com.github.ben-manes.versions" version "0.21.0"
 }
 
 
