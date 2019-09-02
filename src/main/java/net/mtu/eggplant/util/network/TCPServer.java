@@ -30,9 +30,11 @@ package net.mtu.eggplant.util.network;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.Charset;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,9 +44,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @version $Revision$
  */
-public class TCPServer extends Object implements
-                                     Runnable,
-                                     Cloneable {
+public class TCPServer extends Object implements Runnable, Cloneable {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TCPServer.class);
 
@@ -71,11 +71,11 @@ public class TCPServer extends Object implements
    * Create a ServerSocket to listen for connections on If port < 0 or port >
    * 65535 port defaults to DEFAULT_PORT.
    * 
-   * @param port
-   *          the port to listen on
+   * @param port the port to listen on
    **/
   public TCPServer(final int port) {
-    if (port < 0 || port > 65535) {
+    if (port < 0
+        || port > 65535) {
       _port = DEFAULT_PORT;
     } else {
       _port = port;
@@ -86,7 +86,8 @@ public class TCPServer extends Object implements
     } catch (final IOException e) {
       LOGGER.error("Exception creating server socket", e);
     }
-    LOGGER.error("Server: listening on port " + _port);
+    LOGGER.error("Server: listening on port "
+        + _port);
   }
 
   /**
@@ -106,8 +107,7 @@ public class TCPServer extends Object implements
         try {
           final TCPServer clone = (TCPServer) this.clone();
           clone.setSocket(clientSocket);
-          final ThreadGroup tg = new ThreadGroup(clientSocket.getInetAddress()
-              .getHostName());
+          final ThreadGroup tg = new ThreadGroup(clientSocket.getInetAddress().getHostName());
           Thread t = new Thread(tg, clone);
           t.start();
         } catch (final CloneNotSupportedException cnse) {
@@ -125,10 +125,9 @@ public class TCPServer extends Object implements
    */
   public void initializeConnection() {
     try {
-      _input = new BufferedReader(new InputStreamReader(getSocket()
-          .getInputStream()));
+      _input = new BufferedReader(new InputStreamReader(getSocket().getInputStream(), Charset.defaultCharset()));
 
-      _output = new PrintWriter(getSocket().getOutputStream(), true);
+      _output = new PrintWriter(new OutputStreamWriter(getSocket().getOutputStream(), Charset.defaultCharset()), true);
     } catch (final IOException e) {
       try {
         getSocket().close();
@@ -137,7 +136,8 @@ public class TCPServer extends Object implements
           LOGGER.debug(e2.getMessage(), e2);
         }
       }
-      LOGGER.error("Exception while getting socket streams: " + e);
+      LOGGER.error("Exception while getting socket streams: "
+          + e);
       return;
     }
 
@@ -171,8 +171,7 @@ public class TCPServer extends Object implements
    * do something with a line of input. Just print the line back out on the
    * socket. Override this to do more with the data.
    * 
-   * @param line
-   *          the input
+   * @param line the input
    * @return true if we should quit, false otherwise
    **/
   protected boolean processData(final String line) {
@@ -187,12 +186,13 @@ public class TCPServer extends Object implements
   /**
    * print something to the socket.
    * 
-   * @param message
-   *          the message, if not connected nothing happens
+   * @param message the message, if not connected nothing happens
    **/
   public void print(final String message) {
     if (_output != null) {
-      _output.println(getClass().getName() + ": " + message);
+      _output.println(getClass().getName()
+          + ": "
+          + message);
     }
   }
 
@@ -221,8 +221,7 @@ public class TCPServer extends Object implements
   /**
    * set the actual socket.
    * 
-   * @param s
-   *          the socket
+   * @param s the socket
    **/
   protected void setSocket(final Socket s) {
     _clientSocket = s;
@@ -234,8 +233,10 @@ public class TCPServer extends Object implements
       try {
         server = new TCPServer(Integer.parseInt(args[0]));
       } catch (final NumberFormatException e) {
-        LOGGER.warn("Could not parse " + args[0]
-            + " as a number, falling back to default port of " + DEFAULT_PORT);
+        LOGGER.warn("Could not parse "
+            + args[0]
+            + " as a number, falling back to default port of "
+            + DEFAULT_PORT);
         server = new TCPServer();
       }
     } else {
