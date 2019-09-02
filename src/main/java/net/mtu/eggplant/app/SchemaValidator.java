@@ -30,9 +30,10 @@ package net.mtu.eggplant.app;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.Charset;
 import java.util.prefs.Preferences;
 
 import javax.swing.JFileChooser;
@@ -128,10 +129,10 @@ public class SchemaValidator {
           try {
             final Reader inputStream;
             if (systemId.startsWith("/")) {
-              inputStream = new FileReader(systemId);
+              inputStream = new InputStreamReader(new FileInputStream(systemId), Charset.defaultCharset());
             } else {
               final File resource = new File(xsdFile.getParent(), systemId);
-              inputStream = new FileReader(resource);
+              inputStream = new InputStreamReader(new FileInputStream(resource), Charset.defaultCharset());
             }
             input.setCharacterStream(inputStream);
 

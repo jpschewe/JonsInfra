@@ -40,11 +40,11 @@ pipeline {
       }
     }
 
-    stage('Findbugs analysis') {
+    stage('SpotBugs analysis') {
       steps { 
-        callGradle('findbugsMain')
-        callGradle('findbugsTest')
-        recordIssues tool: findBugs(pattern: 'build/reports/findbugs/*.xml', useRankAsPriority: true), qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]     
+        callGradle('spotbugsMain')
+        callGradle('spotbugsTest')
+        recordIssues tool: spotBugs(pattern: 'build/reports/spotbugs/*.xml', useRankAsPriority: true), qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]     
       }
     }
     
