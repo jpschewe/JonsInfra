@@ -116,14 +116,6 @@ Find more details at: ${JENKINS_URL}
 } // pipeline
 
 def callGradle(task) {
-  // make sure the local repository directories exist
-  dir('.gradle-repo') {
-      writeFile file:'dummy', text:''
-  }
-  dir('.maven-repo') {
-      writeFile file:'dummy', text:''
-  }
-  
   def args='--no-daemon -Dtest.ignoreFailures=true'
 
   if (isUnix()) {
