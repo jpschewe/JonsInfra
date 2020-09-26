@@ -33,7 +33,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 /**
- * Utilities for working with tables
+ * Utilities for working with tables.
  */
 public final class TableUtils {
 

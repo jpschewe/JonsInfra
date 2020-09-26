@@ -1,3 +1,5 @@
+package net.mtu.eggplant.app;
+
 /*
  * Copyright (c) 2008
  *      Jon Schewe.  All rights reserved
@@ -25,7 +27,6 @@
  *
  * I'd appreciate comments/suggestions on the code jpschewe@mtu.net
  */
-package net.mtu.eggplant.app;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -60,7 +61,10 @@ import net.mtu.eggplant.util.gui.GraphicsUtils;
 /**
  * Validate a schema.
  */
-public class SchemaValidator {
+public final class SchemaValidator {
+
+  private SchemaValidator() {
+  }
 
   /**
    * @param args ignored
@@ -149,7 +153,7 @@ public class SchemaValidator {
 
     private final @Nullable String searchPath;
 
-    public Resolver(final @Nullable String searchPath) {
+    Resolver(final @Nullable String searchPath) {
       this.searchPath = searchPath;
       // get an instance of the DOMImplementation registry
       try {

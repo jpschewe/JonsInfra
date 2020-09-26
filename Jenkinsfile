@@ -30,6 +30,15 @@ pipeline {
         sloccountPublish pattern: 'build/reports/sloccount/cloc.xml'
       }
     }
+    
+    stage('Checkstyle analysis') {
+      steps { 
+        fllSwGradle('checkstyleMain')
+        fllSwGradle('checkstyleTest')
+        recordIssues tool: checkStyle(pattern: 'build/reports/checkstyle/*.xml')
+      }
+    }
+   
 
     stage('Tests') {
       steps {

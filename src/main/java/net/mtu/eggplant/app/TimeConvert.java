@@ -14,12 +14,12 @@ import javax.swing.JTextField;
 import net.mtu.eggplant.util.gui.GraphicsUtils;
 
 /**
- * Nifty little class that converts a date as a long to a human readable string
- **/
+ * Nifty little class that converts a date as a long to a human readable string.
+ */
 public class TimeConvert extends JPanel {
 
   /**
-   * args is ignored
+   * @param args ignored
    **/
   public static void main(final String[] args) {
     final TimeConvert tc = new TimeConvert();
@@ -45,15 +45,18 @@ public class TimeConvert extends JPanel {
   }
 
   private static class BaseListener {
+    @SuppressWarnings("checkstyle:visibilitymodifier")
     protected final JTextField mTime;
 
+    @SuppressWarnings("checkstyle:visibilitymodifier")
     protected final JTextField mNumber;
 
+    @SuppressWarnings("checkstyle:visibilitymodifier")
     protected final DateFormat mFormat;
 
-    public BaseListener(final JTextField time,
-                        final JTextField number,
-                        final DateFormat format) {
+    BaseListener(final JTextField time,
+                 final JTextField number,
+                 final DateFormat format) {
       mTime = time;
       mNumber = number;
       mFormat = format;
@@ -61,9 +64,9 @@ public class TimeConvert extends JPanel {
   }
 
   private static class NumberListener extends BaseListener implements ActionListener {
-    public NumberListener(final JTextField time,
-                          final JTextField number,
-                          final DateFormat format) {
+    NumberListener(final JTextField time,
+                   final JTextField number,
+                   final DateFormat format) {
       super(time, number, format);
     }
 
@@ -75,9 +78,9 @@ public class TimeConvert extends JPanel {
   }
 
   private static class TimeListener extends BaseListener implements ActionListener {
-    public TimeListener(final JTextField time,
-                        final JTextField number,
-                        final DateFormat format) {
+    TimeListener(final JTextField time,
+                 final JTextField number,
+                 final DateFormat format) {
       super(time, number, format);
     }
 

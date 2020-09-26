@@ -36,24 +36,24 @@ public interface Bean {
   /**
    * @param listener the listener to add
    */
-  void addPropertyChangeListener(final PropertyChangeListener listener);
+  void addPropertyChangeListener(PropertyChangeListener listener);
 
   /**
    * @param propertyName the property to listen for
    * @param listener the listener to add
    */
-  void addPropertyChangeListener(final String propertyName,
-                                 final PropertyChangeListener listener);
+  void addPropertyChangeListener(String propertyName,
+                                 PropertyChangeListener listener);
 
   /**
    * @param listener the listener to remove
    */
-  void removePropertyChangeListener(final PropertyChangeListener listener);
+  void removePropertyChangeListener(PropertyChangeListener listener);
 
   /**
    * @param propertyName the property to remove a listener for
    * @param listener the listener to remove
    */
-  void removePropertyChangeListener(final String propertyName,
-                                    final PropertyChangeListener listener);
+  void removePropertyChangeListener(String propertyName,
+                                    PropertyChangeListener listener);
 }

@@ -26,6 +26,7 @@ plugins {
         id "maven-publish"
         id "com.github.ben-manes.versions" version "0.33.0" // adds dependencyUpdates task
         id "org.myire.munge" version "1.0" // transformer for spotbugs XML
+        id "checkstyle"
         
         // Checker Framework pluggable type-checking
         id "org.checkerframework" version "0.5.10"
@@ -297,6 +298,14 @@ dependencyUpdates.resolutionStrategy {
         }
     }
 }  
+
+checkstyle {
+    configDirectory = file("$projectDir")
+    configFile = file("checkstyle.xml")
+    showViolations = true
+    ignoreFailures = true
+    toolVersion = "8.18"
+}
 
 checkerFramework {
     checkers = [

@@ -61,6 +61,8 @@ import net.mtu.eggplant.util.Named;
  * <li>Named</li>
  * <li>Icon</li>
  * </ul>
+ * Subclasses should override {@link #getStringValue(Object)} to add support for
+ * more types.
  */
 public class SmartRenderer implements ListCellRenderer<Object>, TableCellRenderer, TreeCellRenderer {
 
@@ -76,6 +78,9 @@ public class SmartRenderer implements ListCellRenderer<Object>, TableCellRendere
 
   private final DefaultTableCellRenderer tableRenderer;
 
+  /**
+   * @see #getStringValue(Object)
+   */
   @Override
   public final Component getListCellRendererComponent(final JList<?> list,
                                                       final @Nullable Object value,
@@ -98,6 +103,9 @@ public class SmartRenderer implements ListCellRenderer<Object>, TableCellRendere
     return renderer;
   }
 
+  /**
+   * @see #getStringValue(Object)
+   */
   @Override
   public final Component getTableCellRendererComponent(final JTable table,
                                                        final @Nullable Object value,
@@ -121,6 +129,9 @@ public class SmartRenderer implements ListCellRenderer<Object>, TableCellRendere
     return renderer;
   }
 
+  /**
+   * @see #getStringValue(Object)
+   */
   @Override
   public Component getTreeCellRendererComponent(final JTree tree,
                                                 final @Nullable Object value,
@@ -146,9 +157,13 @@ public class SmartRenderer implements ListCellRenderer<Object>, TableCellRendere
   }
 
   /**
-   * Get the string representation of this object.
+   * Get the string representation of this object. Subclasses can override this
+   * to add support for more types
+   *
+   * @param value the object to get the string value of
+   * @return the string value
    **/
-  public String getStringValue(final Object value) {
+  protected String getStringValue(final Object value) {
     if (value instanceof Named) {
       return ((Named) value).getName();
     } else {

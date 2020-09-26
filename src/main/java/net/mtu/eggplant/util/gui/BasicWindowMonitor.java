@@ -39,7 +39,7 @@ import java.awt.event.WindowEvent;
 public class BasicWindowMonitor extends WindowAdapter {
 
   /**
-   * dispose of the window and exit the application
+   * Dispose of the window and exit the application.
    *
    * @param e the event
    **/

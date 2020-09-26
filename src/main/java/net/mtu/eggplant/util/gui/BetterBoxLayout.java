@@ -59,6 +59,8 @@ public class BetterBoxLayout implements LayoutManager2 {
 
   /**
    * Create a BetterBoxLayout with given orientation.
+   *
+   * @param orientation the orientation of the layout
    **/
   public BetterBoxLayout(final Orientation orientation) {
     this.orientation = orientation;

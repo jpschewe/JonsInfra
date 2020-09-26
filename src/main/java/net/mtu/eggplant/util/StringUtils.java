@@ -41,6 +41,9 @@ public final class StringUtils {
    * Replace all instances of <tt>search</tt> in <tt>source</tt> with
    * <tt>replace</tt>.
    *
+   * @param source the source string
+   * @param search what to search for
+   * @param replace what to replace {@code search} with
    * @return new String
    */
   public static String searchAndReplace(final String source,
@@ -62,7 +65,7 @@ public final class StringUtils {
   }
 
   /**
-   * If the string is longer than len, truncate it and append "..."
+   * If the string is longer than len, truncate it and append "...".
    *
    * @param name the string
    * @param len the max length for the string

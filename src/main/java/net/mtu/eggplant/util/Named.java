@@ -28,7 +28,7 @@
 package net.mtu.eggplant.util;
 
 /**
- * interface for Named objects
+ * interface for Named objects.
  */
 public interface Named {
   String getName();

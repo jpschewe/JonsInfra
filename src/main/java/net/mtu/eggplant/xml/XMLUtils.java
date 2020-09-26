@@ -61,7 +61,10 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 /**
  * Some utilities for working with XML.
  */
-public class XMLUtils {
+public final class XMLUtils {
+
+  private XMLUtils() {
+  }
 
   private static final Logger LOGGER = LoggerFactory.getLogger(XMLUtils.class);
 
@@ -109,6 +112,7 @@ public class XMLUtils {
    * output to the logger for this class.
    *
    * @param stream a stream containing document
+   * @param schema used to validate the document
    * @return the document
    * @throws IOException if there is an error reading the stream
    * @throws SAXException if there is an error parsing the document or it
@@ -147,11 +151,11 @@ public class XMLUtils {
    * for this class.
    *
    * @param xmlDocStream where to read the document from
-   * @returns the parsed document
    * @throws IOException if there is an error reading the stream
    * @throws SAXException if the document is found to be invalid
    * @throws RuntimeException if there is an error configuring the XML parser,
    *           this shouldn't happen
+   * @return {@link #parseXMLDocument(InputSource)
    */
   public static Document parseXMLDocument(final InputStream xmlDocStream) throws SAXException, IOException {
     return parseXMLDocument(new InputSource(xmlDocStream));
@@ -163,11 +167,11 @@ public class XMLUtils {
    * for this class.
    *
    * @param xmlDocStream where to read the document from
-   * @returns the parsed document
    * @throws IOException if there is an error reading the stream
    * @throws SAXException if the document is found to be invalid
    * @throws RuntimeException if there is an error configuring the XML parser,
    *           this shouldn't happen
+   * @return {@link #parseXMLDocument(InputSource)}
    */
   public static Document parseXMLDocument(final Reader xmlDocStream) throws SAXException, IOException {
     return parseXMLDocument(new InputSource(xmlDocStream));
@@ -179,7 +183,7 @@ public class XMLUtils {
    * for this class.
    *
    * @param xmlDocStream where to read the document from
-   * @returns the parsed document
+   * @return the parsed document
    * @throws IOException if there is an error reading the stream
    * @throws SAXException if the document is found to be invalid
    * @throws RuntimeException if there is an error configuring the XML parser,

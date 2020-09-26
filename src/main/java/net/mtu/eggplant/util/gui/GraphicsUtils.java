@@ -52,7 +52,7 @@ import javax.swing.JTable;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * graphics functions that should exist in java, but don't
+ * Graphics functions that should exist in java, but don't.
  *
  * @author Jon Schewe
  */
@@ -67,7 +67,7 @@ public final class GraphicsUtils {
    *
    * @param c component to display
    * @param dialog true if to use a dialog
-   * @see #basicGUIMain(Component, boolean, String)
+   * @return {@link #basicGUIMain(Component, boolean, String)}
    */
   public static Window basicGUIMain(final Component c,
                                     final boolean dialog) {
@@ -82,6 +82,7 @@ public final class GraphicsUtils {
    * @param dialog if <code>true</code> put in a JDialog, otherwise put in a
    *          JFrame
    * @param title the title for the window
+   * @return the window for the GUI
    **/
   public static Window basicGUIMain(final Component c,
                                     final boolean dialog,
@@ -155,7 +156,7 @@ public final class GraphicsUtils {
   }
 
   /**
-   * draw a bunch of polygons
+   * draw a bunch of polygons.
    *
    * @param g the graphics context
    * @param v a Container of polygons, other classes are ignored
@@ -166,7 +167,7 @@ public final class GraphicsUtils {
   }
 
   /**
-   * draw a bunch of polygons
+   * draw a bunch of polygons.
    *
    * @param g the graphics context
    * @param iter an Enumeration of polygons, other classes are ignored
@@ -182,7 +183,7 @@ public final class GraphicsUtils {
   }
 
   /**
-   * fill a bunch of polygons
+   * fill a bunch of polygons.
    *
    * @param g the graphics context
    * @param v a Container of polygons, other classes are ignored
@@ -193,7 +194,7 @@ public final class GraphicsUtils {
   }
 
   /**
-   * fill a bunch of polygons
+   * fill a bunch of polygons.
    *
    * @param g the graphics context
    * @param iter an Enumeration of polygons, other classes are ignored
@@ -229,6 +230,9 @@ public final class GraphicsUtils {
 
   /**
    * Create an icon from the resource at path.
+   *
+   * @param path where to read the icon from
+   * @return the icon
    */
   public static ImageIcon getIcon(final String path) {
     return new ImageIcon(Thread.currentThread().getContextClassLoader().getResource(path));
@@ -236,6 +240,8 @@ public final class GraphicsUtils {
 
   /**
    * Popup a warning dialog displaying <tt>message</tt>.
+   *
+   * @param message the message to display
    */
   public static void notImplemented(final @Nullable String message) {
     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), message, "Not Implemented", JOptionPane.WARNING_MESSAGE);
@@ -243,6 +249,8 @@ public final class GraphicsUtils {
 
   /**
    * Popup an error dialog with <tt>message</tt> in it.
+   *
+   * @param message the message to display
    */
   public static void error(final @Nullable String message) {
     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), message, "Error", JOptionPane.WARNING_MESSAGE);

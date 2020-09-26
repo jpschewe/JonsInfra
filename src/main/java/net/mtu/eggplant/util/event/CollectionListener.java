@@ -40,7 +40,7 @@ public interface CollectionListener extends EventListener {
    *
    * @param ce the event
    **/
-  void objectsAdded(final CollectionEvent ce);
+  void objectsAdded(CollectionEvent ce);
 
   /**
    * Called to notify the listener that objects have been removed from the
@@ -48,6 +48,6 @@ public interface CollectionListener extends EventListener {
    *
    * @param ce the event
    **/
-  void objectsRemoved(final CollectionEvent ce);
+  void objectsRemoved(CollectionEvent ce);
 
 }

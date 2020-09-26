@@ -78,9 +78,9 @@ public class BasicFileFilter extends FileFilter {
     }
 
     final String filename = f.getName();
-    for (final String _extension : extensions) {
+    for (final String extension : extensions) {
       if (filename.endsWith('.'
-          + _extension)) {
+          + extension)) {
         return true;
       }
     }

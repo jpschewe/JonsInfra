@@ -42,7 +42,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Handy functions for SQL
+ * Handy functions for SQL.
  */
 public final class SQLFunctions {
 
