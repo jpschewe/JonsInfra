@@ -78,6 +78,10 @@ public final class SchemaValidator {
       final int state = chooser.showOpenDialog(null);
       if (JFileChooser.APPROVE_OPTION == state) {
         final File file = chooser.getSelectedFile();
+        if(null == file) {
+          continue;
+        }
+        
         setInitialDirectory(file);
         try {
           parseSchema(file);
@@ -141,7 +145,7 @@ public final class SchemaValidator {
     final Preferences preferences = Preferences.userNodeForPackage(SchemaValidator.class);
     final String previousPath = preferences.get(INITIAL_DIRECTORY_PREFERENCE_KEY, null);
 
-    if (!Objects.equals(directory, previousPath)) {
+    if (null != directory && !Objects.equals(directory, previousPath)) {
       preferences.put(INITIAL_DIRECTORY_PREFERENCE_KEY, directory);
     }
   }
