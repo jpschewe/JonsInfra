@@ -49,6 +49,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -137,7 +138,7 @@ public final class GraphicsUtils {
    *          vector is simply skipped
    **/
   public static void drawPolyLine(final Graphics g,
-                                  final Collection<?> points) {
+                                  final Collection<@NonNull ?> points) {
     final int[] xpoints = new int[points.size()];
     final int[] ypoints = new int[points.size()];
     int npoints = 0;
