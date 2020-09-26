@@ -33,8 +33,8 @@ pipeline {
     
     stage('Checkstyle analysis') {
       steps { 
-        fllSwGradle('checkstyleMain')
-        fllSwGradle('checkstyleTest')
+        callGradle('checkstyleMain')
+        callGradle('checkstyleTest')
         recordIssues tool: checkStyle(pattern: 'build/reports/checkstyle/*.xml')
       }
     }
