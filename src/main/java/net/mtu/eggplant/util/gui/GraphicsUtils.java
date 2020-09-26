@@ -39,6 +39,7 @@ import java.awt.Window;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.net.URL;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -227,16 +228,6 @@ public final class GraphicsUtils {
     }
     return maxLen
         + 20; // leave room for the scroll bar
-  }
-
-  /**
-   * Create an icon from the resource at path.
-   *
-   * @param path where to read the icon from
-   * @return the icon
-   */
-  public static ImageIcon getIcon(final String path) {
-    return new ImageIcon(Thread.currentThread().getContextClassLoader().getResource(path));
   }
 
   /**
