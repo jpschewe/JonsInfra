@@ -67,6 +67,7 @@ dependencies {
     
     implementation(group: "xmlunit", name: "xmlunit", version: "1.6")
         
+     // make sure to update Jenkinsfile when the version changes, the tag needs to change in the git checkout
     implementation(group: "org.checkerframework", name: "checker-qual", version: "3.6.1")
         
     testImplementation(group: "org.junit.jupiter", name: "junit-jupiter-api", version: project.junit_version)
