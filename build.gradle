@@ -303,7 +303,7 @@ checkerFramework {
         "org.checkerframework.checker.nullness.NullnessChecker"
     ]
     extraJavacArgs = [
-        "-AonlyDefs=^net\\.mtu\\.eggplant\\.(xml|util\\.sql)",
+        "-AonlyDefs=^net\\.mtu\\.eggplant\\.(xml|util\\.sql|util\\.event)",
         "-Awarns",  
         "-Xmaxwarns", "10000",
         "-AstubWarnIfNotFound"

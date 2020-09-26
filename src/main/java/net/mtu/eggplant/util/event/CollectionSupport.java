@@ -34,26 +34,22 @@ import javax.swing.event.EventListenerList;
 
 /**
  * Adds support for Collection events.
- * 
- * @version $Revision$
  */
 public class CollectionSupport {
 
   /**
    * @param source the object that is to be the source of the events
-   * @pre (source != null)
-   **/
+   */
   public CollectionSupport(final Object source) {
-    _source = source;
-    _listeners = new EventListenerList();
+    this.source = source;
+    this.listeners = new EventListenerList();
   }
 
-  private Object _source;
+  private final Object source;
 
   /**
    * @param data the objects that were added
-   * @pre (data != null)
-   **/
+   */
   public void fireObjectsAdded(final Collection<?> data) {
     fireObjectsEvent(data, (listener,
                             event) -> listener.objectsAdded(event));
@@ -62,17 +58,16 @@ public class CollectionSupport {
 
   /**
    * @param data the objects that were removed
-   * @pre (data != null)
-   **/
+   */
   public void fireObjectsRemoved(final Collection<?> data) {
     fireObjectsEvent(data, (listener,
                             event) -> listener.objectsRemoved(event));
   }
 
   private void fireObjectsEvent(final Collection<?> data,
-                                BiConsumer<CollectionListener, CollectionEvent> eventCallback) {
-    final CollectionEvent ce = new CollectionEvent(_source, data);
-    final Object[] listeners = _listeners.getListenerList();
+                                final BiConsumer<CollectionListener, CollectionEvent> eventCallback) {
+    final CollectionEvent ce = new CollectionEvent(source, data);
+    final Object[] listeners = this.listeners.getListenerList();
     for (int i = listeners.length
         - 2; i >= 0; i -= 2) {
       if (listeners[i] == CollectionListener.class) {
@@ -82,20 +77,20 @@ public class CollectionSupport {
     }
   }
 
-  private EventListenerList _listeners;
+  private final EventListenerList listeners;
 
   /**
-   * @pre (listener != null)
-   **/
+   * @param listener the new listener
+   */
   public void addCollectionListener(final CollectionListener listener) {
-    _listeners.add(CollectionListener.class, listener);
+    listeners.add(CollectionListener.class, listener);
   }
 
   /**
-   * @pre (listener != null)
-   **/
+   * @param listener the listener to remove
+   */
   public void removeCollectionListener(final CollectionListener listener) {
-    _listeners.remove(CollectionListener.class, listener);
+    listeners.remove(CollectionListener.class, listener);
   }
 
 }

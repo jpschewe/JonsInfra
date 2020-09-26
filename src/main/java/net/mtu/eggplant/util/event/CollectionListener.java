@@ -31,21 +31,23 @@ import java.util.EventListener;
 
 /**
  * Listener for events fired on collections that change.
- * 
- * @version $Revision$
  */
 public interface CollectionListener extends EventListener {
 
   /**
-     Called to notify the listener that objects have been added to the
-     Collection.
-  **/
+   * Called to notify the listener that objects have been added to the
+   * Collection.
+   *
+   * @param ce the event
+   **/
   void objectsAdded(final CollectionEvent ce);
 
   /**
-     Called to notify the listener that objects have been removed from the
-     Collection.
-  **/
+   * Called to notify the listener that objects have been removed from the
+   * Collection.
+   *
+   * @param ce the event
+   **/
   void objectsRemoved(final CollectionEvent ce);
 
 }
