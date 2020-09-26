@@ -41,46 +41,52 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 import net.mtu.eggplant.util.Named;
 
 /**
- * <p>Class that knows how to render lots of things.  If you want to create a
- * renderer, just subclass this SmartRenderer and override the
- * getStringValue() method.  For any object that is not a known type toString
- * is used.  Null values are always displayed as "NULL".  This class counts on
- * the fact that the default renderers for list, trable and tree all return a
- * subclass of JLabel.  If that ever changes, this class breaks.<p>
- *
- * <p>Known types</p>
+ * <p>
+ * Class that knows how to render lots of things. If you want to create a
+ * renderer, just subclass this SmartRenderer and override the getStringValue()
+ * method. For any object that is not a known type toString is used. Null values
+ * are always displayed as "NULL". This class counts on the fact that the
+ * default renderers for list, trable and tree all return a subclass of JLabel.
+ * If that ever changes, this class breaks.
+ * <p>
+ * <p>
+ * Known types
+ * </p>
  * <ul>
- *   <li>Named</li>
- *   <li>Icon</li>
+ * <li>Named</li>
+ * <li>Icon</li>
  * </ul>
- * 
- * @version $Revision$
  */
 public class SmartRenderer implements ListCellRenderer<Object>, TableCellRenderer, TreeCellRenderer {
 
   public SmartRenderer() {
-    _treeRenderer = new DefaultTreeCellRenderer();
-    _listRenderer = new DefaultListCellRenderer();
-    _tableRenderer = new DefaultTableCellRenderer();
+    this.treeRenderer = new DefaultTreeCellRenderer();
+    this.listRenderer = new DefaultListCellRenderer();
+    this.tableRenderer = new DefaultTableCellRenderer();
   }
 
-  private DefaultTreeCellRenderer _treeRenderer;
-  private DefaultListCellRenderer _listRenderer;
-  private DefaultTableCellRenderer _tableRenderer;
-  
+  private final DefaultTreeCellRenderer treeRenderer;
+
+  private final DefaultListCellRenderer listRenderer;
+
+  private final DefaultTableCellRenderer tableRenderer;
+
   @Override
   public final Component getListCellRendererComponent(final JList<?> list,
-                                                      final Object value,
+                                                      final @Nullable Object value,
                                                       final int index,
                                                       final boolean isSelected,
                                                       final boolean cellHasFocus) {
 
-    final JLabel renderer = (JLabel)_listRenderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+    final JLabel renderer = (JLabel) listRenderer.getListCellRendererComponent(list, value, index, isSelected,
+                                                                               cellHasFocus);
     final String text;
-    if(value == null) {
+    if (value == null) {
       text = "NULL";
     } else if (value instanceof Icon) {
       text = "";
@@ -88,21 +94,22 @@ public class SmartRenderer implements ListCellRenderer<Object>, TableCellRendere
       text = getStringValue(value);
     }
     renderer.setText(text);
-    
+
     return renderer;
   }
 
+  @Override
   public final Component getTableCellRendererComponent(final JTable table,
-                                                       final Object value,
+                                                       final @Nullable Object value,
                                                        final boolean isSelected,
                                                        final boolean hasFocus,
                                                        final int row,
                                                        final int column) {
 
-
-    final JLabel renderer = (JLabel)_tableRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+    final JLabel renderer = (JLabel) tableRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus,
+                                                                                 row, column);
     final String text;
-    if(value == null) {
+    if (value == null) {
       text = "NULL";
     } else if (value instanceof Icon) {
       text = "";
@@ -110,21 +117,23 @@ public class SmartRenderer implements ListCellRenderer<Object>, TableCellRendere
       text = getStringValue(value);
     }
     renderer.setText(text);
-    
+
     return renderer;
   }
 
+  @Override
   public Component getTreeCellRendererComponent(final JTree tree,
-                                                final Object value,
+                                                final @Nullable Object value,
                                                 final boolean selected,
                                                 final boolean expanded,
                                                 final boolean leaf,
                                                 final int row,
                                                 final boolean hasFocus) {
 
-    final JLabel renderer = (JLabel)_treeRenderer.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
+    final JLabel renderer = (JLabel) treeRenderer.getTreeCellRendererComponent(tree, value, selected, expanded, leaf,
+                                                                               row, hasFocus);
     final String text;
-    if(value == null) {
+    if (value == null) {
       text = "NULL";
     } else if (value instanceof Icon) {
       text = "";
@@ -132,22 +141,20 @@ public class SmartRenderer implements ListCellRenderer<Object>, TableCellRendere
       text = getStringValue(value);
     }
     renderer.setText(text);
-    
+
     return renderer;
   }
 
   /**
-     Get the string representation of this object.
-  **/
+   * Get the string representation of this object.
+   **/
   public String getStringValue(final Object value) {
-    if(value instanceof Named) {
-      return ((Named)value).getName();
+    if (value instanceof Named) {
+      return ((Named) value).getName();
     } else {
       return value.toString();
     }
 
   }
 
-  //final private static Border _emptyBorder = BorderFactory.createEmptyBorder(1, 1, 1, 1);
-  
 }

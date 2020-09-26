@@ -35,85 +35,93 @@ import java.awt.LayoutManager2;
 
 /**
  * Lets box be it's preferred size and lays out components inside accordingly.
- * 
- * @version $Revision$
  */
 public class BetterBoxLayout implements LayoutManager2 {
 
-  /**
-   * Layout components along the Y axis.
-   **/
-  public static final BetterBoxLayoutOrientation VERTICAL = new BetterBoxLayoutOrientation();
-
-  /**
-   * Layout components along the X axis.
-   **/
-  public static final BetterBoxLayoutOrientation HORIZONTAL = new BetterBoxLayoutOrientation();
+  public enum Orientation {
+    /**
+     * Layout components along the Y axis.
+     */
+    VERTICAL,
+    /**
+     * Layout components along the X axis.
+     */
+    HORIZONTAL;
+  }
 
   /**
    * Create a BetterBoxLayout with a HORIZONTAL orientation, ie. components laid
    * out along the X axis.
    **/
   public BetterBoxLayout() {
-    this(HORIZONTAL);
+    this(Orientation.HORIZONTAL);
   }
 
   /**
    * Create a BetterBoxLayout with given orientation.
    **/
-  public BetterBoxLayout(final BetterBoxLayoutOrientation orientation) {
-    _orientation = orientation;
+  public BetterBoxLayout(final Orientation orientation) {
+    this.orientation = orientation;
   }
 
-  private BetterBoxLayoutOrientation _orientation;
+  private final Orientation orientation;
 
-  public void addLayoutComponent(final String name, final Component comp) {
-
-  }
-
-  public void addLayoutComponent(final Component comp, final Object constraints) {
+  @Override
+  public void addLayoutComponent(final String name,
+                                 final Component comp) {
 
   }
 
+  @Override
+  public void addLayoutComponent(final Component comp,
+                                 final Object constraints) {
+
+  }
+
+  @Override
   public void layoutContainer(final Container target) {
     final Insets insets = target.getInsets();
     final Dimension targetSize = target.getSize();
     final Component[] components = target.getComponents();
 
-    if (_orientation == VERTICAL) {
+    if (orientation == Orientation.VERTICAL) {
       final int componentWidth = targetSize.width
-          - insets.left - insets.right;
+          - insets.left
+          - insets.right;
       final int x = insets.left;
       int y = insets.top;
-      for (int i = 0; i < components.length; i++) {
-        final int height = components[i].getPreferredSize().height;
-        components[i].setBounds(x, y, componentWidth, height);
+      for (final Component component : components) {
+        final int height = component.getPreferredSize().height;
+        component.setBounds(x, y, componentWidth, height);
         y += height;
       }
     } else {
       final int componentHeight = targetSize.height
-          - insets.top - insets.bottom;
+          - insets.top
+          - insets.bottom;
       int x = insets.left;
       final int y = insets.top;
-      for (int i = 0; i < components.length; i++) {
-        final int width = components[i].getPreferredSize().width;
-        components[i].setBounds(x, y, width, componentHeight);
+      for (final Component component : components) {
+        final int width = component.getPreferredSize().width;
+        component.setBounds(x, y, width, componentHeight);
         x += width;
       }
     }
   }
 
+  @Override
   public Dimension minimumLayoutSize(final Container target) {
     return preferredLayoutSize(target);
   }
 
+  @Override
   public Dimension preferredLayoutSize(final Container target) {
     final Insets insets = target.getInsets();
     final Dimension dim = new Dimension(0, 0);
     final Component[] components = target.getComponents();
-    for (int i = 0; i < components.length; i++) {
-      final Dimension preferredSize = components[i].getPreferredSize();
-      if (_orientation == VERTICAL) {
+    for (final Component component : components) {
+      final Dimension preferredSize = component.getPreferredSize();
+      if (orientation == Orientation.VERTICAL) {
         dim.height += preferredSize.height;
         dim.width = Math.max(preferredSize.width, dim.width);
       } else {
@@ -129,30 +137,29 @@ public class BetterBoxLayout implements LayoutManager2 {
     return dim;
   }
 
+  @Override
   public Dimension maximumLayoutSize(final Container target) {
     return preferredLayoutSize(target);
   }
 
+  @Override
   public void removeLayoutComponent(final Component comp) {
 
   }
 
+  @Override
   public float getLayoutAlignmentX(final Container target) {
     return 0F;
   }
 
+  @Override
   public float getLayoutAlignmentY(final Container target) {
     return 0F;
   }
 
+  @Override
   public void invalidateLayout(final Container target) {
 
-  }
-
-  /**
-   * Private class to simulate enum types.
-   **/
-  private static final class BetterBoxLayoutOrientation {
   }
 
 }

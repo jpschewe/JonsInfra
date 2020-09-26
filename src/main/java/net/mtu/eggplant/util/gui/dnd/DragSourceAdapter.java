@@ -27,21 +27,33 @@
  */
 package net.mtu.eggplant.util.gui.dnd;
 
-import java.awt.dnd.DragSourceListener;
-import java.awt.dnd.DragSourceDropEvent;
 import java.awt.dnd.DragSourceDragEvent;
+import java.awt.dnd.DragSourceDropEvent;
 import java.awt.dnd.DragSourceEvent;
-  
+import java.awt.dnd.DragSourceListener;
+
 /**
  * Empty implementation of DragSourceListener.
- * 
- * @version $Revision$
  */
 public class DragSourceAdapter implements DragSourceListener {
-  public void dragDropEnd(final DragSourceDropEvent dsde) { }
-  public void dragEnter(final DragSourceDragEvent dsde) { }
-  public void dragExit(final DragSourceEvent dse) { }
-  public void dragOver(final DragSourceDragEvent dsde) { }
-  public void dropActionChanged(final DragSourceDragEvent dsde) { }
+  @Override
+  public void dragDropEnd(final DragSourceDropEvent dsde) {
+  }
+
+  @Override
+  public void dragEnter(final DragSourceDragEvent dsde) {
+  }
+
+  @Override
+  public void dragExit(final DragSourceEvent dse) {
+  }
+
+  @Override
+  public void dragOver(final DragSourceDragEvent dsde) {
+  }
+
+  @Override
+  public void dropActionChanged(final DragSourceDragEvent dsde) {
+  }
 
 }
