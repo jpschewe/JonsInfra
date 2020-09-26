@@ -251,18 +251,18 @@ distZip.dependsOn renderIndex
 distributions {
     main {
         contents {
-                        from(jar) {
-                                into "lib"
-                        }
-                from(javadocJar) {
-                        into "lib"
-                        }
-                from(sourcesJar) {
-                        into "lib"
-                        }
+            from(jar) {
+                into "lib"
+            }
+            from(javadocJar) {
+                into "lib"
+            }
+            from(sourcesJar) {
+                into "lib"
+            }
             from(configurations.compileClasspath) {
                 into "lib"
-                }
+            }
             
             from(renderIndex) {
             }   
@@ -271,15 +271,15 @@ distributions {
             }
             from("$buildDir/reports/tests/") {
                 into "docs/reports"
-                }
+            }
             from("$buildDir/reports/spotbugs/") {
                 into "docs/reports/spotbugs"
-                }
+            }
             from("$buildDir/reports/cobertura/") {
                 into "docs/reports/coverage"
-                }
-                from("LICENSE") {
-                }
+            }
+            from("LICENSE") {
+            }
         }
     }
 }
