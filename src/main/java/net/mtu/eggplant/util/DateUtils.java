@@ -29,6 +29,8 @@ package net.mtu.eggplant.util;
 
 import java.util.Date;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 /**
  * Utilities for working with dates in Java.
  */
@@ -39,10 +41,11 @@ public final class DateUtils {
 
   /**
    * Copy a Date handling null.
-   * 
+   *
+   * @param d the date to copy
    * @return a new date, unless the paramter is null, then null is returned
    */
-  public static Date copyDate(final Date d) {
+  public static @Nullable Date copyDate(final Date d) {
     return null == d ? null : new Date(d.getTime());
   }
 }

@@ -27,10 +27,10 @@
  */
 package net.mtu.eggplant.util;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 /**
  * Some handy utilities for working with strings.
- * 
- * @version $Revision$
  */
 public final class StringUtils {
 
@@ -40,12 +40,9 @@ public final class StringUtils {
   /**
    * Replace all instances of <tt>search</tt> in <tt>source</tt> with
    * <tt>replace</tt>.
-   * 
+   *
    * @return new String
-   * @pre (source != null)
-   * @pre (search != null)
-   * @pre (replace != null)
-   **/
+   */
   public static String searchAndReplace(final String source,
                                         final String search,
                                         final String replace) {
@@ -53,9 +50,10 @@ public final class StringUtils {
     final int index = source.indexOf(search);
     if (index != -1) {
       final String front = source.substring(0, index);
-      final String end = source.substring(index + search.length());
-      newString = new StringBuffer().append(front).append(replace).append(
-          searchAndReplace(end, search, replace)).toString();
+      final String end = source.substring(index
+          + search.length());
+      newString = new StringBuffer().append(front).append(replace).append(searchAndReplace(end, search, replace))
+                                    .toString();
     } else {
       newString = source;
     }
@@ -65,24 +63,25 @@ public final class StringUtils {
 
   /**
    * If the string is longer than len, truncate it and append "..."
-   * 
+   *
    * @param name the string
    * @param len the max length for the string
    * @return the string never longer than len characters
    */
-  public static String trimString(final String name,
-                                  final int len) {
+  public static @Nullable String trimString(final @Nullable String name,
+                                            final int len) {
     if (len <= 3) {
       throw new IllegalArgumentException("Length must be longer than 3 otherwise all strings are just '...'");
     }
     if (null == name) {
       return null;
     } else if (name.length() > len) {
-      return name.substring(0, len - 3)
+      return name.substring(0, len
+          - 3)
           + "...";
     } else {
       return name;
     }
   }
-  
+
 }

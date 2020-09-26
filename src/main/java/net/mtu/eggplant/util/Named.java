@@ -29,8 +29,6 @@ package net.mtu.eggplant.util;
 
 /**
  * interface for Named objects
- * 
- * @version $Revision$
  */
 public interface Named {
   String getName();

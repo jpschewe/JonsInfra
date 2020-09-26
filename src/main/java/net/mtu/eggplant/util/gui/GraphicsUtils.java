@@ -237,14 +237,14 @@ public final class GraphicsUtils {
   /**
    * Popup a warning dialog displaying <tt>message</tt>.
    */
-  public static void notImplemented(final String message) {
+  public static void notImplemented(final @Nullable String message) {
     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), message, "Not Implemented", JOptionPane.WARNING_MESSAGE);
   }
 
   /**
    * Popup an error dialog with <tt>message</tt> in it.
    */
-  public static void error(final String message) {
+  public static void error(final @Nullable String message) {
     JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), message, "Error", JOptionPane.WARNING_MESSAGE);
   }
 

@@ -29,38 +29,39 @@ package net.mtu.eggplant.util;
 
 /**
  * generic class that allows objects to have names and listeners
- * 
- * @version $Revision$
  */
 public class DefaultNamed extends DefaultBean implements Named {
 
   /**
-     standard constructor
-  **/
+   * standard constructor
+   **/
   public DefaultNamed(final String name) {
     super();
-    _name = name;
+    this.name = name;
   }
-  
+
   /** the name of the object **/
-  private String _name = null;
+  private String name;
 
   /**
-     Set the name for the object.  This is a bound property.
-     @param n the new name
-  **/
+   * Set the name for the object. This is a bound property.
+   *
+   * @param n the new name
+   **/
   public final void setName(final String n) {
     final String old = n;
-    _name = n;
-    fireNameChange(old, _name);
+    name = n;
+    fireNameChange(old, name);
   }
 
   /**
-     get the name of the object.
-     @return the name
-  **/
+   * get the name of the object.
+   *
+   * @return the name
+   **/
+  @Override
   public final String getName() {
-    return _name;
+    return name;
   }
 
   protected final void fireNameChange(final String old,
@@ -68,8 +69,10 @@ public class DefaultNamed extends DefaultBean implements Named {
     firePropertyChange("name", old, clone);
   }
 
+  @Override
   public String toString() {
-    return "Named: " + getName();
+    return "Named: "
+        + getName();
   }
-  
+
 }

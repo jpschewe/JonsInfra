@@ -22,10 +22,13 @@ public class TimeConvert extends JPanel {
    * args is ignored
    **/
   public static void main(final String[] args) {
-    TimeConvert tc = new TimeConvert();
+    final TimeConvert tc = new TimeConvert();
     GraphicsUtils.basicGUIMain(tc, false, "Time Convert");
   }
 
+  /**
+   * Constructor.
+   */
   public TimeConvert() {
     setLayout(new BorderLayout());
 
@@ -64,6 +67,7 @@ public class TimeConvert extends JPanel {
       super(time, number, format);
     }
 
+    @Override
     public void actionPerformed(final ActionEvent ae) {
       final Date d = new Date(Long.parseLong(mNumber.getText()));
       mTime.setText(mFormat.format(d));
@@ -77,6 +81,7 @@ public class TimeConvert extends JPanel {
       super(time, number, format);
     }
 
+    @Override
     public void actionPerformed(final ActionEvent ae) {
       try {
         mNumber.setText(String.valueOf(mFormat.parse(mTime.getText()).getTime()));
