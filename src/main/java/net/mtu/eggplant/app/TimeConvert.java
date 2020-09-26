@@ -30,7 +30,7 @@ public class TimeConvert extends JPanel {
    * Constructor.
    */
   public TimeConvert() {
-    setLayout(new BorderLayout());
+    super(new BorderLayout());
 
     final SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.SSS zzz");
     final JTextField time = new JTextField("MM/dd/yyyy HH:mm:ss.SSS zzz");
