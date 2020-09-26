@@ -48,10 +48,10 @@ repositories {
 ext {
     slf4j_version = "1.7.30"
     junit_version = "5.7.0"
-    spotbugs_version = '4.1.3'
+    spotbugs_version = "4.1.3"
 }
 
-group = 'net.mtu.eggplant'
+group = "net.mtu.eggplant"
 
 java {
     // set version of Java that the source confirms to. 
@@ -82,7 +82,7 @@ test {
 
 javadoc {
     failOnError = false
-    options.addStringOption('Xmaxwarns', '10000')        
+    options.addStringOption("Xmaxwarns", "10000")        
 }
 
 
@@ -92,7 +92,7 @@ cpdCheck {
 }
 
 task sloccount(type: Exec) {
-    commandLine 'cloc', '--by-file', '--xml', '--out', "$buildDir/reports/sloccount/cloc.xml", 'src'
+    commandLine "cloc", "--by-file", "--xml", "--out", "$buildDir/reports/sloccount/cloc.xml", "src"
 }
 
 configurations {
@@ -144,18 +144,18 @@ gitProperties {
 }
 
 cobertura {
-    coverageFormats = [ 'html', 'xml' ]
+    coverageFormats = [ "html", "xml" ]
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
+    classifier = "sources"
     from sourceSets.main.allSource
 }
 distZip.dependsOn sourcesJar
 distTar.dependsOn sourcesJar
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
+    classifier = "javadoc"
     from javadoc.destinationDir
 }
 distZip.dependsOn javadocJar
@@ -199,9 +199,9 @@ publishing {
             }
             pom.withXml {
                 def root = asNode()
-                root.appendNode('description', 'Useful utilities')
-                root.appendNode('name', 'JonsInfra')
-                root.appendNode('url', 'https://github.com/jpschewe/JonsInfra')
+                root.appendNode("description", "Useful utilities")
+                root.appendNode("name", "JonsInfra")
+                root.appendNode("url", "https://github.com/jpschewe/JonsInfra")
                 root.children().last() + pomConfig
             }
         }
@@ -217,31 +217,31 @@ publishing {
 }
 
 def bintrayProps = new Properties()
-File bintrayPropertiesFile = project.file('../bintray.properties')
+File bintrayPropertiesFile = project.file("../bintray.properties")
 if(bintrayPropertiesFile.exists()) {
     bintrayPropertiesFile.withInputStream { bintrayProps.load(it) }
 }
 
 bintray {
-        user = bintrayProps.getProperty('bintray.user')
-        key = bintrayProps.getProperty('bintray.key')
-        publications = ['mavenPublication']
+        user = bintrayProps.getProperty("bintray.user")
+        key = bintrayProps.getProperty("bintray.key")
+        publications = ["mavenPublication"]
 
         pkg {
-                repo = 'maven'
-                name = 'JonsInfra'
-                licenses = ['BSD-2-Clause']
-                vcsUrl = 'https://github.com/jpschewe/JonsInfra'
+                repo = "maven"
+                name = "JonsInfra"
+                licenses = ["BSD-2-Clause"]
+                vcsUrl = "https://github.com/jpschewe/JonsInfra"
         }
 }
 
 task renderIndex(type: Copy) {
-    from 'docs'
+    from "docs"
     into "$buildDir/rendered-docs"
     // Substitute property tokens in files
     //expand(VERSION: project.version)
     expand(project.properties)
-    filteringCharset = 'UTF-8'
+    filteringCharset = "UTF-8"
     
     outputs.upToDateWhen { false }
 }
@@ -252,33 +252,33 @@ distributions {
     main {
         contents {
                         from(jar) {
-                                into 'lib'
+                                into "lib"
                         }
                 from(javadocJar) {
-                        into 'lib'
+                        into "lib"
                         }
                 from(sourcesJar) {
-                        into 'lib'
+                        into "lib"
                         }
             from(configurations.compileClasspath) {
-                into 'lib'
+                into "lib"
                 }
             
             from(renderIndex) {
             }   
             from(javadoc) {
-                into 'docs/api'
+                into "docs/api"
             }
             from("$buildDir/reports/tests/") {
-                into 'docs/reports'
+                into "docs/reports"
                 }
             from("$buildDir/reports/spotbugs/") {
-                into 'docs/reports/spotbugs'
+                into "docs/reports/spotbugs"
                 }
             from("$buildDir/reports/cobertura/") {
-                into 'docs/reports/coverage'
+                into "docs/reports/coverage"
                 }
-                from('LICENSE') {
+                from("LICENSE") {
                 }
         }
     }
@@ -289,11 +289,11 @@ distTar.dependsOn test
 dependencyUpdates.resolutionStrategy {
     componentSelection { rules ->
         rules.all { ComponentSelection selection ->
-            boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm', 'preview', 'b', 'ea'].any { qualifier ->
+            boolean rejected = ["alpha", "beta", "rc", "cr", "m", "preview", "b", "ea"].any { qualifier ->
             selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-+]*/
             }
             if (rejected) {
-                selection.reject('Release candidate')
+                selection.reject("Release candidate")
             }
         }
     }
@@ -317,4 +317,13 @@ checkerFramework {
         "-Xmaxwarns", "10000",
         "-AstubWarnIfNotFound"
     ]
+}
+
+if (project.hasProperty("cfLocal")) {
+  def cfHome = String.valueOf(System.getenv("CHECKERFRAMEWORK"))
+  dependencies {
+    compileOnly files(cfHome + "/checker/dist/checker-qual.jar")
+    testCompileOnly files(cfHome + "/checker/dist/checker-qual.jar")
+    checkerFramework files(cfHome + "/checker/dist/checker.jar")
+  }
 }
