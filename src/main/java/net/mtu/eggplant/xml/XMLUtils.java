@@ -33,8 +33,6 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -47,7 +45,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.validation.Schema;
 
-import org.apache.commons.io.IOUtils;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.custommonkey.xmlunit.Diff;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,15 +66,8 @@ public class XMLUtils {
   private static final Logger LOGGER = LoggerFactory.getLogger(XMLUtils.class);
 
   /**
-   * Date format for time type.
+   * Standard document builder instance. Uses {@link #STANDARD_ERROR_HANDLER}.
    */
-  public static final ThreadLocal<DateFormat> XML_TIME_FORMAT = new ThreadLocal<DateFormat>() {
-    @Override
-    protected DateFormat initialValue() {
-      return new SimpleDateFormat("HH:mm:ss");
-    }
-  };
-
   public static final DocumentBuilder DOCUMENT_BUILDER;
 
   /**
@@ -84,14 +75,17 @@ public class XMLUtils {
    * logs a warning on warning.
    */
   public static final ErrorHandler STANDARD_ERROR_HANDLER = new ErrorHandler() {
+    @Override
     public void error(final SAXParseException spe) throws SAXParseException {
       throw spe;
     }
 
+    @Override
     public void fatalError(final SAXParseException spe) throws SAXParseException {
       throw spe;
     }
 
+    @Override
     public void warning(final SAXParseException spe) throws SAXParseException {
       LOGGER.warn(spe.getMessage(), spe);
     }
@@ -113,7 +107,7 @@ public class XMLUtils {
    * Parse the document from the given stream. The document is validated with
    * the specified schema. Does not close the stream after reading. Warnings are
    * output to the logger for this class.
-   * 
+   *
    * @param stream a stream containing document
    * @return the document
    * @throws IOException if there is an error reading the stream
@@ -137,12 +131,12 @@ public class XMLUtils {
 
       // parse
       final StringWriter writer = new StringWriter();
-      IOUtils.copy(stream, writer);
+      stream.transferTo(writer);
       final String content = writer.toString();
       final Document document = parser.parse(new InputSource(new StringReader(content)));
 
       return document;
-    } catch (ParserConfigurationException e) {
+    } catch (final ParserConfigurationException e) {
       throw new RuntimeException("Error configuring the XML parser", e);
     }
   }
@@ -151,7 +145,9 @@ public class XMLUtils {
    * Parse xmlDoc an XML document. Just does basic parsing, no validity checks.
    * Does not close the stream after parsing. Warnings are output to the logger
    * for this class.
-   * 
+   *
+   * @param xmlDocStream where to read the document from
+   * @returns the parsed document
    * @throws IOException if there is an error reading the stream
    * @throws SAXException if the document is found to be invalid
    * @throws RuntimeException if there is an error configuring the XML parser,
@@ -165,7 +161,9 @@ public class XMLUtils {
    * Parse xmlDoc an XML document. Just does basic parsing, no validity checks.
    * Does not close the stream after parsing. Warnings are output to the logger
    * for this class.
-   * 
+   *
+   * @param xmlDocStream where to read the document from
+   * @returns the parsed document
    * @throws IOException if there is an error reading the stream
    * @throws SAXException if the document is found to be invalid
    * @throws RuntimeException if there is an error configuring the XML parser,
@@ -179,7 +177,9 @@ public class XMLUtils {
    * Parse xmlDoc an XML document. Just does basic parsing, no validity checks.
    * Does not close the stream after parsing. Warnings are output to the logger
    * for this class.
-   * 
+   *
+   * @param xmlDocStream where to read the document from
+   * @returns the parsed document
    * @throws IOException if there is an error reading the stream
    * @throws SAXException if the document is found to be invalid
    * @throws RuntimeException if there is an error configuring the XML parser,
@@ -203,10 +203,15 @@ public class XMLUtils {
   }
 
   /**
-   * @see #getDoubleAttributeValue(Element, String)
+   * Get a string value from an attribute.
+   *
+   * @param element the element to get the attribute from, may be null
+   * @param attributeName the attribute name to get
+   * @return the value, null if element is null or the attribute value is null
+   *         or empty
    */
-  public static String getStringAttributeValue(final Element element,
-                                               final String attributeName) {
+  public static @Nullable String getStringAttributeValue(final Element element,
+                                                         final String attributeName) {
     if (null == element) {
       return null;
     }
@@ -215,11 +220,16 @@ public class XMLUtils {
   }
 
   /**
-   * @see #getDoubleAttributeValue(Element, String)
+   * Get a boolean value from an attribute.
+   *
+   * @param element the element to get the attribute from, may be null
+   * @param attributeName the attribute name to get
+   * @return the value, null if element is null or the attribute value is null
+   *         or empty
    */
-  @SuppressFBWarnings(value = { "NP_BOOLEAN_RETURN_NULL" }, justification = "Need to return Null so that we can determine when there is no score")
-  public static Boolean getBooleanAttributeValue(final Element element,
-                                                 final String attributeName) {
+  @SuppressFBWarnings(value = { "NP_BOOLEAN_RETURN_NULL" }, justification = "Need to return Null so that we can determine when there is no value")
+  public static @Nullable Boolean getBooleanAttributeValue(final Element element,
+                                                           final String attributeName) {
     if (null == element) {
       return null;
     }
@@ -233,14 +243,14 @@ public class XMLUtils {
 
   /**
    * Get a double value from an attribute.
-   * 
+   *
    * @param element the element to get the attribute from, may be null
    * @param attributeName the attribute name to get
    * @return the value, null if element is null or the attribute value is null
    *         or empty
    */
-  public static Double getDoubleAttributeValue(final Element element,
-                                               final String attributeName) {
+  public static @Nullable Double getDoubleAttributeValue(final Element element,
+                                                         final String attributeName) {
     if (null == element) {
       return null;
     }
@@ -254,7 +264,7 @@ public class XMLUtils {
 
   /**
    * Write the document to a writer.
-   * 
+   *
    * @param doc the document to write
    * @param writer where to write the document
    */
@@ -265,7 +275,7 @@ public class XMLUtils {
 
   /**
    * Write the document to a writer.
-   * 
+   *
    * @param doc the document to write
    * @param writer where to write the document
    * @param encoding if non-null use this as the encoding for the text
@@ -273,7 +283,7 @@ public class XMLUtils {
    */
   public static void writeXML(final Document doc,
                               final Writer writer,
-                              final String encoding) {
+                              final @Nullable String encoding) {
     try {
       final TransformerFactory transformerFactory = TransformerFactory.newInstance();
       final Transformer transformer = transformerFactory.newTransformer();
@@ -292,7 +302,7 @@ public class XMLUtils {
 
   /**
    * Compare two documents and check if they are the same or not.
-   * 
+   *
    * @param controlDoc
    * @param testDoc
    * @return true if the documents have the same elements and attributes,

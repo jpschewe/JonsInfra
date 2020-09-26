@@ -26,6 +26,9 @@ plugins {
         id "maven-publish"
         id "com.github.ben-manes.versions" version "0.33.0" // adds dependencyUpdates task
         id "org.myire.munge" version "1.0" // transformer for spotbugs XML
+        
+        // Checker Framework pluggable type-checking
+        id "org.checkerframework" version "0.5.10"
 }
 
 
@@ -49,18 +52,25 @@ ext {
 
 group = 'net.mtu.eggplant'
 
+java {
+    // set version of Java that the source confirms to. 
+    // The bytecode will be for this version of Java as well, unless targetCompatibility is specified.
+    sourceCompatibility = JavaVersion.VERSION_11
+}
+
 dependencies {
     api(group: "org.slf4j", name: "slf4j-api", version: project.slf4j_version)
     
     compileOnly(group: "com.github.spotbugs", name: "spotbugs-annotations", version: project.spotbugs_version)
     api(group: "com.google.code.findbugs", name: "jsr305", version: "3.0.2")
     
-    implementation(group: "commons-io", name: "commons-io", version: "2.8.0")
-    
     implementation(group: "xmlunit", name: "xmlunit", version: "1.6")
         
+    implementation(group: "org.checkerframework", name: "checker-qual", version: "3.6.1")
+        
     testImplementation(group: "org.junit.jupiter", name: "junit-jupiter-api", version: project.junit_version)
-    testImplementation(group: "org.junit.jupiter", name: "junit-jupiter-params", version: project.junit_version)    
+    testImplementation(group: "org.junit.jupiter", name: "junit-jupiter-params", version: project.junit_version)  
+    testImplementation(group: "org.hamcrest", name: "hamcrest", version: "2.2")      
     testRuntimeOnly(group: "org.junit.jupiter", name: "junit-jupiter-engine", version: project.junit_version)
 }
 
@@ -287,3 +297,15 @@ dependencyUpdates.resolutionStrategy {
         }
     }
 }  
+
+checkerFramework {
+    checkers = [
+        "org.checkerframework.checker.nullness.NullnessChecker"
+    ]
+    extraJavacArgs = [
+        "-AonlyDefs=^net\\.mtu\\.eggplant\\.(xml|util\\.sql)",
+        "-Awarns",  
+        "-Xmaxwarns", "10000",
+        "-AstubWarnIfNotFound"
+    ]
+}

@@ -1,5 +1,7 @@
 package net.mtu.eggplant.xml;
 
+import static org.checkerframework.checker.nullness.NullnessUtil.castNonNull;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,15 +15,18 @@ import org.w3c.dom.NodeList;
  */
 public final class NodelistElementCollectionAdapter implements Iterator<Element>, Iterable<Element> {
 
+  @Override
   public Iterator<Element> iterator() {
     return this;
   }
 
   /**
    * Walks the iterator and converts to a {@link LinkedList}.
+   *
+   * @return a list from the iterator
    */
   public List<Element> asList() {
-    final List<Element> retval = new LinkedList<Element>();
+    final List<Element> retval = new LinkedList<>();
     for (final Element ele : this) {
       retval.add(ele);
     }
@@ -35,6 +40,9 @@ public final class NodelistElementCollectionAdapter implements Iterator<Element>
    */
   private int nextIndex;
 
+  /**
+   * @param nodelist the node list to iterate over
+   */
   public NodelistElementCollectionAdapter(final NodeList nodelist) {
     this.nodelist = nodelist;
     // initialize to -1 so that findNext starts looking at 0
@@ -42,20 +50,28 @@ public final class NodelistElementCollectionAdapter implements Iterator<Element>
     findNextElement();
   }
 
+  @Override
   public boolean hasNext() {
     return nextIndex < nodelist.getLength();
   }
 
+  @Override
   public Element next() {
     if (hasNext()) {
       final Element retval = (Element) nodelist.item(nextIndex);
       findNextElement();
-      return retval;
+
+      // hasNext guarantees that nodelist.item(nextIndex) will not return null
+      return castNonNull(retval);
     } else {
       throw new NoSuchElementException();
     }
   }
 
+  /**
+   * @throws UnsupportedOperationException this method is not supported
+   */
+  @Override
   public void remove() {
     throw new UnsupportedOperationException();
   }
