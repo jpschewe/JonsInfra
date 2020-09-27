@@ -119,19 +119,22 @@ pipeline {
     }
     */
     
+    stage('Gather Results') {
+        archiveArtifacts artifacts: '*.log,screenshots/,build/reports/,build/distributions/'
+                      
+            
+        recordIssues tool: taskScanner(includePattern: '**/*.java,**/*.jsp,**/*.jspf,**/*.xml', excludePattern: 'checker/**,checkstyle*.xml', highTags: 'FIXME,HACK', normalTags: 'TODO')
+                
+        recordIssues tool: java()  
+        
+        recordIssues tool: javaDoc()                      
+    }
+
+    
   } // stages
     
   post {
-    always {
-      archiveArtifacts artifacts: '*.log,screenshots/,build/reports/,build/distributions/'
-                      
-            
-      recordIssues tool: taskScanner(includePattern: '**/*.java,**/*.jsp,**/*.jspf,**/*.xml', excludePattern: 'checker/**,checkstyle*.xml', highTags: 'FIXME,HACK', normalTags: 'TODO')
-            
-      recordIssues tool: java()  
-
-      recordIssues tool: javaDoc()
-                                   
+    always {                                   
       emailext recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'CulpritsRecipientProvider'], [$class: 'RequesterRecipientProvider']], 
           to: 'jpschewe@mtu.net',
           subject: '${PROJECT_NAME} - Build # ${BUILD_NUMBER} - ${BUILD_STATUS}!', 
