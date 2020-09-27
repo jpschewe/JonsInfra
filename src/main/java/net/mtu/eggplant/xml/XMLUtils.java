@@ -307,10 +307,10 @@ public final class XMLUtils {
   /**
    * Compare two documents and check if they are the same or not.
    *
-   * @param controlDoc
-   * @param testDoc
+   * @param controlDoc first document to compare
+   * @param testDoc the second document to compare
    * @return true if the documents have the same elements and attributes,
-   *         reguardless of order
+   *         regardless of order
    */
   public static boolean compareDocuments(final Document controlDoc,
                                          final Document testDoc) {

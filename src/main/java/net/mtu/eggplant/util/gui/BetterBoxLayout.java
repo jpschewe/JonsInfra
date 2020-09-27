@@ -38,6 +38,9 @@ import java.awt.LayoutManager2;
  */
 public class BetterBoxLayout implements LayoutManager2 {
 
+  /**
+   * Possible orientation options.
+   */
   public enum Orientation {
     /**
      * Layout components along the Y axis.

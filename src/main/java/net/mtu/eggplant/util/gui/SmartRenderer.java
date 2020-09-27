@@ -66,6 +66,9 @@ import net.mtu.eggplant.util.Named;
  */
 public class SmartRenderer implements ListCellRenderer<Object>, TableCellRenderer, TreeCellRenderer {
 
+  /**
+   * Default constructor.
+   */
   public SmartRenderer() {
     this.treeRenderer = new DefaultTreeCellRenderer();
     this.listRenderer = new DefaultListCellRenderer();

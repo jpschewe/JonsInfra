@@ -36,6 +36,9 @@ import org.junit.jupiter.api.Test;
  */
 public class StringUtilsTest {
 
+  /**
+   * Test simple search and replace.
+   */
   @Test
   public void testSearchAndReplace() {
     final String source = "Fred & Barney & Wilma";
@@ -48,6 +51,9 @@ public class StringUtilsTest {
 
   }
 
+  /**
+   * Make sure that search and replace handles special characters.
+   */
   @Test
   public void testSearchAndReplace1() {
     final String source = "($return < 10)";
@@ -60,6 +66,9 @@ public class StringUtilsTest {
 
   }
 
+  /**
+   * Test that search and replace handles backslashes.
+   */
   @Test
   public void testSearchAndReplace2() {
     final String source = "(!dateStr.equals(\"\"))";
