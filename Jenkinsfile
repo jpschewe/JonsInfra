@@ -120,14 +120,16 @@ pipeline {
     */
     
     stage('Gather Results') {
-        archiveArtifacts artifacts: '*.log,screenshots/,build/reports/,build/distributions/'
-                      
-            
-        recordIssues tool: taskScanner(includePattern: '**/*.java,**/*.jsp,**/*.jspf,**/*.xml', excludePattern: 'checker/**,checkstyle*.xml', highTags: 'FIXME,HACK', normalTags: 'TODO')
+        steps {   
+            archiveArtifacts artifacts: '*.log,screenshots/,build/reports/,build/distributions/'
+                          
                 
-        recordIssues tool: java()  
-        
-        recordIssues tool: javaDoc()                      
+            recordIssues tool: taskScanner(includePattern: '**/*.java,**/*.jsp,**/*.jspf,**/*.xml', excludePattern: 'checker/**,checkstyle*.xml', highTags: 'FIXME,HACK', normalTags: 'TODO')
+                    
+            recordIssues tool: java()  
+            
+            recordIssues tool: javaDoc()            
+        }
     }
 
     
