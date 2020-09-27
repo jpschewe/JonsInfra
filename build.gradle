@@ -67,6 +67,7 @@ dependencies {
     
     implementation(group: "xmlunit", name: "xmlunit", version: "1.6")
         
+     // make sure to update Jenkinsfile when the version changes, the tag needs to change in the git checkout
     implementation(group: "org.checkerframework", name: "checker-qual", version: "3.6.1")
         
     testImplementation(group: "org.junit.jupiter", name: "junit-jupiter-api", version: project.junit_version)
@@ -251,18 +252,18 @@ distZip.dependsOn renderIndex
 distributions {
     main {
         contents {
-                        from(jar) {
-                                into "lib"
-                        }
-                from(javadocJar) {
-                        into "lib"
-                        }
-                from(sourcesJar) {
-                        into "lib"
-                        }
+            from(jar) {
+                into "lib"
+            }
+            from(javadocJar) {
+                into "lib"
+            }
+            from(sourcesJar) {
+                into "lib"
+            }
             from(configurations.compileClasspath) {
                 into "lib"
-                }
+            }
             
             from(renderIndex) {
             }   
@@ -271,15 +272,15 @@ distributions {
             }
             from("$buildDir/reports/tests/") {
                 into "docs/reports"
-                }
+            }
             from("$buildDir/reports/spotbugs/") {
                 into "docs/reports/spotbugs"
-                }
+            }
             from("$buildDir/reports/cobertura/") {
                 into "docs/reports/coverage"
-                }
-                from("LICENSE") {
-                }
+            }
+            from("LICENSE") {
+            }
         }
     }
 }
@@ -319,11 +320,13 @@ checkerFramework {
     ]
 }
 
-if (project.hasProperty("cfLocal")) {
-  def cfHome = String.valueOf(System.getenv("CHECKERFRAMEWORK"))
-  dependencies {
-    compileOnly files(cfHome + "/checker/dist/checker-qual.jar")
-    testCompileOnly files(cfHome + "/checker/dist/checker-qual.jar")
-    checkerFramework files(cfHome + "/checker/dist/checker.jar")
-  }
+def checker_dir = file("./checker/checker-framework")
+if (checker_dir.exists()) {
+    println("Using development version of checker in: " + checker_dir)
+    
+    dependencies {
+        compileOnly files(file(checker_dir.toPath().resolve("checker/dist/checker-qual.jar")))
+        testCompileOnly files(file(checker_dir.toPath().resolve("checker/dist/checker-qual.jar")))
+        checkerFramework files(file(checker_dir.toPath().resolve("checker/dist/checker.jar")))
+    }
 }

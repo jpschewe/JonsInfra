@@ -31,6 +31,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 /**
  * Basic class to add property change support.
  */
@@ -73,9 +75,14 @@ public class DefaultBean implements Bean, Serializable {
     propertyListener.removePropertyChangeListener(propertyName, listener);
   }
 
+  /**
+   * @param propertyName property to fire a change for
+   * @param oldValue the old value
+   * @param newValue the new value
+   */
   protected void firePropertyChange(final String propertyName,
-                                    final Object oldValue,
-                                    final Object newValue) {
+                                    final @Nullable Object oldValue,
+                                    final @Nullable Object newValue) {
     propertyListener.firePropertyChange(propertyName, oldValue, newValue);
   }
 

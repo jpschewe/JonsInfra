@@ -64,9 +64,13 @@ public class DefaultNamed extends DefaultBean implements Named {
     return name;
   }
 
+  /**
+   * @param old old name
+   * @param newValue new name
+   */
   protected final void fireNameChange(final String old,
-                                      final String clone) {
-    firePropertyChange("name", old, clone);
+                                      final String newValue) {
+    firePropertyChange("name", old, newValue);
   }
 
   @Override
