@@ -115,20 +115,11 @@ public final class GraphicsUtils {
    * Centers the window on the screen.
    *
    * @param window the window to center
+   * @deprecated use {@link Window#setLocationRelativeTo(Component)} with null as an argument
    */
+  @Deprecated
   public static void centerWindow(final Window window) {
-    final Rectangle2D screenSize = window.getGraphicsConfiguration().getBounds();
-    final Point2D screenCenter = new Point2D.Double(screenSize.getWidth()
-        / 2, screenSize.getHeight()
-            / 2);
-    final Dimension2D windowSize = window.getSize();
-    final Point location = new Point();
-    location.setLocation(new Point2D.Double(screenCenter.getX()
-        - windowSize.getWidth()
-            / 2, screenCenter.getY()
-                - windowSize.getHeight()
-                    / 2));
-    window.setLocation(location);
+    window.setLocationRelativeTo(null);
   }
 
   /**
