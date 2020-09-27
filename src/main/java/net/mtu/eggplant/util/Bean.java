@@ -31,15 +31,29 @@ import java.beans.PropertyChangeListener;
 
 /**
  * Basic interface to add property change support.
- * 
- * @version $Revision$
  */
 public interface Bean {
-  void addPropertyChangeListener(final PropertyChangeListener listener);
-  
-  void addPropertyChangeListener(final String propertyName, final PropertyChangeListener listener);
+  /**
+   * @param listener the listener to add
+   */
+  void addPropertyChangeListener(PropertyChangeListener listener);
 
-  void removePropertyChangeListener(final PropertyChangeListener listener);
-  
-  void removePropertyChangeListener(final String propertyName, final PropertyChangeListener listener);
+  /**
+   * @param propertyName the property to listen for
+   * @param listener the listener to add
+   */
+  void addPropertyChangeListener(String propertyName,
+                                 PropertyChangeListener listener);
+
+  /**
+   * @param listener the listener to remove
+   */
+  void removePropertyChangeListener(PropertyChangeListener listener);
+
+  /**
+   * @param propertyName the property to remove a listener for
+   * @param listener the listener to remove
+   */
+  void removePropertyChangeListener(String propertyName,
+                                    PropertyChangeListener listener);
 }

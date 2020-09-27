@@ -27,89 +27,98 @@
  */
 package net.mtu.eggplant.util.gui;
 
-import javax.swing.AbstractListModel;
-
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.swing.AbstractListModel;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
- * A ListModel that orders the objects according to a comparator and does
- * sorted insert.  The comparator must be able to handle all objects in the
- * list.
+ * A ListModel that orders the objects according to a comparator and does sorted
+ * insert. The comparator must be able to handle all objects in the list.
  *
  * @param <E> type of elements in the table model
- * @version $Revision$
  */
-public class SortedListModel<E> extends AbstractListModel<E> {
+public class SortedListModel<@NonNull E> extends AbstractListModel<@NonNull E> {
 
   /**
-     Create a SortedListModel with comparator.
-
-     @pre (comparator != null)
-  **/
-  public SortedListModel(final Comparator<E> comparator) {
-    this(comparator, new ArrayList<E>(10));
+   * Create a SortedListModel with comparator.
+   *
+   * @param comparator the comparator to use
+   */
+  public SortedListModel(final Comparator<@NonNull E> comparator) {
+    this(comparator, new ArrayList<@NonNull E>(10));
   }
 
   /**
-     Create a SortedListModel with comparator and initalize with the list of
-     objects in collection.
-     
-     @pre (comparator != null)
-     @pre (collection != null)
-  **/
-  public SortedListModel(final Comparator<E> comparator, final Collection<E> collection) {
-    _list = new ArrayList<E>(collection);
-    _comparator = comparator;
-    Collections.sort(_list, _comparator);
+   * Create a SortedListModel with comparator and initalize with the list of
+   * objects in collection.
+   *
+   * @param comparator the comparator to use
+   * @param collection the objects to put in the model
+   **/
+  public SortedListModel(final Comparator<@NonNull E> comparator,
+                         final Collection<@NonNull E> collection) {
+    this.list = new ArrayList<>(collection);
+    this.comparator = comparator;
+    Collections.sort(this.list, this.comparator);
   }
-  
-  private Comparator<E> _comparator;
-  private List<E> _list;
 
-  //ListModel
+  private Comparator<@NonNull E> comparator;
+
+  private List<@NonNull E> list;
+
+  // ListModel
+  @Override
   public int getSize() {
-    return _list.size();
+    return list.size();
   }
 
-  public E getElementAt(final int index) {
-    return _list.get(index);
+  @Override
+  public @NonNull E getElementAt(final int index) {
+    return list.get(index);
   }
-  //end ListModel
-  
+  // end ListModel
+
   /**
-     Add o to the list.  Sorted insert.
-  **/
-  public void add(final E o) {
-    final Iterator<E> iter = _list.iterator();
+   * Add o to the list. Sorted insert.
+   *
+   * @param o the object to add to the model
+   **/
+  public void add(final @NonNull E o) {
+    final Iterator<@NonNull E> iter = list.iterator();
     int index = 0;
     boolean flag = false;
-    while(iter.hasNext() && !flag) {
+    while (iter.hasNext()
+        && !flag) {
       final E listElement = iter.next();
-      if(_comparator.compare(o, listElement) > 0) {
+      if (comparator.compare(o, listElement) > 0) {
         flag = true;
-        _list.add(index, o);
+        list.add(index, o);
       }
       index++;
     }
-    if(!flag) {
-      _list.add(index, o);
+    if (!flag) {
+      list.add(index, o);
     }
     fireIntervalAdded(this, index, index);
   }
 
   /**
-     Remove the first occurrance of o from the list.
-  **/
-  public void remove(final E o) {
-    final int index = _list.indexOf(o);
-    if(_list.remove(o)) {
+   * Remove the first occurrance of o from the list.
+   *
+   * @param o the object to remove from the model
+   **/
+  public void remove(final @NonNull E o) {
+    final int index = list.indexOf(o);
+    if (list.remove(o)) {
       fireIntervalRemoved(this, index, index);
     }
   }
-  
+
 }

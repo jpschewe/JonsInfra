@@ -1,35 +1,35 @@
 // -*- java -*-
 
-import com.github.spotbugs.SpotBugsTask
+import com.github.spotbugs.snom.SpotBugsTask
 
-import javax.xml.transform.TransformerFactory
-import javax.xml.transform.stream.StreamResult
-import javax.xml.transform.stream.StreamSource
+import org.myire.munge.TransformTask
 
-import org.gradle.api.tasks.PathSensitivity
-  
 buildscript {
     repositories {
         jcenter()
     }
     dependencies {
-            classpath group: 'com.cinnober.gradle', name: 'semver-git', version: '2.4.0'
-            classpath 'net.sf.saxon:Saxon-HE:9.9.1-3'
+          classpath(group: "com.cinnober.gradle", name: "semver-git", version: "3.0.0")        
     }
 }    
 
 plugins {
-        id 'java-library'
-        id 'distribution'
-        id "com.dorongold.task-tree" version "1.3.1"
-        id 'eclipse'
-        id 'com.github.spotbugs' version '1.7.1'
-        id "de.aaschmid.cpd" version "1.2"
-        id "com.gorylenko.gradle-git-properties" version "2.0.0"
-        id 'net.saliman.cobertura' version '2.6.0'
-        id "com.jfrog.bintray" version "1.8.4"
+        id "java-library"
+        id "distribution"
+        id "com.dorongold.task-tree" version "1.5"
+        id "eclipse"
+        id "com.github.spotbugs" version "4.5.0"
+        id "de.aaschmid.cpd" version "3.1"
+        id "com.gorylenko.gradle-git-properties" version "2.2.3"
+        id "net.saliman.cobertura" version "3.0.0"
+        id "com.jfrog.bintray" version "1.8.5"
         id "maven-publish"
-        id "com.github.ben-manes.versions" version "0.21.0"
+        id "com.github.ben-manes.versions" version "0.33.0" // adds dependencyUpdates task
+        id "org.myire.munge" version "1.0" // transformer for spotbugs XML
+        id "checkstyle"
+        
+        // Checker Framework pluggable type-checking
+        id "org.checkerframework" version "0.5.10"
 }
 
 
@@ -38,7 +38,7 @@ ext.nextVersion = "patch"
 ext.snapshotSuffix = "beta.<count>+g<sha><dirty>"
 // optionally: ext.dirtyMarker = "-dirty" (default) replaces <dirty> in snapshotSuffix
 // optionally: ext.gitDescribeArgs = '--match *[0-9].[0-9]*.[0-9]*' (default) or other arguments for git describe.
-apply plugin: 'com.cinnober.gradle.semver-git'
+apply plugin: "com.cinnober.gradle.semver-git"
 
 repositories {
     mavenLocal()
@@ -46,44 +46,54 @@ repositories {
 }
 
 ext {
-    slf4j_version = "1.7.26"
-    junit_version = "5.4.0"
-    spotbugs_version = '3.1.12'
+    slf4j_version = "1.7.30"
+    junit_version = "5.7.0"
+    spotbugs_version = "4.1.3"
 }
 
-group = 'net.mtu.eggplant'
+group = "net.mtu.eggplant"
+
+java {
+    // set version of Java that the source confirms to. 
+    // The bytecode will be for this version of Java as well, unless targetCompatibility is specified.
+    sourceCompatibility = JavaVersion.VERSION_11
+}
 
 dependencies {
-    api group: "org.slf4j", name: "slf4j-api", version: project.slf4j_version
+    api(group: "org.slf4j", name: "slf4j-api", version: project.slf4j_version)
     
-    compileOnly group: "com.github.spotbugs", name: "spotbugs-annotations", version: project.spotbugs_version
-    api group: "com.google.code.findbugs", name: "jsr305", version: "3.0.1"
+    compileOnly(group: "com.github.spotbugs", name: "spotbugs-annotations", version: project.spotbugs_version)
+    api(group: "com.google.code.findbugs", name: "jsr305", version: "3.0.2")
     
-    implementation group: "commons-io", name: "commons-io", version: "2.6"
-    
-    implementation group: "xmlunit", name: "xmlunit", version: "1.6"
+    implementation(group: "xmlunit", name: "xmlunit", version: "1.6")
         
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: project.junit_version
-    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: project.junit_version
+     // make sure to update Jenkinsfile when the version changes, the tag needs to change in the git checkout
+    implementation(group: "org.checkerframework", name: "checker-qual", version: "3.6.1")
+        
+    testImplementation(group: "org.junit.jupiter", name: "junit-jupiter-api", version: project.junit_version)
+    testImplementation(group: "org.junit.jupiter", name: "junit-jupiter-params", version: project.junit_version)  
+    testImplementation(group: "org.hamcrest", name: "hamcrest", version: "2.2")      
+    testRuntimeOnly(group: "org.junit.jupiter", name: "junit-jupiter-engine", version: project.junit_version)
 }
 
 test {
-        ignoreFailures Boolean.getBoolean("test.ignoreFailures") 
+    ignoreFailures Boolean.getBoolean("test.ignoreFailures") 
     useJUnitPlatform()
 }
 
 javadoc {
-        failOnError = false
+    failOnError = false
+    options.addStringOption("Xmaxwarns", "10000")        
 }
 
 
 cpdCheck {
-        // allow the build to continue, catch this in CI as warnings
-        ignoreFailures = true
+    // allow the build to continue, catch this in CI as warnings
+    ignoreFailures = true
 }
 
 task sloccount(type: Exec) {
-        commandLine 'cloc', '--by-file', '--xml', '--out', "$buildDir/reports/sloccount/cloc.xml", 'src'
+    commandLine "cloc", "--by-file", "--xml", "--out", "$buildDir/reports/sloccount/cloc.xml", "src"
 }
 
 configurations {
@@ -91,8 +101,16 @@ configurations {
 }
 
 dependencies {
-    spotbugsStylesheets "com.github.spotbugs:spotbugs:$spotbugs.toolVersion"
+  spotbugsStylesheets("com.github.spotbugs:spotbugs:$project.spotbugs_version")
 }
+
+tasks.register("distributionDependencies") {
+    doFirst {
+      println("Distribution dependnecies")
+    }
+}
+distTar.dependsOn(distributionDependencies)
+distZip.dependsOn(distributionDependencies)
 
 spotbugs {
     toolVersion = project.spotbugs_version
@@ -104,49 +122,41 @@ spotbugs {
     excludeFilter = file("spotbugs-filters.xml")
 }
 
-// some extra tasks so that we can generate html AND xml
 tasks.withType(SpotBugsTask) {
-    reports {
-        xml.withMessages true
-        html.stylesheet resources.text.fromArchiveEntry(configurations.spotbugsStylesheets, 'color.xsl')
-    }
+    def stylesheetName = "fancy-hist.xsl"
 
-    task "${it.name}HtmlReport" {
-        def input = reports.xml.destination
-        inputs.file reports.html.stylesheet.asFile() withPropertyName 'spotbugsStylesheet' withPathSensitivity PathSensitivity.NONE
-        inputs.files fileTree(input) withPropertyName 'input' withPathSensitivity PathSensitivity.NONE skipWhenEmpty()
-        def output = file(input.absolutePath.replaceFirst(/\.xml$/, '.html'))
-        outputs.file output withPropertyName 'output'
-        doLast {
-            def factory = TransformerFactory.newInstance('net.sf.saxon.TransformerFactoryImpl', getClass().classLoader)
-            def transformer = factory.newTransformer(new StreamSource(reports.html.stylesheet.asFile()));
-            transformer.transform(new StreamSource(input), new StreamResult(output))
-        }
+    distributionDependencies.dependsOn("${it.name}")
+    
+    def xmlOutput = it.outputs.files.singleFile
+    def htmlOutput = file(xmlOutput.absolutePath.replaceFirst(/\.xml$/, ".html"))
+    
+    tasks.register("${it.name}HtmlReport", TransformTask) {
+        saxon {
+            source(xmlOutput)
+            template(resources.text.fromArchiveEntry(configurations.spotbugsStylesheets, stylesheetName))
+            outputFile = htmlOutput
+        }       
     }
-    it.finalizedBy "${it.name}HtmlReport"
+    it.finalizedBy("${it.name}HtmlReport")
 }
-distZip.dependsOn spotbugsMainHtmlReport
-distTar.dependsOn spotbugsMainHtmlReport
-distZip.dependsOn spotbugsTestHtmlReport
-distTar.dependsOn spotbugsTestHtmlReport
 
 gitProperties {
     gitPropertiesDir = "${buildDir}/resources/main/net/mtu/eggplant/util"
 }
 
 cobertura {
-        coverageFormats = [ 'html', 'xml' ]
+    coverageFormats = [ "html", "xml" ]
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
+    classifier = "sources"
     from sourceSets.main.allSource
 }
 distZip.dependsOn sourcesJar
 distTar.dependsOn sourcesJar
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
+    classifier = "javadoc"
     from javadoc.destinationDir
 }
 distZip.dependsOn javadocJar
@@ -190,9 +200,9 @@ publishing {
             }
             pom.withXml {
                 def root = asNode()
-                root.appendNode('description', 'Useful utilities')
-                root.appendNode('name', 'JonsInfra')
-                root.appendNode('url', 'https://github.com/jpschewe/JonsInfra')
+                root.appendNode("description", "Useful utilities")
+                root.appendNode("name", "JonsInfra")
+                root.appendNode("url", "https://github.com/jpschewe/JonsInfra")
                 root.children().last() + pomConfig
             }
         }
@@ -208,31 +218,31 @@ publishing {
 }
 
 def bintrayProps = new Properties()
-File bintrayPropertiesFile = project.file('../bintray.properties')
+File bintrayPropertiesFile = project.file("../bintray.properties")
 if(bintrayPropertiesFile.exists()) {
     bintrayPropertiesFile.withInputStream { bintrayProps.load(it) }
 }
 
 bintray {
-        user = bintrayProps.getProperty('bintray.user')
-        key = bintrayProps.getProperty('bintray.key')
-        publications = ['mavenPublication']
+        user = bintrayProps.getProperty("bintray.user")
+        key = bintrayProps.getProperty("bintray.key")
+        publications = ["mavenPublication"]
 
         pkg {
-                repo = 'maven'
-                name = 'JonsInfra'
-                licenses = ['BSD-2-Clause']
-                vcsUrl = 'https://github.com/jpschewe/JonsInfra'
+                repo = "maven"
+                name = "JonsInfra"
+                licenses = ["BSD-2-Clause"]
+                vcsUrl = "https://github.com/jpschewe/JonsInfra"
         }
 }
 
 task renderIndex(type: Copy) {
-    from 'docs'
+    from "docs"
     into "$buildDir/rendered-docs"
     // Substitute property tokens in files
     //expand(VERSION: project.version)
     expand(project.properties)
-    filteringCharset = 'UTF-8'
+    filteringCharset = "UTF-8"
     
     outputs.upToDateWhen { false }
 }
@@ -242,35 +252,35 @@ distZip.dependsOn renderIndex
 distributions {
     main {
         contents {
-                        from(jar) {
-                                into 'lib'
-                        }
-                from(javadocJar) {
-                        into 'lib'
-                        }
-                from(sourcesJar) {
-                        into 'lib'
-                        }
+            from(jar) {
+                into "lib"
+            }
+            from(javadocJar) {
+                into "lib"
+            }
+            from(sourcesJar) {
+                into "lib"
+            }
             from(configurations.compileClasspath) {
-                into 'lib'
-                }
+                into "lib"
+            }
             
             from(renderIndex) {
             }   
             from(javadoc) {
-                into 'docs/api'
+                into "docs/api"
             }
             from("$buildDir/reports/tests/") {
-                into 'docs/reports'
-                }
+                into "docs/reports"
+            }
             from("$buildDir/reports/spotbugs/") {
-                into 'docs/reports/spotbugs'
-                }
+                into "docs/reports/spotbugs"
+            }
             from("$buildDir/reports/cobertura/") {
-                into 'docs/reports/coverage'
-                }
-                from('LICENSE') {
-                }
+                into "docs/reports/coverage"
+            }
+            from("LICENSE") {
+            }
         }
     }
 }
@@ -280,12 +290,43 @@ distTar.dependsOn test
 dependencyUpdates.resolutionStrategy {
     componentSelection { rules ->
         rules.all { ComponentSelection selection ->
-            boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm', 'preview', 'b', 'ea'].any { qualifier ->
+            boolean rejected = ["alpha", "beta", "rc", "cr", "m", "preview", "b", "ea"].any { qualifier ->
             selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-+]*/
             }
             if (rejected) {
-                selection.reject('Release candidate')
+                selection.reject("Release candidate")
             }
         }
     }
 }  
+
+checkstyle {
+    configDirectory = file("$projectDir")
+    configFile = file("checkstyle.xml")
+    showViolations = true
+    ignoreFailures = true
+    toolVersion = "8.18"
+}
+
+checkerFramework {
+    checkers = [
+        "org.checkerframework.checker.nullness.NullnessChecker"
+    ]
+    extraJavacArgs = [
+        //"-AonlyDefs=^net\\.mtu\\.eggplant\\.(xml|util\\.sql|util\\.event|util\\.gui)",
+        "-Awarns",  
+        "-Xmaxwarns", "10000",
+        "-AstubWarnIfNotFound"
+    ]
+}
+
+def checker_dir = file("./checker/checker-framework")
+if (checker_dir.exists()) {
+    println("Using development version of checker in: " + checker_dir)
+    
+    dependencies {
+        compileOnly files(file(checker_dir.toPath().resolve("checker/dist/checker-qual.jar")))
+        testCompileOnly files(file(checker_dir.toPath().resolve("checker/dist/checker-qual.jar")))
+        checkerFramework files(file(checker_dir.toPath().resolve("checker/dist/checker.jar")))
+    }
+}

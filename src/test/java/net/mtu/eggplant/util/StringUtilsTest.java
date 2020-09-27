@@ -29,32 +29,16 @@ package net.mtu.eggplant.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * Test class for StringUtils.
- * 
- * @version $Revision$
  */
 public class StringUtilsTest {
 
-  @BeforeEach
-  public void setUp() throws Exception {
-    _assertProperty = System.getProperty("ASSERT_BEHAVIOR");
-    System.setProperty("ASSERT_BEHAVIOR", "EXCEPTION");
-  }
-
-  @AfterEach
-  public void tearDown() throws Exception {
-    if (null != _assertProperty) {
-      System.setProperty("ASSERT_BEHAVIOR", _assertProperty);
-    }
-  }
-
-  private String _assertProperty;
-
+  /**
+   * Test simple search and replace.
+   */
   @Test
   public void testSearchAndReplace() {
     final String source = "Fred & Barney & Wilma";
@@ -67,6 +51,9 @@ public class StringUtilsTest {
 
   }
 
+  /**
+   * Make sure that search and replace handles special characters.
+   */
   @Test
   public void testSearchAndReplace1() {
     final String source = "($return < 10)";
@@ -79,6 +66,9 @@ public class StringUtilsTest {
 
   }
 
+  /**
+   * Test that search and replace handles backslashes.
+   */
   @Test
   public void testSearchAndReplace2() {
     final String source = "(!dateStr.equals(\"\"))";

@@ -27,68 +27,89 @@
  */
 package net.mtu.eggplant.util;
 
-import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
-
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
+
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Basic class to add property change support.
- * 
- * @version $Revision$
  */
 public class DefaultBean implements Bean, Serializable {
+  /**
+   * Base constructor. Source is {@code this}.
+   */
   public DefaultBean() {
-    _propertyListener = new PropertyChangeSupport(this);
+    this.propertyListener = new PropertyChangeSupport(this);
   }
 
   /**
-     Creates a default bean with source as the source of all events.
-  **/
+   * Creates a default bean with source as the source of all events.
+   *
+   * @param source source for all events
+   */
   public DefaultBean(final Object source) {
-    _propertyListener = new PropertyChangeSupport(source);
+    propertyListener = new PropertyChangeSupport(source);
   }
-  
+
+  @Override
   public void addPropertyChangeListener(final PropertyChangeListener listener) {
-    _propertyListener.addPropertyChangeListener(listener);
+    propertyListener.addPropertyChangeListener(listener);
   }
 
-  public void addPropertyChangeListener(final String propertyName, final PropertyChangeListener listener) {
-    _propertyListener.addPropertyChangeListener(propertyName, listener);
+  @Override
+  public void addPropertyChangeListener(final String propertyName,
+                                        final PropertyChangeListener listener) {
+    propertyListener.addPropertyChangeListener(propertyName, listener);
   }
-  
+
+  @Override
   public void removePropertyChangeListener(final PropertyChangeListener listener) {
-    _propertyListener.removePropertyChangeListener(listener);
+    propertyListener.removePropertyChangeListener(listener);
   }
 
-  public void removePropertyChangeListener(final String propertyName, final PropertyChangeListener listener) {
-    _propertyListener.removePropertyChangeListener(propertyName, listener);
-  }
-  
-  protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue) {
-    _propertyListener.firePropertyChange(propertyName, oldValue, newValue);
+  @Override
+  public void removePropertyChangeListener(final String propertyName,
+                                           final PropertyChangeListener listener) {
+    propertyListener.removePropertyChangeListener(propertyName, listener);
   }
 
   /**
-   * @see PropertyChangeSupport#getPropertyChangeListeners()
+   * @param propertyName property to fire a change for
+   * @param oldValue the old value
+   * @param newValue the new value
+   */
+  protected void firePropertyChange(final String propertyName,
+                                    final @Nullable Object oldValue,
+                                    final @Nullable Object newValue) {
+    propertyListener.firePropertyChange(propertyName, oldValue, newValue);
+  }
+
+  /**
+   * @return {@link PropertyChangeSupport#getPropertyChangeListeners()}
    */
   protected PropertyChangeListener[] getPropertyChangeListeners() {
-    return _propertyListener.getPropertyChangeListeners();
+    return propertyListener.getPropertyChangeListeners();
   }
 
   /**
-   * @see PropertyChangeSupport#getPropertyChangeListeners(String)
+   * @return {@link PropertyChangeSupport#getPropertyChangeListeners(String)}
+   * @param propertyName
+   *          {@link PropertyChangeSupport#getPropertyChangeListeners(String)}
    */
   protected PropertyChangeListener[] getPropertyChangeListeners(final String propertyName) {
-    return _propertyListener.getPropertyChangeListeners(propertyName);
+    return propertyListener.getPropertyChangeListeners(propertyName);
   }
 
   /**
-   * For access to all of <tt>PropertyChangeSupport</tt>
+   * For access to all of <tt>PropertyChangeSupport</tt>.
+   *
+   * @return the underlying support class
    */
   protected PropertyChangeSupport getPropertyChangeSupport() {
-    return _propertyListener;
+    return propertyListener;
   }
-  
-  private PropertyChangeSupport _propertyListener;
+
+  private final PropertyChangeSupport propertyListener;
 }

@@ -27,6 +27,8 @@
  */
 package net.mtu.eggplant.util;
 
+import static org.checkerframework.checker.nullness.NullnessUtil.castNonNullDeep;
+
 import java.io.File;
 import java.util.Arrays;
 
@@ -34,52 +36,41 @@ import javax.swing.filechooser.FileFilter;
 
 /**
  * This class makes it easy to accept files by extension.
- * 
- * @version $Revision$
  */
 public class BasicFileFilter extends FileFilter {
 
   /**
    * Create a Filter filter with description and allowing files with extensions
    * in the list extensions.
-   * 
-   * @param description
-   *          the description of this filter
-   * @param extensions
-   *          the extensions to allow
-   * 
-   * @pre (description != null)
-   * @pre (extensions != null)
+   *
+   * @param description the description of this filter
+   * @param extensions the extensions to allow
    */
   public BasicFileFilter(final String description,
                          final String[] extensions) {
-    _description = description;
-    _extensions = Arrays.copyOf(extensions, extensions.length);
+    this.description = description;
+    this.extensions = castNonNullDeep(Arrays.copyOf(extensions, extensions.length));
   }
 
   /**
    * Create a Filter filter with description and allowing files with extensions
    * equal to extension as well as directories (for traversal).
-   * 
-   * @param description
-   *          the description of this filter
-   * @param extension
-   *          the extension to allow
-   * 
-   * @pre (description != null)
-   * @pre (extension != null)
+   *
+   * @param description the description of this filter
+   * @param extension the extension to allow
    */
   public BasicFileFilter(final String description,
                          final String extension) {
-    _description = description;
-    _extensions = new String[1];
-    _extensions[0] = extension;
+    this.description = description;
+    this.extensions = new String[1];
+    extensions[0] = extension;
   }
 
-  private String _description;
+  private final String description;
 
-  private String[] _extensions;
+  private final String[] extensions;
 
+  @Override
   public boolean accept(final File f) {
     // accept directories, otherwise can't browse into directories
     if (f.isDirectory()) {
@@ -87,16 +78,18 @@ public class BasicFileFilter extends FileFilter {
     }
 
     final String filename = f.getName();
-    for (int i = 0; i < _extensions.length; i++) {
-      if (filename.endsWith('.' + _extensions[i])) {
+    for (final String extension : extensions) {
+      if (filename.endsWith('.'
+          + extension)) {
         return true;
       }
     }
     return false;
   }
 
+  @Override
   public String getDescription() {
-    return _description;
+    return description;
   }
 
 }

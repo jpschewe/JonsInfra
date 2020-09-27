@@ -31,23 +31,27 @@ import java.util.Collection;
 import java.util.EventObject;
 
 /**
- * @version $Revision$
+ * Collection event.
  */
 public class CollectionEvent extends EventObject {
 
+  /**
+   * @param source passed to the parent constructor
+   * @param data the data that was added or removed
+   */
   public CollectionEvent(final Object source,
                          final Collection<?> data) {
     super(source);
-    _data = data;
+    this.data = data;
   }
 
-  private Collection<?> _data;
+  private final Collection<?> data;
 
   /**
-   * Get the Collection of objects that were added/removed.
+   * @return the Collection of objects that were added/removed.
    **/
   public Collection<?> getData() {
-    return _data;
+    return data;
   }
 
 }

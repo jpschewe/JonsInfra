@@ -13,9 +13,48 @@ pipeline {
       steps {
         echo "NODE_NAME = ${env.NODE_NAME}"
         echo "My branch is: ${env.BRANCH_NAME}"
-        printEnv()	
+        printEnv()
       }
     }
+    
+    stage('Build Checker') {
+        steps {
+            // setup local checker repository
+            dir("checker") {
+                checkout changelog: false, 
+                    poll: false, 
+                    scm: [$class: 'GitSCM', 
+                        branches: [[name: 'refs/tags/checker-framework-3.6.1']], 
+                        doGenerateSubmoduleConfigurations: false, 
+                        extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'checker-framework']], 
+                        submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/typetools/checker-framework.git']]]
+            
+                // my copy of the annotated jdk
+                checkout changelog: false, 
+                    poll: false, 
+                    scm: [$class: 'GitSCM', 
+                        branches: [[name: 'refs/heads/jps-dev']], 
+                        doGenerateSubmoduleConfigurations: false, 
+                        extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'jdk']], 
+                        submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/jpschewe/checker-typetools-jdk']]]
+                        
+                // my copy of annotation-tools that handles nested gradle builds
+                // This can go away once https://github.com/typetools/annotation-tools/pull/314 is merged
+                checkout changelog: false, 
+                    poll: false, 
+                    scm: [$class: 'GitSCM', 
+                        branches: [[name: 'refs/heads/master']], 
+                        doGenerateSubmoduleConfigurations: false, 
+                        extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'annotation-tools']], 
+                        submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/jpschewe/annotation-tools']]]
+                                               
+                dir("checker-framework") {
+                    callGradle("assemble")
+                } // dir checker-framework
+
+            } // dir checker
+        } // steps
+    } // stage
 
     stage('Duplicate Code Analysis') {
       steps { 
@@ -30,6 +69,15 @@ pipeline {
         sloccountPublish pattern: 'build/reports/sloccount/cloc.xml'
       }
     }
+    
+    stage('Checkstyle analysis') {
+      steps { 
+        callGradle('checkstyleMain')
+        callGradle('checkstyleTest')
+        recordIssues tool: checkStyle(pattern: 'build/reports/checkstyle/*.xml')
+      }
+    }
+   
 
     stage('Tests') {
       steps {
@@ -107,14 +155,6 @@ Find more details at: ${JENKINS_URL}
 } // pipeline
 
 def callGradle(task) {
-  // make sure the local repository directories exist
-  dir('.gradle-repo') {
-      writeFile file:'dummy', text:''
-  }
-  dir('.maven-repo') {
-      writeFile file:'dummy', text:''
-  }
-  
   def args='--no-daemon -Dtest.ignoreFailures=true'
 
   if (isUnix()) {

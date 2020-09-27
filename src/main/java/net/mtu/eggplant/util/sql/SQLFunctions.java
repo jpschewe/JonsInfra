@@ -37,13 +37,12 @@ import java.sql.Types;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Handy functions for SQL
- * 
- * @version $Revision$
+ * Handy functions for SQL.
  */
 public final class SQLFunctions {
 
@@ -54,6 +53,9 @@ public final class SQLFunctions {
 
   /**
    * Do simple mapping from an SQL type to a Java Class.
+   *
+   * @param type one of the constants in {@link Types}
+   * @return the Java class to use for the specified type
    */
   public static Class<?> getClassForType(final int type) {
     try {
@@ -103,8 +105,10 @@ public final class SQLFunctions {
   /**
    * Close stmt and ignore SQLExceptions. This is useful in a finally so that
    * all of the finally block gets executed. Handles null.
+   *
+   * @param stmt the statement to close
    */
-  public static void close(final Statement stmt) {
+  public static void close(final @Nullable Statement stmt) {
     try {
       if (null != stmt) {
         stmt.close();
@@ -120,8 +124,10 @@ public final class SQLFunctions {
   /**
    * Close prep and ignore SQLExceptions. This is useful in a finally so that
    * all of the finally block gets executed. Handles null.
+   *
+   * @param prep the statement to close
    */
-  public static void close(final PreparedStatement prep) {
+  public static void close(final @Nullable PreparedStatement prep) {
     try {
       if (null != prep) {
         prep.close();
@@ -137,8 +143,10 @@ public final class SQLFunctions {
   /**
    * Close rs and ignore SQLExceptions. This is useful in a finally so that all
    * of the finally block gets executed. Handles null.
+   *
+   * @param rs the result set to close
    */
-  public static void close(final ResultSet rs) {
+  public static void close(final @Nullable ResultSet rs) {
     try {
       if (null != rs) {
         rs.close();
@@ -154,8 +162,10 @@ public final class SQLFunctions {
   /**
    * Close connection and ignore SQLExceptions. This is useful in a finally so
    * that all of the finally block gets executed. Handles null.
+   *
+   * @param connection the connection to close
    */
-  public static void close(final Connection connection) {
+  public static void close(final @Nullable Connection connection) {
     try {
       if (null != connection) {
         connection.close();
@@ -170,29 +180,28 @@ public final class SQLFunctions {
 
   /**
    * Get the tables in the database.
-   * 
+   *
    * @param connection the connection to the database
    * @return the names of the tables that are of type "TABLE", the names will be
    *         all lowercase
    * @see DatabaseMetaData#getTables(String, String, String, String[])
+   * @throws SQLException on a database error
    */
   public static Collection<String> getTablesInDB(final Connection connection) throws SQLException {
-    final Collection<String> tables = new LinkedList<String>();
-    ResultSet rs = null;
-    try {
-      // get list of tables that already exist
-      final DatabaseMetaData metadata = connection.getMetaData();
-      rs = metadata.getTables(null, null, "%", new String[] { "TABLE" });
+    final Collection<String> tables = new LinkedList<>();
+    // get list of tables that already exist
+    final DatabaseMetaData metadata = connection.getMetaData();
+    try (ResultSet rs = metadata.getTables(null, null, "%", new String[] { "TABLE" })) {
       while (rs.next()) {
-        final String tableName = rs.getString("TABLE_NAME").toLowerCase();
-        tables.add(tableName);
+        final String tableName = rs.getString("TABLE_NAME");
+        if (null != tableName) {
+          tables.add(tableName.toLowerCase());
+        }
       }
       if (LOGGER.isDebugEnabled()) {
         LOGGER.debug("Tables:"
             + tables);
       }
-    } finally {
-      SQLFunctions.close(rs);
     }
     return tables;
   }

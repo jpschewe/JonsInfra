@@ -14,20 +14,23 @@ import javax.swing.JTextField;
 import net.mtu.eggplant.util.gui.GraphicsUtils;
 
 /**
- * Nifty little class that converts a date as a long to a human readable string
- **/
+ * Nifty little class that converts a date as a long to a human readable string.
+ */
 public class TimeConvert extends JPanel {
 
   /**
-   * args is ignored
+   * @param args ignored
    **/
   public static void main(final String[] args) {
-    TimeConvert tc = new TimeConvert();
+    final TimeConvert tc = new TimeConvert();
     GraphicsUtils.basicGUIMain(tc, false, "Time Convert");
   }
 
+  /**
+   * Constructor.
+   */
   public TimeConvert() {
-    setLayout(new BorderLayout());
+    super(new BorderLayout());
 
     final SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.SSS zzz");
     final JTextField time = new JTextField("MM/dd/yyyy HH:mm:ss.SSS zzz");
@@ -42,15 +45,18 @@ public class TimeConvert extends JPanel {
   }
 
   private static class BaseListener {
+    @SuppressWarnings("checkstyle:visibilitymodifier")
     protected final JTextField mTime;
 
+    @SuppressWarnings("checkstyle:visibilitymodifier")
     protected final JTextField mNumber;
 
+    @SuppressWarnings("checkstyle:visibilitymodifier")
     protected final DateFormat mFormat;
 
-    public BaseListener(final JTextField time,
-                        final JTextField number,
-                        final DateFormat format) {
+    BaseListener(final JTextField time,
+                 final JTextField number,
+                 final DateFormat format) {
       mTime = time;
       mNumber = number;
       mFormat = format;
@@ -58,12 +64,13 @@ public class TimeConvert extends JPanel {
   }
 
   private static class NumberListener extends BaseListener implements ActionListener {
-    public NumberListener(final JTextField time,
-                          final JTextField number,
-                          final DateFormat format) {
+    NumberListener(final JTextField time,
+                   final JTextField number,
+                   final DateFormat format) {
       super(time, number, format);
     }
 
+    @Override
     public void actionPerformed(final ActionEvent ae) {
       final Date d = new Date(Long.parseLong(mNumber.getText()));
       mTime.setText(mFormat.format(d));
@@ -71,12 +78,13 @@ public class TimeConvert extends JPanel {
   }
 
   private static class TimeListener extends BaseListener implements ActionListener {
-    public TimeListener(final JTextField time,
-                        final JTextField number,
-                        final DateFormat format) {
+    TimeListener(final JTextField time,
+                 final JTextField number,
+                 final DateFormat format) {
       super(time, number, format);
     }
 
+    @Override
     public void actionPerformed(final ActionEvent ae) {
       try {
         mNumber.setText(String.valueOf(mFormat.parse(mTime.getText()).getTime()));
