@@ -43,6 +43,7 @@ import javax.swing.tree.TreeCellRenderer;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import net.mtu.eggplant.util.Named;
 
 /**
@@ -84,6 +85,7 @@ public class SmartRenderer implements ListCellRenderer<Object>, TableCellRendere
   /**
    * @see #getStringValue(Object)
    */
+  @SuppressFBWarnings(value = "NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE", justification = "Bug https://github.com/spotbugs/spotbugs/issues/616")
   @Override
   public final Component getListCellRendererComponent(final JList<?> list,
                                                       final @Nullable Object value,

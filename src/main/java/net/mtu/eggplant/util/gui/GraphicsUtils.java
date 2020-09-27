@@ -51,6 +51,8 @@ import javax.swing.JTable;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Graphics functions that should exist in java, but don't.
  *
@@ -161,6 +163,7 @@ public final class GraphicsUtils {
    * @param g the graphics context
    * @param v a Container of polygons, other classes are ignored
    **/
+  @SuppressFBWarnings(value = "NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE", justification = "Bug https://github.com/spotbugs/spotbugs/issues/616")
   public static void drawPolygons(final Graphics g,
                                   final Collection<?> v) {
     drawPolygons(g, v.iterator());
@@ -172,6 +175,7 @@ public final class GraphicsUtils {
    * @param g the graphics context
    * @param iter an Enumeration of polygons, other classes are ignored
    **/
+  @SuppressFBWarnings(value = "NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE", justification = "Bug https://github.com/spotbugs/spotbugs/issues/616")
   public static void drawPolygons(final Graphics g,
                                   final Iterator<?> iter) {
     while (iter.hasNext()) {
@@ -188,6 +192,7 @@ public final class GraphicsUtils {
    * @param g the graphics context
    * @param v a Container of polygons, other classes are ignored
    **/
+  @SuppressFBWarnings(value = "NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE", justification = "Bug https://github.com/spotbugs/spotbugs/issues/616")
   public static void fillPolygons(final Graphics g,
                                   final Collection<?> v) {
     fillPolygons(g, v.iterator());
@@ -199,6 +204,7 @@ public final class GraphicsUtils {
    * @param g the graphics context
    * @param iter an Enumeration of polygons, other classes are ignored
    **/
+  @SuppressFBWarnings(value = "NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE", justification = "Bug https://github.com/spotbugs/spotbugs/issues/616")
   public static void fillPolygons(final Graphics g,
                                   final Iterator<?> iter) {
     while (iter.hasNext()) {
