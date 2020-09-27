@@ -126,7 +126,7 @@ pipeline {
       archiveArtifacts artifacts: '*.log,screenshots/,build/reports/,build/distributions/'
                       
             
-      recordIssues tool: taskScanner(includePattern: '**/*.java,**/*.jsp,**/*.jspf,**/*.xml', excludePattern: 'checkstyle*.xml', highTags: 'FIXME,HACK', normalTags: 'TODO')
+      recordIssues tool: taskScanner(includePattern: '**/*.java,**/*.jsp,**/*.jspf,**/*.xml', excludePattern: 'checker/**,checkstyle*.xml', highTags: 'FIXME,HACK', normalTags: 'TODO')
             
       recordIssues tool: java()  
 
