@@ -24,7 +24,7 @@ pipeline {
                 checkout changelog: false, 
                     poll: false, 
                     scm: [$class: 'GitSCM', 
-                        branches: [[name: 'refs/tags/checker-framework-3.6.1']], 
+                        branches: [[name: 'refs/heads/master']], 
                         doGenerateSubmoduleConfigurations: false, 
                         extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'checker-framework']], 
                         submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/typetools/checker-framework.git']]]
@@ -37,17 +37,7 @@ pipeline {
                         doGenerateSubmoduleConfigurations: false, 
                         extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'jdk']], 
                         submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/jpschewe/checker-typetools-jdk']]]
-                        
-                // my copy of annotation-tools that handles nested gradle builds
-                // This can go away once https://github.com/typetools/annotation-tools/pull/314 is merged
-                checkout changelog: false, 
-                    poll: false, 
-                    scm: [$class: 'GitSCM', 
-                        branches: [[name: 'refs/heads/master']], 
-                        doGenerateSubmoduleConfigurations: false, 
-                        extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'annotation-tools']], 
-                        submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/jpschewe/annotation-tools']]]
-                                               
+                                                                       
                 dir("checker-framework") {
                     callGradle("assemble")
                 } // dir checker-framework
