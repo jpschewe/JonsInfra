@@ -35,7 +35,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.Charset;
-import java.util.Objects;
 import java.util.prefs.Preferences;
 
 import javax.swing.JFileChooser;
