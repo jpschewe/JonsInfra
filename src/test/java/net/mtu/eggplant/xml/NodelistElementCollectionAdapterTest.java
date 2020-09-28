@@ -42,6 +42,9 @@ import org.w3c.dom.NodeList;
  */
 public class NodelistElementCollectionAdapterTest {
 
+  /**
+   * Test with an empty list of nodes.
+   */
   @Test
   public void testEmptyNodelist() {
     final Document doc = XMLUtils.DOCUMENT_BUILDER.newDocument();
@@ -50,6 +53,9 @@ public class NodelistElementCollectionAdapterTest {
     assertFalse(adapter.hasNext());
   }
 
+  /**
+   * Test a simple list with 2 elements.
+   */
   @Test
   public void testNext() {
     final Document doc = XMLUtils.DOCUMENT_BUILDER.newDocument();
