@@ -31,6 +31,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 
+import org.checkerframework.checker.initialization.qual.NotOnlyInitialized;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -111,5 +112,5 @@ public class DefaultBean implements Bean, Serializable {
     return propertyListener;
   }
 
-  private final PropertyChangeSupport propertyListener;
+  private final @NotOnlyInitialized PropertyChangeSupport propertyListener;
 }
