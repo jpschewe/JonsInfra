@@ -211,14 +211,10 @@ public final class XMLUtils {
    *
    * @param element the element to get the attribute from, may be null
    * @param attributeName the attribute name to get
-   * @return the value, null if element is null or the attribute value is null
-   *         or empty
+   * @return the value, null if the attribute value is empty
    */
   public static @Nullable String getStringAttributeValue(final Element element,
                                                          final String attributeName) {
-    if (null == element) {
-      return null;
-    }
     final String str = element.getAttribute(attributeName);
     return str;
   }
@@ -226,17 +222,13 @@ public final class XMLUtils {
   /**
    * Get a boolean value from an attribute.
    *
-   * @param element the element to get the attribute from, may be null
+   * @param element the element to get the attribute from
    * @param attributeName the attribute name to get
-   * @return the value, null if element is null or the attribute value is null
-   *         or empty
+   * @return the value, if the attribute value is empty
    */
   @SuppressFBWarnings(value = { "NP_BOOLEAN_RETURN_NULL" }, justification = "Need to return Null so that we can determine when there is no value")
   public static @Nullable Boolean getBooleanAttributeValue(final Element element,
                                                            final String attributeName) {
-    if (null == element) {
-      return null;
-    }
     final String str = element.getAttribute(attributeName);
     if (str.isEmpty()) {
       return null;
@@ -248,16 +240,12 @@ public final class XMLUtils {
   /**
    * Get a double value from an attribute.
    *
-   * @param element the element to get the attribute from, may be null
+   * @param element the element to get the attribute from
    * @param attributeName the attribute name to get
-   * @return the value, null if element is null or the attribute value is null
-   *         or empty
+   * @return the value, null if attribute value is empty
    */
   public static @Nullable Double getDoubleAttributeValue(final Element element,
                                                          final String attributeName) {
-    if (null == element) {
-      return null;
-    }
     final String str = element.getAttribute(attributeName);
     if (str.isEmpty()) {
       return null;
