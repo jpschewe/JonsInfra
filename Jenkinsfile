@@ -20,6 +20,7 @@ pipeline {
     stage('Build Checker') {
         steps {
                     // setup local checker repository
+                    /*
             dir("checker") {
                 checkout changelog: false, 
                     poll: false, 
@@ -59,6 +60,7 @@ pipeline {
                 } // dir checker-framework
         
             } // dir checker
+            */
         } // steps
     } // stage
 
