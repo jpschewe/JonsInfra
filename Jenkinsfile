@@ -19,8 +19,10 @@ pipeline {
     
     stage('Build Checker') {
         steps {
+        echo "Using stock checker framework"
                     // setup local checker repository
                     /*
+               echo "Using custom checker framework"     
             dir("checker") {
                 checkout changelog: false, 
                     poll: false, 
