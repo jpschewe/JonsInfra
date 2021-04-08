@@ -22,7 +22,6 @@ plugins {
         id "de.aaschmid.cpd" version "3.1"
         id "com.gorylenko.gradle-git-properties" version "2.2.3"
         id "net.saliman.cobertura" version "3.0.0"
-        id "com.jfrog.bintray" version "1.8.5"
         id "maven-publish"
         id "com.github.ben-manes.versions" version "0.33.0" // adds dependencyUpdates task
         id "org.myire.munge" version "1.0" // transformer for spotbugs XML
@@ -40,6 +39,13 @@ ext.snapshotSuffix = "beta.<count>+g<sha><dirty>"
 // optionally: ext.gitDescribeArgs = '--match *[0-9].[0-9]*.[0-9]*' (default) or other arguments for git describe.
 apply plugin: "com.cinnober.gradle.semver-git"
 
+def publishProps = new Properties()
+File publishPropertiesFile = project.file("../publish.properties")
+if(publishPropertiesFile.exists()) {
+    publishPropertiesFile.withInputStream { publishProps.load(it) }
+}
+
+  
 repositories {
     mavenLocal()
     jcenter()
@@ -215,26 +221,20 @@ publishing {
  
     repositories {
         mavenLocal()
-    }
-}
-
-def bintrayProps = new Properties()
-File bintrayPropertiesFile = project.file("../bintray.properties")
-if(bintrayPropertiesFile.exists()) {
-    bintrayPropertiesFile.withInputStream { bintrayProps.load(it) }
-}
-
-bintray {
-        user = bintrayProps.getProperty("bintray.user")
-        key = bintrayProps.getProperty("bintray.key")
-        publications = ["mavenPublication"]
-
-        pkg {
-                repo = "maven"
-                name = "JonsInfra"
-                licenses = ["BSD-2-Clause"]
-                vcsUrl = "https://github.com/jpschewe/JonsInfra"
+        maven {
+          def releasesRepoUrl = "https://repo.mtu.net/releases/"
+          def snapshotsRepoUrl = "https://repo.mtu.net/snapshots/"
+          url = version.contains("beta") ? snapshotsRepoUrl : releasesRepoUrl
+          
+          credentials {
+            username publishProps.getProperty("repo.user")
+            password publishProps.getProperty("repo.key")
+          }
+          authentication {
+            basic(BasicAuthentication)
+          }          
         }
+    }
 }
 
 task renderIndex(type: Copy) {
