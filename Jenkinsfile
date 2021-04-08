@@ -19,16 +19,35 @@ pipeline {
     
     stage('Build Checker') {
         steps {
-            // setup local checker repository
+        echo "Using stock checker framework"
+                    // setup local checker repository
+                    /*
+               echo "Using custom checker framework"     
             dir("checker") {
                 checkout changelog: false, 
                     poll: false, 
                     scm: [$class: 'GitSCM', 
-                        branches: [[name: 'refs/heads/master']], 
+                        branches: [[name: 'refs/tags/checker-framework-3.10.0']], 
                         doGenerateSubmoduleConfigurations: false, 
                         extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'checker-framework']], 
                         submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/typetools/checker-framework.git']]]
-            
+
+                checkout changelog: false, 
+                    poll: false, 
+                    scm: [$class: 'GitSCM', 
+                        branches: [[name: 'refs/tags/3.10.0']], 
+                        doGenerateSubmoduleConfigurations: false, 
+                        extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'annotation-tools']], 
+                        submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/typetools/annotation-tools.git']]]
+
+                checkout changelog: false, 
+                    poll: false, 
+                    scm: [$class: 'GitSCM', 
+                        branches: [[name: '25e3694']], 
+                        doGenerateSubmoduleConfigurations: false, 
+                        extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'stubparser']], 
+                        submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/typetools/stubparser.git']]]
+
                 // my copy of the annotated jdk
                 checkout changelog: false, 
                     poll: false, 
@@ -41,8 +60,9 @@ pipeline {
                 dir("checker-framework") {
                     callGradle("assemble")
                 } // dir checker-framework
-
+        
             } // dir checker
+            */
         } // steps
     } // stage
 

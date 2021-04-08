@@ -1,6 +1,6 @@
 package net.mtu.eggplant.xml;
 
-import static org.checkerframework.checker.nullness.NullnessUtil.castNonNull;
+import static org.checkerframework.checker.nullness.util.NullnessUtil.castNonNull;
 
 import java.util.Iterator;
 import java.util.LinkedList;

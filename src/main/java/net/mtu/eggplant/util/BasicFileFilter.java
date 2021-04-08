@@ -27,7 +27,7 @@
  */
 package net.mtu.eggplant.util;
 
-import static org.checkerframework.checker.nullness.NullnessUtil.castNonNullDeep;
+import static org.checkerframework.checker.nullness.util.NullnessUtil.castNonNullDeep;
 
 import java.io.File;
 import java.util.Arrays;
