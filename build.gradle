@@ -6,7 +6,7 @@ import org.myire.munge.TransformTask
 
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
     dependencies {
           classpath(group: "com.cinnober.gradle", name: "semver-git", version: "3.0.0")        
@@ -48,7 +48,7 @@ if(publishPropertiesFile.exists()) {
   
 repositories {
     mavenLocal()
-    jcenter()
+    mavenCentral()
 }
 
 ext {
