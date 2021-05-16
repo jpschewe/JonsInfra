@@ -28,6 +28,7 @@
 package net.mtu.eggplant.util;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.checker.nullness.qual.PolyNull;
 
 /**
  * Some handy utilities for working with strings.
@@ -71,7 +72,7 @@ public final class StringUtils {
    * @param len the max length for the string
    * @return the string never longer than len characters
    */
-  public static @Nullable String trimString(final @Nullable String name,
+  public static @PolyNull String trimString(final @PolyNull String name,
                                             final int len) {
     if (len <= 3) {
       throw new IllegalArgumentException("Length must be longer than 3 otherwise all strings are just '...'");
